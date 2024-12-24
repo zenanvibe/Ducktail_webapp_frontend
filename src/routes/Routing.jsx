@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Navbarlanding from "../components/Navbarlanding";
 import Homepage from "../views/Homepage";
 import Footerlanding from "../components/Footerlanding";
@@ -56,16 +56,6 @@ const AppLayout = ({ children }) => {
 };
 
 const Routing = () => {
-  const { authUser } = useAuthStore();
-
-  if (authUser) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <LoaderCircle className="size-10 animate-spin" />
-      </div>
-    );
-  }
-
   return (
     <BrowserRouter>
       <AppLayout>

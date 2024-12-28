@@ -1,4 +1,45 @@
 /* Updated Menu Content */
+/* Ensure the sticky navbar is on top of the content */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 50; /* Ensure it's above other content */
+}
+
+/* Mobile menu overlay */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+}
+
+/* Mobile menu content */
+.menu-content {
+  background: white;
+  width: 80%;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.menu-content a {
+  display: block;
+  margin: 10px 0;
+  font-size: 18px;
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+
 .menu-content {
     background: white;
     position: absolute;
@@ -17,7 +58,7 @@
   }
   
   .black-shade {
-    background: rgb(119, 118, 118);
+    background: rgba(44, 43, 43, 0.427);
     opacity: 0.8;
     position: absolute;
     top: 0;

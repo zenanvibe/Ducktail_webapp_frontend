@@ -25,7 +25,7 @@ const Navbarlanding = () => {
     setActiveLink(navlink);
   };
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-white shadow-md ">
     <div className="max-w-6xl mx-auto px-4 py-3 sm:px-6 lg:px-8">
       <div className="flex justify-between items-center h-16">
         {/* Logo Section */}
@@ -38,13 +38,13 @@ const Navbarlanding = () => {
         </div>
   
         {/* Navigation Links */}
-        <div className="hidden md:flex space-x-5 ">
+        <div className="hidden md:flex space-x-3 ">
           <a
             href=" "
             onClick={(e) => handleActiveLink("HOME", e)}
-            className={`relative px-4 py-2 font-bold rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
+            className={`relative px-4 py-2 text-[14px]  font-bold  transition-all hover:rounded-full duration-300 hover:text-gray-500 hover:bg-gray-100 ${
               activeLink === "HOME"
-                ? "text-gray-500 bg-gray-100"
+                ? "text-gray-500 "
                 : "text-black"
             }`}
           >
@@ -53,9 +53,9 @@ const Navbarlanding = () => {
           <a
             href="#services"
             onClick={(e) => handleActiveLink("SERVICES", e)}
-            className={`relative px-4 py-2 font-bold rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
+            className={`relative px-4 py-2 text-[14px] font-bold hover:rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
               activeLink === "SERVICES"
-                ? "text-gray-500 bg-gray-100"
+                ? "text-gray-500 "
                 : "text-black "
             }`}
           >
@@ -64,9 +64,9 @@ const Navbarlanding = () => {
           <a
             href=" "
             onClick={(e) => handleActiveLink("JOIN US", e)}
-            className={`relative px-4 py-2 font-bold rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
+            className={`relative px-4 py-2 font-bold text-[14px] hover:rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
               activeLink === "JOIN US"
-                ? "text-gray-500 bg-gray-100"
+                ? "text-gray-500 "
                 : "text-black "
             }`}
           >
@@ -75,9 +75,9 @@ const Navbarlanding = () => {
           <a
             href=" "
             onClick={(e) => handleActiveLink("CAREER", e)}
-            className={`relative px-4 py-2 font-bold rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
+            className={`relative px-4 py-2 font-bold text-[14px] hover:rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
               activeLink === "CAREER"
-                ? "text-gray-500 bg-gray-100"
+                ? "text-gray-500 "
                 : "text-black "
             }`}
           >
@@ -86,9 +86,9 @@ const Navbarlanding = () => {
           <a
             href=" "
             onClick={(e) => handleActiveLink("SUPPORT", e)}
-            className={`relative px-4 py-2 font-bold rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
+            className={`relative px-4 py-2 font-bold text-[14px] hover:rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
               activeLink === "SUPPORT"
-                ? "text-gray-500 bg-gray-100"
+                ? "text-gray-500 "
                 : "text-black "
             }`}
           >
@@ -100,7 +100,7 @@ const Navbarlanding = () => {
         <div className="hidden md:flex items-center"> {/* Hide on small screens */}
           <a
             href=" "
-            className="bg-blue-600 text-white font-bold px-7 py-2 rounded-full hover:bg-blue-700"
+            className="bg-blue-600 text-white font-bold px-6 py-2 rounded-full hover:bg-blue-700"
           >
             LOGIN
           </a>

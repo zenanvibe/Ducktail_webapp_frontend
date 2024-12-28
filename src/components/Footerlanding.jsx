@@ -47,9 +47,9 @@ const Footerlanding = () => {
         <p class="text-sm flex items-center mb-2">
           <span class="mr-2">📍</span> Tamil Nadu
         </p>
-        <p class="text-sm flex items-center mb-2">
+        {/* <p class="text-sm flex items-center mb-2">
           <span class="mr-2">📞</span> +91 99427 28804
-        </p>
+        </p> */}
         <p class="text-sm flex items-center mb-2">
           <span class="mr-2">📧</span> manothsingh1997@gmail.com
         </p>
@@ -62,15 +62,15 @@ const Footerlanding = () => {
  
 
 </footer>
-<div class="border-t border-gray-400 mt-0 pt-4 p-3 bg-black">
+<div class="mt-0  p-3" style={{backgroundColor:"#b0acac"}}>
   <div class="container max-w-6xl mx-auto px-4  flex flex-wrap justify-between items-center">
-    <p class="text-sm text-center md:text-left w-full md:w-auto text-white">
+    <p class="text-sm text-center md:text-left w-full md:w-auto text-black">
       Copyright © 2024 Ducktail, All rights reserved.
     </p>
     <div class="flex space-x-6 justify-center md:justify-end md:mt-0">
-      <a href=" " class="text-white hover:text-gray-400">Facebook</a>
-      <a href=" " class="text-white hover:text-gray-400">Instagram</a>
-      <a href=" " class="text-white hover:text-gray-400">Pinterest</a>
+      <a href=" " class="text-black hover:text-gray-400">Facebook</a>
+      <a href=" " class="text-black hover:text-gray-400">Instagram</a>
+      {/* <a href=" " class="text-white hover:text-gray-400">Pinterest</a> */}
     </div>
   </div>
 </div>

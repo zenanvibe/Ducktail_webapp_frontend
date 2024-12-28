@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebookF,
   faInstagram,
-  faWhatsapp,
+  faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
 
 const Homepage = () => {
@@ -77,13 +77,13 @@ const Homepage = () => {
     <div>
       {/* Banner Section */}
       <div
-        className="h-[60vh]  flex flex-col items-center justify-center text-center bg-cover  relative"
+        className="h-[66vh]  flex flex-col items-center justify-center text-center bg-cover  relative"
         style={{ backgroundImage: "url('/assets/Ducktail-Banner.jpg')" }}
       >
         <div className="absolute inset-0 bg-black opacity-55"></div>
         <div className="relative z-10 text-white">
           <h1
-            className="font-bold mb-5"
+            className="font-bold mb-2"
             style={{
               fontSize,
             }}
@@ -125,18 +125,18 @@ const Homepage = () => {
 
       {/* Next Section */}
       <div className="py-3  flex justify-center">
-        <div className="border border-gray-300 shadow-md p-4 rounded-lg bg-white max-w-6xl text-center">
+        <div className="border border-gray-300 shadow-lg p-2 rounded-lg bg-white max-w-6xl text-center">
           <p className="text-gray-700 text-lg">
             Build your dream project with ease and confidence – Ducktail
             connects you to verified builders, guarantees quality with a 10-year
             warranty, and ensures a seamless construction experience.
           </p>
-          <p className="font-semibold text-xl">
+          <p className="font-normal text-xl">
             To avail the full benefits of DUCKTAIL –{" "}
             <span>
               <a
                 href=" "
-                className="text-blue-600 font-medium underline mt-4 inline-block"
+                className="text-blue-600 font-bold text-[18px] underline mt-2 inline-block"
               >
                 "JOIN US FOR FREE"
               </a>
@@ -146,51 +146,53 @@ const Homepage = () => {
       </div>
 
       {/* Social Icons */}
-      <div className="absolute right-2 top-1/2 transform -translate-y-1/2 space-y-2">
-        {[
-          {
-            icon: faFacebookF,
-            href: "https://www.facebook.com",
-            color: "bg-blue-600",
-            name: "Facebook",
-          },
-          {
-            icon: faInstagram,
-            href: "https://www.instagram.com",
-            color: "bg-pink-600",
-            name: "Instagram",
-          },
-          {
-            icon: faWhatsapp,
-            href: "https://www.whatsapp.com",
-            color: "bg-green-600",
-            name: "WhatsApp",
-          },
-        ].map((item, index) => (
-          <div
-            key={index}
-            className="relative group flex items-center justify-end"
-          >
-            {/* Text (Appears on the left) */}
-            <span
-              className={`absolute right-14 top-0 h-full flex items-center px-3 rounded-md text-white ${item.color} 
-        opacity-0 transform -translate-x-full group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 ease-in-out`}
-            >
-              {item.name}
-            </span>
+      <div className="fixed right-2 top-1/2 transform -translate-y-1/2 space-y-2 z-50">
+  {[
+    {
+      icon: faFacebookF,
+      href: "https://www.facebook.com",
+      color: "bg-blue-600",
+      name: "Facebook",
+    },
+    {
+      icon: faInstagram,
+      href: "https://www.instagram.com",
+      color: "bg-pink-600",
+      name: "Instagram",
+    },
+    {
+      icon: faLinkedin,
+      href: "https://www.linkedin.com",
+      color: "bg-blue-500",
+      name: "Linkedin",
+    },
+  ].map((item, index) => (
+    <div
+      key={index}
+      className="relative group flex items-center justify-end"
+    >
+      {/* Text (Appears on hover) */}
+      <span
+        className={`absolute right-14 top-0 h-full flex items-center px-3 rounded-md text-white ${item.color} 
+      opacity-0 transform -translate-x-full group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 ease-in-out`}
+      >
+        {item.name}
+      </span>
 
-            {/* Icon */}
-            <a
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${item.color} w-11 h-11 flex items-center justify-center text-white rounded-full shadow-lg transition`}
-            >
-              <FontAwesomeIcon icon={item.icon} className="w-6 h-6" />
-            </a>
-          </div>
-        ))}
-      </div>
+      {/* Icon */}
+      <a
+        href={item.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${item.color} w-11 h-11 flex items-center justify-center text-white rounded-full shadow-lg transition`}
+      >
+        <FontAwesomeIcon icon={item.icon} className="w-6 h-6" />
+      </a>
+    </div>
+  ))}
+</div>
+
+
 
       {/* service */}
       <section id="services" className="py-6">
@@ -198,7 +200,7 @@ const Homepage = () => {
           <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
             DUCKTAIL'S OTHER SERVICES
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-20 py-5">
             {[
               {
                 title: "Home Loan",
@@ -319,7 +321,7 @@ const Homepage = () => {
           <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">
             WHY CHOOSE DUCKTAIL
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-14">
             {[
               {
                 title: "10 Years Warranty",
@@ -356,16 +358,16 @@ const Homepage = () => {
             ].map((item, index) => (
               <div
                 key={index}
-                className="bg-gray-100 rounded-2xl shadow-xl p-6 text-center hover:shadow-lg transition-shadow duration-300"
+                className="bg-gray-100 rounded-xl shadow-xl md:p-6 p-10  text-center hover:shadow-lg transition-shadow duration-300"
               >
                 <div className="overflow-hidden">
                   <img
                     src={item.img}
                     alt={item.title}
-                    className="w-28 h-28 mx-auto mb-4 transform transition-transform duration-300 hover:scale-110"
+                    className="w-24 h-24 mx-auto mb-1 transform transition-transform duration-300 hover:scale-110"
                   />
                 </div>
-                <h3 className="text-lg font-semibold">{item.title}</h3>
+                <h3 className="text-base font-semibold">{item.title}</h3>
               </div>
             ))}
           </div>
@@ -539,10 +541,13 @@ const Homepage = () => {
           <Swiper
             modules={[Autoplay, Pagination]}
             pagination={{ clickable: true }}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            autoplay={{ delay: 20000, disableOnInteraction: false }}
             loop
-            slidesPerView={1} // Show one row (with two columns)
-            className="w-full"
+            breakpoints={{
+              640: { slidesPerView: 2 }, // Show 1 slide for devices <640px
+              768: { slidesPerView: 1 }, // Show 2 slides for devices ≥768px
+            }}
+            className="w-full md:h-[404px]"
           >
             {Array.from(
               { length: Math.ceil(testimonials.length / 2) },
@@ -550,8 +555,8 @@ const Homepage = () => {
                 <SwiperSlide key={index}>
                   <div className="flex flex-wrap md:flex-nowrap justify-around items-start gap-8">
                     {/* First Testimonial (Left Column) */}
-                    <div className="w-full md:w-1/2 bg-gray-100 rounded-lg shadow-lg p-6">
-                      <p className="text-gray-700 italic mb-4">
+                    <div className="w-full md:w-1/2 md:h-[372px] bg-gray-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-center">
+                      <p className="text-gray-700 italic mb-4 text-center">
                         {testimonials[index * 2]?.text}
                       </p>
                       <div className="flex justify-center mb-2">
@@ -569,18 +574,18 @@ const Homepage = () => {
                           )
                         )}
                       </div>
-                      <h4 className="text-lg font-bold text-gray-800">
+                      <h4 className="text-lg font-bold text-gray-800 text-center">
                         {testimonials[index * 2]?.name}
                       </h4>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 text-center">
                         {testimonials[index * 2]?.role}
                       </p>
                     </div>
 
                     {/* Second Testimonial (Right Column) */}
                     {testimonials[index * 2 + 1] && (
-                      <div className="w-full md:w-1/2 bg-gray-100 rounded-lg shadow-lg p-6">
-                        <p className="text-gray-700 italic mb-4">
+                      <div className="w-full md:w-1/2 md:h-[372px] bg-gray-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-center">
+                        <p className="text-gray-700 italic mb-4 text-center">
                           {testimonials[index * 2 + 1]?.text}
                         </p>
                         <div className="flex justify-center mb-2">
@@ -600,10 +605,10 @@ const Homepage = () => {
                             )
                           )}
                         </div>
-                        <h4 className="text-lg font-bold text-gray-800">
+                        <h4 className="text-lg font-bold text-gray-800 text-center">
                           {testimonials[index * 2 + 1]?.name}
                         </h4>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-600 text-center">
                           {testimonials[index * 2 + 1]?.role}
                         </p>
                       </div>
@@ -615,8 +620,6 @@ const Homepage = () => {
           </Swiper>
         </div>
       </section>
-
-
     </div>
   );
 };

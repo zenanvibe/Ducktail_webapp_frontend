@@ -358,7 +358,7 @@ const Homepage = () => {
             ].map((item, index) => (
               <div
                 key={index}
-                className="bg-gray-100 rounded-xl shadow-xl md:p-6 p-10  text-center hover:shadow-lg transition-shadow duration-300"
+                className="bg-gray-100 rounded-xl shadow-xl md:p-6R p-10  text-center hover:shadow-lg transition-shadow duration-300"
               >
                 <div className="overflow-hidden">
                   <img

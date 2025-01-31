@@ -10,7 +10,7 @@ const ProjectRejection = () => {
         <div>
           <ProjectBanner
             title="Rejection Project"
-            imageUrl="https://via.placeholder.com/1200x300"
+            imageUrl="/assets/450.jpg"
           />
         </div>
         <RejectionTable />

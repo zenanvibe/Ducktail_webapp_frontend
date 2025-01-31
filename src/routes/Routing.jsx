@@ -19,6 +19,7 @@ import CompletionRequest from "../pages/CompletionRequest";
 import ProjectCompleted from "../pages/CompletedProject";
 import DocumentUploadReq from "../pages/DocumentUploadReq";
 import Profile from "../pages/Profile";
+import HomeLoan from "../views/HomeLoan";
 
 
 const AppLayout = ({ children }) => {
@@ -67,6 +68,8 @@ const Routing = () => {
       <AppLayout>
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="/homeloan" element={<HomeLoan />} />
+
           <Route path="/login" element={<Loginpage />} />
           <Route path="/signup" element={<Signuppage />} />
           <Route path="/dashboard" element={<Dashboard />} />

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "../css/Homepage.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -196,57 +197,60 @@ const Homepage = () => {
 
       {/* service */}
       <section id="services" className="py-6">
-        <div className="container max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
-            DUCKTAIL'S OTHER SERVICES
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-20 py-5">
-            {[
-              {
-                title: "Home Loan",
-                img: "/assets/Home-Loan.jpg",
-                comingSoon: false,
-              },
-              {
-                title: "Archi - Design",
-                img: "/assets/art-design.jpg",
-                comingSoon: false,
-              },
-              {
-                title: "Customer Support",
-                img: "/assets/Customer-Support.jpg",
-                comingSoon: false,
-              },
-              {
-                title: "Real Estate",
-                img: "/assets/Untitled-design-36.jpg",
-                comingSoon: true,
-              },
-              {
-                title: "Construction Consultation",
-                img: "/assets/Consulting.png",
-                comingSoon: false,
-              },
-              {
-                title: "Landscaping",
-                img: "/assets/450.jpg",
-                comingSoon: false,
-              },
-              {
-                title: "Premium Construction",
-                img: "/assets/2964.jpg",
-                comingSoon: false,
-              },
-              {
-                title: "Interior Designers",
-                img: "/assets/Interior-Design.png",
-                comingSoon: true,
-              },
-            ].map((service, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-2xl shadow-sm overflow-hidden text-center group"
-              >
+      <div className="container max-w-6xl mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
+          DUCKTAIL'S OTHER SERVICES
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-20 py-5">
+          {[
+            {
+              title: "Home Loan",
+              img: "/assets/Home-Loan.jpg",
+              link: "/homeloan", // Use correct route
+              comingSoon: false,
+            },
+            {
+              title: "Archi - Design",
+              img: "/assets/art-design.jpg",
+              link: "/archidesign",
+              comingSoon: false,
+            },
+            {
+              title: "Customer Support",
+              img: "/assets/Customer-Support.jpg",
+              comingSoon: false,
+            },
+            {
+              title: "Real Estate",
+              img: "/assets/Untitled-design-36.jpg",
+              comingSoon: true,
+            },
+            {
+              title: "Construction Consultation",
+              img: "/assets/Consulting.png",
+              link: "/constructionconsultation",
+              comingSoon: false,
+            },
+            {
+              title: "Landscaping",
+              img: "/assets/450.jpg",
+              link: "/landscaping",
+              comingSoon: false,
+            },
+            {
+              title: "Premium Construction",
+              img: "/assets/2964.jpg",
+              link: "/premiumconstruction",
+              comingSoon: false,
+            },
+            {
+              title: "Interior Designers",
+              img: "/assets/Interior-Design.png",
+              comingSoon: true,
+            },
+          ].map((service, index) => (
+            <Link to={service.link || "#"} key={index} className="group">
+              <div className="bg-white rounded-2xl shadow-sm overflow-hidden text-center cursor-pointer">
                 <div className="overflow-hidden">
                   <img
                     src={service.img}
@@ -254,17 +258,18 @@ const Homepage = () => {
                     className="w-full h-30 object-cover transform transition duration-300 group-hover:scale-110"
                   />
                 </div>
-                <div className="p-4 ">
+                <div className="p-4">
                   <h3 className="font-medium text-lg">{service.title}</h3>
                   {service.comingSoon && (
                     <p className="text-gray-500 text-sm">(Coming Soon)</p>
                   )}
                 </div>
               </div>
-            ))}
-          </div>
+            </Link>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* tile 1 */}
       <section className="relative py-4 flex justify-center">

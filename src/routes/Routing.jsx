@@ -20,6 +20,10 @@ import ProjectCompleted from "../pages/CompletedProject";
 import DocumentUploadReq from "../pages/DocumentUploadReq";
 import Profile from "../pages/Profile";
 import HomeLoan from "../views/HomeLoan";
+import ArchiDesign from "../views/ArchiDesign";
+import PremiumConstruction from "../views/PremiumConstruction";
+import ConstructionConsultation from "../views/ConstructionConsultation";
+import Landscaping from "../views/Landscaping";
 
 
 const AppLayout = ({ children }) => {
@@ -69,7 +73,12 @@ const Routing = () => {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/homeloan" element={<HomeLoan />} />
+          <Route path="/archidesign" element={<ArchiDesign />} />
+          <Route path="/premiumconstruction" element={<PremiumConstruction />} />
+          <Route path="/constructionconsultation" element={<ConstructionConsultation />} />
+          <Route path="/landscaping" element={<Landscaping />} />
 
+          
           <Route path="/login" element={<Loginpage />} />
           <Route path="/signup" element={<Signuppage />} />
           <Route path="/dashboard" element={<Dashboard />} />

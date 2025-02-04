@@ -30,7 +30,6 @@ const Navbarlanding = () => {
   };
   return (
     <nav className="bg-white shadow-md ">
-<<<<<<< HEAD
       <div className="max-w-6xl mx-auto px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo Section */}
@@ -162,97 +161,6 @@ const Navbarlanding = () => {
           <div className={`menu-content ${isClosing ? "slide-out" : ""}`}>
             {/* Close Button */}
             <button onClick={toggleMenu} className="absolute top-4 right-4">
-=======
-    <div className="max-w-6xl mx-auto px-4 py-3 sm:px-6 lg:px-8">
-      <div className="flex justify-between items-center h-16">
-        {/* Logo Section */}
-        <div className="flex-shrink-0">
-          <img
-            src="/assets/white background.jpg"
-            alt="Ducktail"
-            className="h-8 sm:h-12" // Smaller logo size on mobile
-          />
-        </div>
-  
-        {/* Navigation Links */}
-        <div className="hidden md:flex space-x-3 ">
-          <a
-            href=" "
-            onClick={(e) => handleActiveLink("HOME", e)}
-            className={`relative px-4 py-2 text-[14px]  font-bold  transition-all hover:rounded-full duration-300 hover:text-gray-500 hover:bg-gray-100 ${
-              activeLink === "HOME"
-                ? "text-gray-500 "
-                : "text-black"
-            }`}
-          >
-            HOME
-          </a>
-          <a
-            href="#services"
-            onClick={(e) => handleActiveLink("SERVICES", e)}
-            className={`relative px-4 py-2 text-[14px] font-bold hover:rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
-              activeLink === "SERVICES"
-                ? "text-gray-500 "
-                : "text-black "
-            }`}
-          >
-            SERVICES
-          </a>
-          <a
-            href=" "
-            onClick={(e) => handleActiveLink("JOIN US", e)}
-            className={`relative px-4 py-2 font-bold text-[14px] hover:rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
-              activeLink === "JOIN US"
-                ? "text-gray-500 "
-                : "text-black "
-            }`}
-          >
-            JOIN US
-          </a>
-          <a
-            href=" "
-            onClick={(e) => handleActiveLink("CAREER", e)}
-            className={`relative px-4 py-2 font-bold text-[14px] hover:rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
-              activeLink === "CAREER"
-                ? "text-gray-500 "
-                : "text-black "
-            }`}
-          >
-            CAREER
-          </a>
-          <a
-            href=" "
-            onClick={(e) => handleActiveLink("SUPPORT", e)}
-            className={`relative px-4 py-2 font-bold text-[14px] hover:rounded-full transition-all duration-300 hover:text-gray-500 hover:bg-gray-100 ${
-              activeLink === "SUPPORT"
-                ? "text-gray-500 "
-                : "text-black "
-            }`}
-          >
-            SUPPORT
-          </a>
-        </div>
-  
-        {/* Login Button */}
-        <div className="hidden md:flex items-center"> {/* Hide on small screens */}
-          <a
-            href=" "
-            className="bg-blue-600 text-white font-bold px-6 py-2 rounded-full hover:bg-blue-700"
-          >
-            LOGIN
-          </a>
-        </div>
-  
-        {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center">
-          <button
-            onClick={toggleMenu}
-            className="text-gray-600 focus:outline-none"
-          >
-            {isMobileMenuOpen ? (
-              ""
-            ) : (
->>>>>>> 26db383 (feat: client correction - 1 done)
               <svg
                 className="w-6 h-6"
                 fill="none"

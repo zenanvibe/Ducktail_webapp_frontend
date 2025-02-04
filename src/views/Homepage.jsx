@@ -197,6 +197,7 @@ const Homepage = () => {
 
       {/* service */}
       <section id="services" className="py-6">
+<<<<<<< HEAD
       <div className="container max-w-6xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
           DUCKTAIL'S OTHER SERVICES
@@ -251,6 +252,59 @@ const Homepage = () => {
           ].map((service, index) => (
             <Link to={service.link || "#"} key={index} className="group">
               <div className="bg-white rounded-2xl shadow-sm overflow-hidden text-center cursor-pointer">
+=======
+        <div className="container max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
+            DUCKTAIL'S OTHER SERVICES
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-20 py-5">
+            {[
+              {
+                title: "Home Loan",
+                img: "/assets/Home-Loan.jpg",
+                comingSoon: false,
+              },
+              {
+                title: "Archi - Design",
+                img: "/assets/art-design.jpg",
+                comingSoon: false,
+              },
+              {
+                title: "Customer Support",
+                img: "/assets/Customer-Support.jpg",
+                comingSoon: false,
+              },
+              {
+                title: "Real Estate",
+                img: "/assets/Untitled-design-36.jpg",
+                comingSoon: true,
+              },
+              {
+                title: "Construction Consultation",
+                img: "/assets/Consulting.png",
+                comingSoon: false,
+              },
+              {
+                title: "Landscaping",
+                img: "/assets/450.jpg",
+                comingSoon: false,
+              },
+              {
+                title: "Premium Construction",
+                img: "/assets/2964.jpg",
+                comingSoon: false,
+              },
+              {
+                title: "Interior Designers",
+                img: "/assets/Interior-Design.png",
+                comingSoon: true,
+              },
+            ].map((service, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl shadow-sm overflow-hidden text-center group"
+              >
+>>>>>>> 26db383 (feat: client correction - 1 done)
                 <div className="overflow-hidden">
                   <img
                     src={service.img}
@@ -363,7 +417,11 @@ const Homepage = () => {
             ].map((item, index) => (
               <div
                 key={index}
+<<<<<<< HEAD
                 className="bg-gray-100 rounded-xl shadow-xl md:p-6R p-10  text-center hover:shadow-lg transition-shadow duration-300"
+=======
+                className="bg-gray-100 rounded-xl shadow-xl md:p-6 p-10  text-center hover:shadow-lg transition-shadow duration-300"
+>>>>>>> 26db383 (feat: client correction - 1 done)
               >
                 <div className="overflow-hidden">
                   <img

@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Navbarlanding from "../components/Navbarlanding";
 import Homepage from "../views/Homepage";
 import Footerlanding from "../components/Footerlanding";
@@ -20,18 +20,15 @@ import ProjectCompleted from "../pages/CompletedProject";
 import DocumentUploadReq from "../pages/DocumentUploadReq";
 import Profile from "../pages/Profile";
 import HomeLoan from "../views/HomeLoan";
-import ArchiDesign from "../views/ArchiDesign";
-import PremiumConstruction from "../views/PremiumConstruction";
-import ConstructionConsultation from "../views/ConstructionConsultation";
-import Landscaping from "../views/Landscaping";
-
+import Chatbox from "../pages/Chatbox";
+import Payment from "../pages/Payment";
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
   const noNavbarFooterPaths = [
     "/login",
     "/signup",
-    "/dashboard",
+    "/builder/dashboard",
     "/liveproject",
     "/projectinvite",
     "/projectservices",
@@ -42,7 +39,9 @@ const AppLayout = ({ children }) => {
     "/completionrequest",
     "/completedproject",
     "/upload-doc/:id",
-    "/profile"
+    "/profile",
+    "/chat",
+    "/payment"
   ];
 
   const showNavbarFooter = !noNavbarFooterPaths.includes(location.pathname);
@@ -57,31 +56,16 @@ const AppLayout = ({ children }) => {
 };
 
 const Routing = () => {
-  const { authUser } = useAuthStore();
-
-  if (authUser) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <LoaderCircle className="size-10 animate-spin" />
-      </div>
-    );
-  }
-
   return (
     <BrowserRouter>
       <AppLayout>
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/homeloan" element={<HomeLoan />} />
-          <Route path="/archidesign" element={<ArchiDesign />} />
-          <Route path="/premiumconstruction" element={<PremiumConstruction />} />
-          <Route path="/constructionconsultation" element={<ConstructionConsultation />} />
-          <Route path="/landscaping" element={<Landscaping />} />
 
-          
           <Route path="/login" element={<Loginpage />} />
           <Route path="/signup" element={<Signuppage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/builder/dashboard" element={<Dashboard />} />
           <Route path="/liveproject" element={<ProjectLive />} />
           <Route path="/projectinvite" element={<ProjectIvite />} />
           <Route path="/projectservices" element={<Services />} />
@@ -95,6 +79,8 @@ const Routing = () => {
           <Route path="/upload-doc/:id" element={<DocumentUploadReq />} />
 
           <Route path="/profile" element={<Profile />} />
+          <Route path="/chat" element={<Chatbox />} />
+          <Route path="/payment" element={<Payment />} />
         </Routes>
       </AppLayout>
     </BrowserRouter>

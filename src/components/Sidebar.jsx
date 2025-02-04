@@ -44,7 +44,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </span>
           <a
             href=" "
-            onClick={() => handleNavigation("/dashboard")}
+            onClick={() => handleNavigation("/builder/dashboard")}
             className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
           >
             Dashboard

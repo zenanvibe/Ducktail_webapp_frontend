@@ -20,14 +20,15 @@ import ProjectCompleted from "../pages/CompletedProject";
 import DocumentUploadReq from "../pages/DocumentUploadReq";
 import Profile from "../pages/Profile";
 import HomeLoan from "../views/HomeLoan";
-
+import Chatbox from "../pages/Chatbox";
+import Payment from "../pages/Payment";
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
   const noNavbarFooterPaths = [
     "/login",
     "/signup",
-    "/dashboard",
+    "/builder/dashboard",
     "/liveproject",
     "/projectinvite",
     "/projectservices",
@@ -38,7 +39,9 @@ const AppLayout = ({ children }) => {
     "/completionrequest",
     "/completedproject",
     "/upload-doc/:id",
-    "/profile"
+    "/profile",
+    "/chat",
+    "/payment"
   ];
 
   const showNavbarFooter = !noNavbarFooterPaths.includes(location.pathname);
@@ -72,7 +75,7 @@ const Routing = () => {
 
           <Route path="/login" element={<Loginpage />} />
           <Route path="/signup" element={<Signuppage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/builder/dashboard" element={<Dashboard />} />
           <Route path="/liveproject" element={<ProjectLive />} />
           <Route path="/projectinvite" element={<ProjectIvite />} />
           <Route path="/projectservices" element={<Services />} />
@@ -86,6 +89,8 @@ const Routing = () => {
           <Route path="/upload-doc/:id" element={<DocumentUploadReq />} />
 
           <Route path="/profile" element={<Profile />} />
+          <Route path="/chat" element={<Chatbox />} />
+          <Route path="/payment" element={<Payment />} />
         </Routes>
       </AppLayout>
     </BrowserRouter>

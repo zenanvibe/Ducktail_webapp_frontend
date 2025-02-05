@@ -1,6 +1,5 @@
 import React from "react";
 import Layout from "../layout/Layout";
-import CompletionRequestTable from "../layout/ProjectCompletionRequest/CompletionReqTable";
 import ProfileBanner from "../layout/ProfileBanner";
 
 const Profile = () => {
@@ -18,7 +17,7 @@ const Profile = () => {
           />
         </div>
        <div className="mt-5">
-       <CompletionRequestTable />
+       
        </div>
       </Layout>
     </div>

@@ -218,6 +218,7 @@ const Homepage = () => {
             {
               title: "Customer Support",
               img: "/assets/Customer-Support.jpg",
+              link: "/support",
               comingSoon: false,
             },
             {

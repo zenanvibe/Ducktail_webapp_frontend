@@ -5,7 +5,7 @@ import PortfolioTile from "../layout/ProjectPortfolio/PortfolioTile";
 
 const Portfolio = () => {
   return (
-    <div  style={{ backgroundColor: "#E0E0E0" }}>
+    <div style={{ backgroundColor: "#E0E0E0" }}>
       <Layout>
         <div>
           <ProjectBanner

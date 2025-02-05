@@ -20,8 +20,14 @@ import ProjectCompleted from "../pages/CompletedProject";
 import DocumentUploadReq from "../pages/DocumentUploadReq";
 import Profile from "../pages/Profile";
 import HomeLoan from "../views/HomeLoan";
+import Landscaping from "../views/Landscaping";
+import ConstructionConsultation from "../views/ConstructionConsultation";
+import ArchiDesign from "../views/ArchiDesign";
+import PremiumConstruction from "../views/PremiumConstruction";
 import Chatbox from "../pages/Chatbox";
 import Payment from "../pages/Payment";
+import CustomerSupport from "../views/CustomerSupport";
+import SubscriptionTile from "../layout/Subscription/SubscriptionTile";
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
@@ -71,10 +77,15 @@ const Routing = () => {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/homeloan" element={<HomeLoan />} />
-
+          <Route path="/landscaping" element={<Landscaping />} />
+          <Route path="/constructionconsultation" element={<ConstructionConsultation />} />
+          <Route path="/support" element={<CustomerSupport />} />
+          <Route path="/archidesign" element={<ArchiDesign />} />
+          <Route path="/premiumconstruction" element={<PremiumConstruction />} />
+          <Route path="/subscriptiontile" element={<SubscriptionTile />} />
           <Route path="/login" element={<Loginpage />} />
           <Route path="/signup" element={<Signuppage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/builder/dashboard" element={<Dashboard />} />
           <Route path="/liveproject" element={<ProjectLive />} />
           <Route path="/projectinvite" element={<ProjectIvite />} />
           <Route path="/projectservices" element={<Services />} />
@@ -84,7 +95,7 @@ const Routing = () => {
           <Route path="/rejectionproject" element={<ProjectRejection />} />
           <Route path="/completionrequest" element={<CompletionRequest />} />
           <Route path="/completedproject" element={<ProjectCompleted />} />
-
+          
           <Route path="/upload-doc/:id" element={<DocumentUploadReq />} />
 
           <Route path="/profile" element={<Profile />} />

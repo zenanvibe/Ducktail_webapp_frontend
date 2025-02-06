@@ -30,6 +30,7 @@ import CustomerSupport from "../views/CustomerSupport";
 import SubscriptionTile from "../layout/Subscription/SubscriptionTile";
 import Notification from "../pages/Notification";
 import NotFound from "../layout/Notfound/Notfound";
+import ProjectInvite from "../pages/Customer/ProjectInvite";
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
@@ -50,6 +51,9 @@ const AppLayout = ({ children }) => {
     "/profile",
     "/chat",
     "/payment",
+
+    // customer
+    "/projectinvite",
     "/builder/notification"
   ];
 
@@ -101,6 +105,11 @@ const Routing = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/chat" element={<Chatbox />} />
           <Route path="/payment" element={<Payment />} />
+
+
+          {/* customer */}
+
+          <Route path="/projectinvite" element={<ProjectInvite />} />
 
         </Routes>
       </AppLayout>

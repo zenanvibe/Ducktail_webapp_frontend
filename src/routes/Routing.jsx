@@ -30,6 +30,7 @@ import CustomerSupport from "../views/CustomerSupport";
 import SubscriptionTile from "../layout/Subscription/SubscriptionTile";
 import SupportDesk from "../pages/SuppportDeck";
 import ProfileCard from "../pages/ProfileCard";
+import ProjectInvite from "../pages/Customer/ProjectInvite";
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
@@ -49,7 +50,10 @@ const AppLayout = ({ children }) => {
     "/upload-doc/:id",
     "/profile",
     "/chat",
-    "/payment"
+    "/payment",
+
+    // customer
+    "/projectinvite"
   ];
 
   const showNavbarFooter = !noNavbarFooterPaths.includes(location.pathname);
@@ -110,6 +114,11 @@ const Routing = () => {
   
           <Route path="/supportdesk" element={<SupportDesk />} />
           <Route path="/profilecard" element={<ProfileCard />} />
+
+
+          {/* customer */}
+
+          <Route path="/projectinvite" element={<ProjectInvite />} />
 
         </Routes>
       </AppLayout>

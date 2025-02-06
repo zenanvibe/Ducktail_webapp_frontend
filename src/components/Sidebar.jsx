@@ -65,6 +65,21 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             Project Invite
           </button>
         </div>
+        <div className={`relative ${isActive("/builder/projectenquiry") ? "bg-[#616161]" : ""}`}>
+          <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
+            <img
+              src="/sidebaricons/project invite 1.png"
+              alt="Ducktail Logo"
+              className="h-7"
+            />
+          </span>
+          <button
+            onClick={() => handleNavigation("/builder/projectenquiry")}
+            className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
+          >
+            Project Enquiry
+          </button>
+        </div>
         <div className={`relative ${isActive("/builder/projectservices") ? "bg-[#616161]" : ""}`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img

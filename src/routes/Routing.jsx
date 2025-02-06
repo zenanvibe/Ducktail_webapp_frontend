@@ -28,6 +28,8 @@ import Chatbox from "../pages/Chatbox";
 import Payment from "../pages/Payment";
 import CustomerSupport from "../views/CustomerSupport";
 import SubscriptionTile from "../layout/Subscription/SubscriptionTile";
+import Notification from "../pages/Notification";
+import NotFound from "../layout/Notfound/Notfound";
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
@@ -47,7 +49,8 @@ const AppLayout = ({ children }) => {
     "/upload-doc/:id",
     "/profile",
     "/chat",
-    "/payment"
+    "/payment",
+    "/builder/notification"
   ];
 
   const showNavbarFooter = !noNavbarFooterPaths.includes(location.pathname);
@@ -75,7 +78,10 @@ const Routing = () => {
     <BrowserRouter>
       <AppLayout>
         <Routes>
+          <Route path="*" element={<NotFound />} />
+
           <Route path="/" element={<Homepage />} />
+
           <Route path="/homeloan" element={<HomeLoan />} />
           <Route path="/landscaping" element={<Landscaping />} />
           <Route path="/constructionconsultation" element={<ConstructionConsultation />} />
@@ -83,8 +89,10 @@ const Routing = () => {
           <Route path="/archidesign" element={<ArchiDesign />} />
           <Route path="/premiumconstruction" element={<PremiumConstruction />} />
           <Route path="/subscriptiontile" element={<SubscriptionTile />} />
+
           <Route path="/login" element={<Loginpage />} />
           <Route path="/signup" element={<Signuppage />} />
+
           <Route path="/builder/dashboard" element={<Dashboard />} />
           <Route path="/liveproject" element={<ProjectLive />} />
           <Route path="/projectinvite" element={<ProjectIvite />} />
@@ -95,12 +103,14 @@ const Routing = () => {
           <Route path="/rejectionproject" element={<ProjectRejection />} />
           <Route path="/completionrequest" element={<CompletionRequest />} />
           <Route path="/completedproject" element={<ProjectCompleted />} />
+          <Route path="/builder/notification" element={<Notification />} />
           
           <Route path="/upload-doc/:id" element={<DocumentUploadReq />} />
 
           <Route path="/profile" element={<Profile />} />
           <Route path="/chat" element={<Chatbox />} />
           <Route path="/payment" element={<Payment />} />
+
         </Routes>
       </AppLayout>
     </BrowserRouter>

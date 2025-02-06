@@ -1,11 +1,11 @@
 import React from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, useLocation } from "react-router-dom";
 import Navbarlanding from "../components/Navbarlanding";
 import Homepage from "../views/Homepage";
 import Footerlanding from "../components/Footerlanding";
 import Loginpage from "../pages/Loginpage";
-import useAuthStore from "../store/useAuthStore";
-import { LoaderCircle } from "lucide-react";
+// import useAuthStore from "../store/useAuthStore";
+// import { LoaderCircle } from "lucide-react";
 import Signuppage from "../pages/Signuppage";
 import Dashboard from "../pages/Dashboard";
 import ProjectLive from "../pages/ProjectLive";

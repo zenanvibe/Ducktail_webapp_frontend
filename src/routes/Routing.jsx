@@ -28,6 +28,8 @@ import Chatbox from "../pages/Chatbox";
 import Payment from "../pages/Payment";
 import CustomerSupport from "../views/CustomerSupport";
 import SubscriptionTile from "../layout/Subscription/SubscriptionTile";
+import SupportDesk from "../pages/SuppportDeck";
+import ProfileCard from "../pages/ProfileCard";
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
@@ -35,15 +37,15 @@ const AppLayout = ({ children }) => {
     "/login",
     "/signup",
     "/builder/dashboard",
-    "/liveproject",
-    "/projectinvite",
-    "/projectservices",
-    "/portfolio",
-    "/pendingproject",
-    "/holdproject",
-    "/rejectionproject",
-    "/completionrequest",
-    "/completedproject",
+    "/builder/liveproject",
+    "/builder/projectinvite",
+    "/builder/projectservices",
+    "/builder/portfolio",
+    "/builder/pendingproject",
+    "/builder/holdproject",
+    "/builder/rejectionproject",
+    "/builder/completionrequest",
+    "/builder/completedproject",
     "/upload-doc/:id",
     "/profile",
     "/chat",
@@ -82,25 +84,33 @@ const Routing = () => {
           <Route path="/support" element={<CustomerSupport />} />
           <Route path="/archidesign" element={<ArchiDesign />} />
           <Route path="/premiumconstruction" element={<PremiumConstruction />} />
-          <Route path="/subscriptiontile" element={<SubscriptionTile />} />
+          
+          <Route path="/subscription" element={<SubscriptionTile />} />
+
           <Route path="/login" element={<Loginpage />} />
           <Route path="/signup" element={<Signuppage />} />
+          
           <Route path="/builder/dashboard" element={<Dashboard />} />
-          <Route path="/liveproject" element={<ProjectLive />} />
-          <Route path="/projectinvite" element={<ProjectIvite />} />
-          <Route path="/projectservices" element={<Services />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/pendingproject" element={<ProjectPending />} />
-          <Route path="/holdproject" element={<ProjectHold />} />
-          <Route path="/rejectionproject" element={<ProjectRejection />} />
-          <Route path="/completionrequest" element={<CompletionRequest />} />
-          <Route path="/completedproject" element={<ProjectCompleted />} />
+          <Route path="/builder/liveproject" element={<ProjectLive />} />
+          <Route path="/builder/projectinvite" element={<ProjectIvite />} />
+          <Route path="/builder/projectservices" element={<Services />} />
+          <Route path="/builder/portfolio" element={<Portfolio />} />
+          <Route path="/builder/pendingproject" element={<ProjectPending />} />
+          <Route path="/builder/holdproject" element={<ProjectHold />} />
+          <Route path="/builder/rejectionproject" element={<ProjectRejection />} />
+          <Route path="/builder/completionrequest" element={<CompletionRequest />} />
+          <Route path="/builder/completedproject" element={<ProjectCompleted />} />
           
           <Route path="/upload-doc/:id" element={<DocumentUploadReq />} />
 
           <Route path="/profile" element={<Profile />} />
           <Route path="/chat" element={<Chatbox />} />
           <Route path="/payment" element={<Payment />} />
+
+  
+          <Route path="/supportdesk" element={<SupportDesk />} />
+          <Route path="/profilecard" element={<ProfileCard />} />
+
         </Routes>
       </AppLayout>
     </BrowserRouter>

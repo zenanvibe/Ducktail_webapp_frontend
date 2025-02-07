@@ -6,8 +6,6 @@ import Footerlanding from "../components/Footerlanding";
 import Loginpage from "../pages/Loginpage";
 import useAuthStore from "../store/useAuthStore";
 import { LoaderCircle } from "lucide-react";
-import useAuthStore from "../store/useAuthStore";
-import { LoaderCircle } from "lucide-react";
 import Signuppage from "../pages/Signuppage";
 import Dashboard from "../pages/Dashboard";
 import ProjectLive from "../pages/ProjectLive";

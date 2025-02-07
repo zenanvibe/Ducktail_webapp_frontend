@@ -6,7 +6,7 @@ import ProfileProgress from "../layout/ProfileDetails/ProfileProgress";
 
 const Dashboard = () => {
   return (
-    <div  style={{ backgroundColor: "#E0E0E0" }}>
+    <div   style={{ backgroundColor: "#E0E0E0" }}>
       <Layout>
         {/* <h2 className="text-2xl font-semibold mb-6">Welcome to the Dashboard</h2> */}
         <div className="flex items-start justify-between">

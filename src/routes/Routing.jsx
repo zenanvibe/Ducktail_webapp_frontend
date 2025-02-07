@@ -6,6 +6,8 @@ import Footerlanding from "../components/Footerlanding";
 import Loginpage from "../pages/Loginpage";
 import useAuthStore from "../store/useAuthStore";
 import { LoaderCircle } from "lucide-react";
+import useAuthStore from "../store/useAuthStore";
+import { LoaderCircle } from "lucide-react";
 import Signuppage from "../pages/Signuppage";
 import Dashboard from "../pages/Dashboard";
 import ProjectLive from "../pages/ProjectLive";
@@ -31,6 +33,9 @@ import SubscriptionTile from "../layout/Subscription/SubscriptionTile";
 import SupportDesk from "../pages/SuppportDeck";
 import ProfileCard from "../pages/ProfileCard";
 import ProjectInvite from "../pages/Customer/ProjectInvite";
+import Notification from "../pages/Notification";
+import ProjectEnquiry from "../pages/Builders/ProjectEnquiry";
+import SubscriptionHistory from "../pages/Builders/SubscriptionHistory";
 import ProjectLiveCard from "../pages/Customer/ProjectLiveCard";
 import HoldCard from "../pages/Customer/HoldCard";
 import RequestCard from "../pages/Customer/RequestCard";
@@ -55,9 +60,12 @@ const AppLayout = ({ children }) => {
     "/builder/completionrequest",
     "/builder/completedproject",
     "/upload-doc/:id",
+    "/builder/notification",
     "/profile",
     "/chat",
     "/payment",
+    "/builder/projectenquiry",
+    "/builder/subscriptionHistory",
 
     // customer
     "/projectinvite",
@@ -118,6 +126,9 @@ const Routing = () => {
           <Route path="/builder/rejectionproject" element={<ProjectRejection />} />
           <Route path="/builder/completionrequest" element={<CompletionRequest />} />
           <Route path="/builder/completedproject" element={<ProjectCompleted />} />
+          <Route path="/builder/notification" element={<Notification />} />
+          <Route path="/builder/projectenquiry" element={<ProjectEnquiry />} />
+          <Route path="/builder/subscriptionhistory" element={<SubscriptionHistory />} />
           
           <Route path="/upload-doc/:id" element={<DocumentUploadReq />} />
 

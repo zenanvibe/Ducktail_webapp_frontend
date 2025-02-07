@@ -3,14 +3,12 @@ import React, { useState } from "react";
 const ProjectInviteForm = () => {
   return (
     <div className="w-full">
-      {/* Banner */}
-     
-
       {/* Cards Container */}
       <div className="px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
           <InviteCard id={1} />
           <InviteCard id={2} />
+          <InviteCard id={3} />
         </div>
       </div>
     </div>
@@ -32,20 +30,20 @@ const InviteCard = ({ id }) => {
       </div>
 
       {/* Title */}
-      <h2 className="text-lg font-bold self-center w-full text-center mt-3">
+      <h2 className="text-lg font-bold w-full text-center mt-3">
         THE MADE MODEL
       </h2>
-      <p className="text-gray-500 text-sm self-center w-full text-center">
+      <p className="text-gray-500 text-sm w-full text-center">
         Join Us To Build An Innovative Project!
       </p>
 
       {/* Details */}
       <div className="mt-4 space-y-2 w-full">
-        <div className="flex items-center justify-center gap-3 text-gray-700 text-sm">
+        <div className="grid grid-cols-2 items-center text-gray-700 text-sm">
           <span className="flex items-center gap-2">📜 <span>Company Ducktail Id</span></span>
           <span className="font-semibold">12455248</span>
         </div>
-        <div className="flex items-center justify-center gap-3 text-gray-700 text-sm">
+        <div className="grid grid-cols-2 items-center text-gray-700 text-sm">
           <span className="flex items-center gap-2">📞 <span>Phone Number</span></span>
           <span className="font-semibold">9662220001</span>
         </div>

@@ -3,10 +3,10 @@ import React from "react";
 
 import ProjectBanner from "../../layout/ProjectBanner";
 import Layout from "../../layout/customer/Layout";
-import ProjectInviteForm from "../../layout/customer/ProjectInvite/ProjectInviteForm";
+import Livecard from "../../layout/customer/ProjectLive/LiveCard";
 
 
-const ProjectInvite = () => {
+const ProjectLiveCard = () => {
     return (
         <div style={{ backgroundColor: "#E0E0E0" }}>
 
@@ -19,7 +19,7 @@ const ProjectInvite = () => {
                     />
                 </div>
                 <div>
-                    <ProjectInviteForm />
+                    <Livecard/>
                 </div>
             </Layout>
 
@@ -28,4 +28,4 @@ const ProjectInvite = () => {
     );
 };
 
-export default ProjectInvite;
+export default ProjectLiveCard;

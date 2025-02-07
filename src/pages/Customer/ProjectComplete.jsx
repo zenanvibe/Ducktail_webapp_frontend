@@ -3,10 +3,10 @@ import React from "react";
 
 import ProjectBanner from "../../layout/ProjectBanner";
 import Layout from "../../layout/customer/Layout";
-import ProjectInviteForm from "../../layout/customer/ProjectInvite/ProjectInviteForm";
+import CompletedCard from "../../layout/customer/CompletedProject/CompletedCard";
 
 
-const ProjectInvite = () => {
+const ProjectComplete = () => {
     return (
         <div style={{ backgroundColor: "#E0E0E0" }}>
 
@@ -14,12 +14,12 @@ const ProjectInvite = () => {
 
                 <div>
                     <ProjectBanner
-                        title=" Project Invite "
+                        title="Completed Project "
                         imageUrl="https://via.placeholder.com/1200x300"
                     />
                 </div>
                 <div>
-                    <ProjectInviteForm />
+                    <CompletedCard/>
                 </div>
             </Layout>
 
@@ -28,4 +28,4 @@ const ProjectInvite = () => {
     );
 };
 
-export default ProjectInvite;
+export default ProjectComplete;

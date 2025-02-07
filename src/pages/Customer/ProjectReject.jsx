@@ -3,10 +3,10 @@ import React from "react";
 
 import ProjectBanner from "../../layout/ProjectBanner";
 import Layout from "../../layout/customer/Layout";
-import ProjectInviteForm from "../../layout/customer/ProjectInvite/ProjectInviteForm";
+import RejectionCard from "../../layout/customer/RejectedProject/RejectionCard";
 
 
-const ProjectInvite = () => {
+const ProjectReject = () => {
     return (
         <div style={{ backgroundColor: "#E0E0E0" }}>
 
@@ -19,7 +19,7 @@ const ProjectInvite = () => {
                     />
                 </div>
                 <div>
-                    <ProjectInviteForm />
+                    <RejectionCard />
                 </div>
             </Layout>
 
@@ -28,4 +28,4 @@ const ProjectInvite = () => {
     );
 };
 
-export default ProjectInvite;
+export default ProjectReject;

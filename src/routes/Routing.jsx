@@ -4,8 +4,8 @@ import Navbarlanding from "../components/Navbarlanding";
 import Homepage from "../views/Homepage";
 import Footerlanding from "../components/Footerlanding";
 import Loginpage from "../pages/Loginpage";
-// import useAuthStore from "../store/useAuthStore";
-// import { LoaderCircle } from "lucide-react";
+import useAuthStore from "../store/useAuthStore";
+import { LoaderCircle } from "lucide-react";
 import Signuppage from "../pages/Signuppage";
 import Dashboard from "../pages/Dashboard";
 import ProjectLive from "../pages/ProjectLive";
@@ -31,6 +31,13 @@ import SubscriptionTile from "../layout/Subscription/SubscriptionTile";
 import SupportDesk from "../pages/SuppportDeck";
 import ProfileCard from "../pages/ProfileCard";
 import ProjectInvite from "../pages/Customer/ProjectInvite";
+import ProjectLiveCard from "../pages/Customer/ProjectLiveCard";
+import HoldCard from "../pages/Customer/HoldCard";
+import RequestCard from "../pages/Customer/RequestCard";
+import CustomerProfile from "../pages/Customer/CustomerProfile";
+import ProjectComplete from "../pages/Customer/ProjectComplete";
+import ProjectReject from "../pages/Customer/ProjectReject";
+
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
@@ -53,7 +60,14 @@ const AppLayout = ({ children }) => {
     "/payment",
 
     // customer
-    "/projectinvite"
+    "/projectinvite",
+    "/livecard" ,
+    "/holdcard",
+    "/requestcard",
+    "/customer",
+    "/completedcard"
+
+    
   ];
 
   const showNavbarFooter = !noNavbarFooterPaths.includes(location.pathname);
@@ -119,6 +133,12 @@ const Routing = () => {
           {/* customer */}
 
           <Route path="/projectinvite" element={<ProjectInvite />} />
+          <Route path="/livecard" element={<ProjectLiveCard />} />
+          <Route path="/holdCard" element={<HoldCard />} />
+          <Route path="/requestCard" element={<RequestCard />} />
+          <Route path="/completedcard" element={<ProjectComplete />} />   
+          <Route path="/customer" element={<CustomerProfile />} />
+          <Route path="/rejectcard" element={<ProjectReject />} />
 
         </Routes>
       </AppLayout>

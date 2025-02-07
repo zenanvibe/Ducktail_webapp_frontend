@@ -3,10 +3,10 @@ import React from "react";
 
 import ProjectBanner from "../../layout/ProjectBanner";
 import Layout from "../../layout/customer/Layout";
-import ProjectInviteForm from "../../layout/customer/ProjectInvite/ProjectInviteForm";
+import ProjectHoldCard from "../../layout/customer/HoldProject/ProjectHoldCard";
 
 
-const ProjectInvite = () => {
+const HoldCard = () => {
     return (
         <div style={{ backgroundColor: "#E0E0E0" }}>
 
@@ -14,12 +14,12 @@ const ProjectInvite = () => {
 
                 <div>
                     <ProjectBanner
-                        title=" Project Invite "
+                        title=" Hold Project  "
                         imageUrl="https://via.placeholder.com/1200x300"
                     />
                 </div>
                 <div>
-                    <ProjectInviteForm />
+                    <ProjectHoldCard />
                 </div>
             </Layout>
 
@@ -28,4 +28,4 @@ const ProjectInvite = () => {
     );
 };
 
-export default ProjectInvite;
+export default HoldCard;

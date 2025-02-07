@@ -37,7 +37,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       {/* Navigation links */}
       <nav className={`mt-4 ${isOpen ? "block" : "hidden"} lg:block `}>
         
-        <div className={`relative ${isActive("/customers/projectinvite") ? "bg-[#616161]" : ""}`}>
+        <div className={`relative ${isActive("/projectinvite") ? "bg-[#616161]" : ""}`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img
               src="/sidebaricons/project invite 1.png"
@@ -46,7 +46,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             />
           </span>
           <button
-            onClick={() => handleNavigation("/customers/projectinvite")}
+            onClick={() => handleNavigation("/projectinvite")}
             className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
           >
             Project Invite
@@ -55,7 +55,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
         <div
           className={`relative ${
-            isActive("/customers/liveproject") ? "bg-[#616161]" : ""
+            isActive("/livecard" ) ? "bg-[#616161]" : ""
           }`}
         >
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
@@ -67,7 +67,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </span>
           <button
             className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
-            onClick={() => handleNavigation("/customers/liveproject")}
+            onClick={() => handleNavigation("/livecard" )}
           >
             Live Project
           </button>
@@ -75,7 +75,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
         <div
           className={`relative ${
-            isActive("/customers/holdproject") ? "bg-[#616161]" : ""
+            isActive("/holdcard") ? "bg-[#616161]" : ""
           }`}
         >
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
@@ -87,14 +87,14 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </span>
           <button
             className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
-            onClick={() => handleNavigation("/customers/holdproject")}
+            onClick={() => handleNavigation("/holdcard")}
           >
             Hold Project
           </button>
         </div>
 
         <div className={`relative ${
-            isActive("/customers/rejectionproject") ? "bg-[#616161]" : ""
+            isActive("/rejectcard" ) ? "bg-[#616161]" : ""
           }`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img
@@ -103,28 +103,14 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               className="h-6"
             />
           </span>
-          <a href=" " onClick={() => handleNavigation("/customers/rejectionproject")} className="block px-16 py-4 hover:bg-[#616161]">
+          <a href=" " onClick={() => handleNavigation("/rejectcard" )} className="block px-16 py-4 hover:bg-[#616161]">
             Rejection Projects
           </a>
         </div>
 
-        <div className={`relative ${
-            isActive("/customers/pendingproject") ? "bg-[#616161]" : ""
-          }`}>
-          <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
-            <img
-              src="/sidebaricons/Time.png"
-              alt="Ducktail Logo"
-              className="h-6"
-            />
-          </span>
-          <a href=" " onClick={() => handleNavigation("/customers/pendingproject")} className="block px-16 py-4 hover:bg-[#616161]">
-            Pending Projects
-          </a>
-        </div>
 
         <div className={`relative ${
-            isActive("/customers/completionrequest") ? "bg-[#616161]" : ""
+            isActive("/requestcard") ? "bg-[#616161]" : ""
           }`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img
@@ -133,13 +119,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               className="h-6"
             />
           </span>
-          <a href=" " onClick={() => handleNavigation("/customers/completionrequest")} className="block px-16 py-4 hover:bg-[#616161]">
+          <a href=" " onClick={() => handleNavigation("/requestcard")} className="block px-16 py-4 hover:bg-[#616161]">
             Completion Request
           </a>
         </div>
 
         <div className={`relative ${
-            isActive("/customers/completedproject") ? "bg-[#616161]" : ""
+            isActive("/completedcard") ? "bg-[#616161]" : ""
           }`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img
@@ -148,13 +134,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               className="h-6"
             />
           </span>
-          <a href=" " onClick={() => handleNavigation("/customers/completedproject")} className="block px-16 py-4 hover:bg-[#616161]">
+          <a href=" " onClick={() => handleNavigation("/completedcard")} className="block px-16 py-4 hover:bg-[#616161]">
             Completed Projects
           </a>
         </div>
 
         <div className={`relative ${
-            isActive("/profile") ? "bg-[#616161]" : ""
+            isActive("/customer") ? "bg-[#616161]" : ""
           }`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img
@@ -163,12 +149,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               className="h-6"
             />
           </span>
-          <a href=" " onClick={() => handleNavigation("/profile")} className="block px-16 py-4 hover:bg-[#616161]">
+          <a href=" " onClick={() => handleNavigation("/customer")} className="block px-16 py-4 hover:bg-[#616161]">
             Profile
           </a>
         </div>
-      
-        
        
       </nav>
     </div>

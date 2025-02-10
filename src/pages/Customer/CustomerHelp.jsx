@@ -3,10 +3,10 @@ import React from "react";
 
 import ProjectBanner from "../../layout/ProjectBanner";
 import Layout from "../../layout/customer/Layout";
-import RejectionCard from "../../layout/customer/RejectedProject/RejectionCard";
+import HelpDesk from "../../layout/customer/HelpDesk/HelpDesk";
 
 
-const ProjectReject = () => {
+const CustomerHelp = () => {
     return (
         <div style={{ backgroundColor: "#E0E0E0" }}>
 
@@ -14,12 +14,12 @@ const ProjectReject = () => {
 
                 <div>
                     <ProjectBanner
-                        title="Rejected Project "
+                        title="Support"
                         imageUrl="https://via.placeholder.com/1200x300"
                     />
                 </div>
                 <div>
-                    <RejectionCard />
+                    <HelpDesk />
                 </div>
             </Layout>
 
@@ -28,4 +28,4 @@ const ProjectReject = () => {
     );
 };
 
-export default ProjectReject;
+export default CustomerHelp;

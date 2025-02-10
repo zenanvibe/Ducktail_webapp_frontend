@@ -14,7 +14,7 @@ const ProjectLiveCard = () => {
 
                 <div>
                     <ProjectBanner
-                        title=" Project Invite "
+                        title="  Live Project  "
                         imageUrl="https://via.placeholder.com/1200x300"
                     />
                 </div>

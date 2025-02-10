@@ -6,9 +6,9 @@ const RejectionCard = () => {
     <div className="max-w-sm mx-auto p-6 bg-white rounded-2xl shadow-lg text-center md:max-w-md">
       <div className="flex justify-center">
         <img
-          src="https://via.placeholder.com/50"
+          src="/assets/DUCKTAIL-HOMELOAN.aviF"
           alt="Profile"
-          className="w-12 h-12 rounded-md object-cover"
+          className="w-16  h-16 rounded-md object-cover"
         />
       </div>
       <h2 className="mt-2 text-lg font-semibold">THE MADE MODEL</h2>

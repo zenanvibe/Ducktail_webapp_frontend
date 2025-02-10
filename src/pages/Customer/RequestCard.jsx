@@ -14,7 +14,7 @@ const RequestCard = () => {
 
                 <div>
                     <ProjectBanner
-                        title=" Project Invite "
+                        title="Completion Request "
                         imageUrl="https://via.placeholder.com/1200x300"
                     />
                 </div>

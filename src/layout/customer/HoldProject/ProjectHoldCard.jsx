@@ -1,43 +1,63 @@
-import React from "react";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Building2 } from 'lucide-react';
 
 const ProjectHoldCard = () => {
+  const navigate = useNavigate(); // Initialize navigate
+
+  const handlenavigate = (name, path) => {
+    console.log(`Navigating to ${name} at ${path}`);
+    navigate(path);
+  };
+
   return (
-    <div className="max-w-4xl mx-auto p-4 rounded-2xl shadow-lg bg-white flex flex-row gap-4 sm:max-w-full overflow-x-auto justify-start items-center">
-      {[1, 2].map((item) => (
-        <div key={item} className="p-4 border rounded-lg bg-gray-50 w-80 flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <img
-              src="https://via.placeholder.com/50"
-              alt="Company Logo"
-              className="w-12 h-12 rounded-full object-cover"
-            />
-            <div>
-              <h2 className="text-lg font-bold">JK BUILDERS</h2>
-              <p className="text-gray-500 text-sm flex items-center gap-1">
-                <span>📶</span> Madurai
-              </p>
-              <p className="text-gray-500 text-sm flex items-center gap-1">
-                <span>📞</span> 7894561230
-              </p>
-            </div>
+    <div className="max-w-xl mx-auto bg-white rounded-3xl shadow-lg p-6 relative">
+      <div className="flex items-start gap-4">
+        {/* Left side - Image */}
+        <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+          <img 
+            src="/assets/DUCKTAIL-HOMELOAN.aviF"
+            alt="Building"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Right side - Content */}
+        <div className="flex-1">
+          {/* Company Name */}
+          <h2 className="text-xl font-bold text-gray-900">JK BUILDERS</h2>
+          
+          {/* Location */}
+          <div className="flex items-center gap-2 mt-1">
+            <Building2 className="w-4 h-4 text-gray-600" />
+            <span className="text-gray-600">Madurai</span>
           </div>
 
-          <textarea
-            className="w-full p-2 border rounded-md resize-none text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Tell Me Something About Rejection.."
-            rows="2"
-          ></textarea>
-
-          <div className="flex justify-between items-center mt-2">
-            <button className="flex items-center gap-2 border px-4 py-2 rounded-lg text-gray-700 shadow-sm hover:bg-gray-100">
-              💬 Chat Us
-            </button>
-            <button className="flex items-center gap-2 border px-4 py-2 rounded-lg text-gray-700 shadow-sm hover:bg-gray-100">
-              💰 Payment
-            </button>
+          {/* Phone Number */}
+          <div className="mt-1">
+            <span className="text-gray-600">7894561230</span>
           </div>
         </div>
-      ))}
+      </div>
+
+      {/* Question Text */}
+      <div className="mt-6 mb-16">
+        <h3 className="text-xl text-gray-700">Tell Me Something About Rejection..</h3>
+      </div>
+
+      {/* Buttons */}
+      <div className="absolute bottom-3 right-4 flex gap-2">
+        <button
+          className="w-24 px-3 py-2 bg-white border-2 border-gray-900 rounded-lg text-gray-900 font-medium hover:bg-gray-50 flex items-center justify-center gap-2"
+          onClick={() => handlenavigate("Chat", "/chatbox")}
+        >
+          <span className="text-xl">💬</span> Chat
+        </button>
+
+        <button className="w-24 px-3 py-2 bg-white border-2 border-gray-900 rounded-lg text-gray-900 font-medium hover:bg-gray-50 flex items-center justify-center gap-2">
+          <span className="text-xl">₹</span> Payment
+        </button>
+      </div>
     </div>
   );
 };

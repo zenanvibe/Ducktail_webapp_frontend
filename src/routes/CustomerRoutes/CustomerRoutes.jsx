@@ -7,6 +7,9 @@ import RequestCard from "../../pages/Customer/RequestCard";
 import CustomerProfile from "../../pages/Customer/CustomerProfile";
 import ProjectComplete from "../../pages/Customer/ProjectComplete";
 import ProjectReject from "../../pages/Customer/ProjectReject";
+import CustomerChatBox from "../../pages/Customer/CustomerChatBox";
+import CustomerPayment from "../../pages/Customer/CustomerPayment";
+import CustomerHelp from "../../pages/Customer/CustomerHelp";
 
 const CustomerRoutes = () => (
   <Routes>
@@ -17,6 +20,10 @@ const CustomerRoutes = () => (
     <Route path="/customer" element={<CustomerProfile />} />
     <Route path="/completedcard" element={<ProjectComplete />} />
     <Route path="/rejectcard" element={<ProjectReject />} />
+    <Route path="/chatbox" element ={<CustomerChatBox />} />
+    <Route path="/paymenthistory" element ={<CustomerPayment />} />
+    <Route path="/help" element ={<CustomerHelp />} />
+
   </Routes>
 );
 

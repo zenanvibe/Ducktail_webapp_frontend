@@ -1,7 +1,7 @@
 import React from "react";
-import Layout from "../layout/Layout";
-import ProjectBanner from "../layout/ProjectBanner";
-import SupportDesk from "../layout/Support/SuppportDeck";
+import Layout from "../../layout/builders/Layout";
+import ProjectBanner from "../../layout/builders/ProjectBanner";
+import SupportDesk from "../../layout/builders/Support/SuppportDeck";
 
 const Support = () => {
   return (

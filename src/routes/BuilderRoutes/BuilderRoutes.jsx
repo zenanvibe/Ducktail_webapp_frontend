@@ -1,24 +1,24 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "../../pages/Dashboard";
-import ProjectLive from "../../pages/ProjectLive";
-import ProjectInvite from "../../pages/ProjectInvite";
-import Services from "../../pages/Services";
-import Portfolio from "../../pages/Portfolio";
-import ProjectPending from "../../pages/ProjectPending";
-import ProjectHold from "../../pages/ProjectHold";
-import ProjectRejection from "../../pages/ProjectRecjection";
-import CompletionRequest from "../../pages/CompletionRequest";
-import ProjectCompleted from "../../pages/CompletedProject";
-import Notification from "../../pages/Notification";
+import Dashboard from "../../pages/Builders/Dashboard";
+import ProjectLive from "../../pages/Builders/ProjectLive";
+import ProjectInvite from "../../pages/Builders/ProjectInvite";
+import Services from "../../pages/Builders/Services";
+import Portfolio from "../../pages/Builders/Portfolio";
+import ProjectPending from "../../pages/Builders/ProjectPending";
+import ProjectHold from "../../pages/Builders/ProjectHold";
+import ProjectRejection from "../../pages/Builders/ProjectRecjection";
+import CompletionRequest from "../../pages/Builders/CompletionRequest";
+import ProjectCompleted from "../../pages/Builders/CompletedProject";
+import Notification from "../../pages/Builders/Notification";
 import ProjectEnquiry from "../../pages/Builders/ProjectEnquiry";
 import SubscriptionHistory from "../../pages/Builders/SubscriptionHistory";
 import Subscription from "../../pages/Builders/Subscription";
-import ProfileCard from "../../pages/ProfileCard";
-import Chatbox from "../../pages/Chatbox";
-import Payment from "../../pages/Payment";
-import Profile from "../../pages/Profile";
-import Support from "../../pages/Support";
+import ProfileCard from "../../pages/Builders/ProfileCard";
+import Chatbox from "../../pages/Builders/Chatbox";
+import Payment from "../../pages/Builders/Payment";
+import Profile from "../../pages/Builders/Profile";
+import Support from "../../pages/Builders/Support";
 
 const BuilderRoutes = () => (
   <Routes>

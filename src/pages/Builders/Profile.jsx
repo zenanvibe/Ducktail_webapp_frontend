@@ -1,6 +1,6 @@
 import React from "react";
-import Layout from "../layout/Layout";
-import ProfileBanner from "../layout/ProfileBanner";
+import Layout from "../../layout/builders/Layout";
+import ProfileBanner from "../../layout/builders/ProfileBanner";
 
 const Profile = () => {
   return (

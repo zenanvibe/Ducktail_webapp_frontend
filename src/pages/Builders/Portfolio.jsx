@@ -1,7 +1,7 @@
 import React from "react";
-import Layout from "../layout/Layout";
-import ProjectBanner from "../layout/ProjectBanner";
-import PortfolioTile from "../layout/ProjectPortfolio/PortfolioTile";
+import Layout from "../../layout/builders/Layout";
+import ProjectBanner from "../../layout/builders/ProjectBanner";
+import PortfolioTile from "../../layout/builders/ProjectPortfolio/PortfolioTile";
 
 const Portfolio = () => {
   return (

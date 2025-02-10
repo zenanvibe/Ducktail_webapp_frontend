@@ -1,6 +1,6 @@
 import React from "react";
-import Layout from "../../layout/Layout";
-import SubscriptionTile from "../../layout/Subscription/SubscriptionTile";
+import Layout from "../../layout/builders/Layout";
+import SubscriptionTile from "../../layout/builders/Subscription/SubscriptionTile";
 
 
 

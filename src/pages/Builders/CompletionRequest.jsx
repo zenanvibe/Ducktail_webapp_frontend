@@ -1,8 +1,7 @@
 import React from "react";
-import Layout from "../layout/Layout";
-import ProjectBanner from "../layout/ProjectBanner";
-import CompletionRequestTable from "../layout/ProjectCompletionRequest/CompletionReqTable";
-
+import Layout from "../../layout/builders/Layout";
+import ProjectBanner from "../../layout/builders/ProjectBanner";
+import CompletionRequestTable from "../../layout/builders/ProjectCompletionRequest/CompletionReqTable";
 
 const CompletionRequest = () => {
   return (
@@ -19,6 +18,5 @@ const CompletionRequest = () => {
     </div>
   );
 };
-
 
 export default CompletionRequest;

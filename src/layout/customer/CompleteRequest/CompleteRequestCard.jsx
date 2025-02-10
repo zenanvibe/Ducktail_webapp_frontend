@@ -80,10 +80,10 @@ const CompleteRequestCard = () => {
                   {["I", "II", "III", "IV"][index]}
                 </span>
                 <span className="w-1/2">{doc}</span>
-                <a href="#" className="text-blue-500">
+                <a href=" " className="text-blue-500">
                   View
                 </a>
-                <a href="#" className="text-blue-500">
+                <a href=" " className="text-blue-500">
                   Download
                 </a>
               </div>

@@ -10,7 +10,7 @@ import PremiumConstruction from "../../views/PremiumConstruction";
 import Loginpage from "../../pages/Loginpage";
 import Signuppage from "../../pages/Signuppage";
 
-import DocumentUploadReq from "../../pages/DocumentUploadReq";
+import DocumentUploadReq from "../../pages/Builders/DocumentUploadReq";
 
 const LandingRoutes = () => (
   <Routes>

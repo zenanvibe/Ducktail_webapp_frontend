@@ -1,7 +1,7 @@
 import React from "react";
 
 
-import ProjectBanner from "../../layout/ProjectBanner";
+import ProjectBanner from "../../layout/builders/ProjectBanner";
 import Layout from "../../layout/customer/Layout";
 import ProjectHoldCard from "../../layout/customer/HoldProject/ProjectHoldCard";
 

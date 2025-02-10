@@ -1,9 +1,7 @@
 import React from "react";
-import Layout from "../layout/Layout";
-import ProjectBanner from "../layout/ProjectBanner";
-import NotificationTile from "../layout/NotificationTile";
-
-
+import Layout from "../../layout/builders/Layout";
+import ProjectBanner from "../../layout/builders/ProjectBanner";
+import NotificationTile from "../../layout/builders/NotificationTile";
 
 const Notification = () => {
   return (
@@ -20,6 +18,5 @@ const Notification = () => {
     </div>
   );
 };
-
 
 export default Notification;

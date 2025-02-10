@@ -1,22 +1,24 @@
 import React from "react";
 import Layout from "../../layout/builders/Layout";
+import ProjectInviteForm from "../../layout/builders/ProjectInvite/ProjectInviteForm";
 import ProjectBanner from "../../layout/builders/ProjectBanner";
-import ProjectEnquiryTile from "../../layout/builders/ProjectEnquiry/ProjectEnquiryTile";
 
-const ProjectEnquiry = () => {
+const ProjectInvite = () => {
   return (
     <div style={{ backgroundColor: "#E0E0E0" }}>
       <Layout>
         <div>
           <ProjectBanner
-            title="Project Enquiry"
+            title="Project Invite"
             imageUrl="https://via.placeholder.com/1200x300"
           />
         </div>
-        <ProjectEnquiryTile />
+        <div>
+          <ProjectInviteForm />
+        </div>
       </Layout>
     </div>
   );
 };
 
-export default ProjectEnquiry;
+export default ProjectInvite;

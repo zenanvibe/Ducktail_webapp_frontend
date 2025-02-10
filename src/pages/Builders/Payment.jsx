@@ -1,8 +1,8 @@
 import React from "react";
-import Layout from "../layout/Layout";
+import Layout from "../../layout/builders/Layout";
 
-import ChatBanner from "../layout/ChatBanner";
-import PaymentTile from "../layout/PaymentTile";
+import ChatBanner from "../../layout/builders/Chatbox/ChatBanner";
+import PaymentTile from "../../layout/builders/PaymentTile";
 
 const Payment = () => {
   return (

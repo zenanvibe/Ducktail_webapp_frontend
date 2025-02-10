@@ -1,8 +1,7 @@
 import React from "react";
-import Layout from "../layout/Layout";
-import ProjectBanner from "../layout/ProjectBanner";
-import CompletedTable from "../layout/ProjectCompleted/CompletedTable";
-
+import Layout from "../../layout/builders/Layout";
+import ProjectBanner from "../../layout/builders/ProjectBanner";
+import CompletedTable from "../../layout/builders/ProjectCompleted/CompletedTable";
 
 const ProjectCompleted = () => {
   return (
@@ -19,6 +18,5 @@ const ProjectCompleted = () => {
     </div>
   );
 };
-
 
 export default ProjectCompleted;

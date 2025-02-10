@@ -1,7 +1,7 @@
 import React from "react";
-import Layout from "../layout/Layout";
-import ProjectBanner from "../layout/ProjectBanner";
-import PendingTable from "../layout/ProjectPending/PendingTable";
+import Layout from "../../layout/builders/Layout";
+import ProjectBanner from "../../layout/builders/ProjectBanner";
+import PendingTable from "../../layout/builders/ProjectPending/PendingTable";
 
 const ProjectPending = () => {
   return (
@@ -18,6 +18,5 @@ const ProjectPending = () => {
     </div>
   );
 };
-
 
 export default ProjectPending;

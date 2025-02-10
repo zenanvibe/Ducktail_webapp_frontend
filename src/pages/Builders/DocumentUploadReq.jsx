@@ -1,8 +1,7 @@
 import React from "react";
-import Layout from "../layout/Layout";
-import ProjectBanner from "../layout/ProjectBanner";
-import DocumentUpload from "../layout/Documentupload.";
-
+import Layout from "../../layout/builders/Layout";
+import ProjectBanner from "../../layout/builders/ProjectBanner";
+import DocumentUpload from "../../layout/builders/Documentupload.";
 
 const DcoumentUploadReq = () => {
   return (
@@ -19,6 +18,5 @@ const DcoumentUploadReq = () => {
     </div>
   );
 };
-
 
 export default DcoumentUploadReq;

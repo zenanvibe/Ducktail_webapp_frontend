@@ -1,7 +1,7 @@
 import React from "react";
-import Layout from "../layout/Layout";
-import LiveTable from "../layout/ProjectLive/LiveTable";
-import ProjectBanner from "../layout/ProjectBanner";
+import Layout from "../../layout/builders/Layout";
+import LiveTable from "../../layout/builders/ProjectLive/LiveTable";
+import ProjectBanner from "../../layout/builders/ProjectBanner";
 
 const ProjectLive = () => {
   return (
@@ -11,7 +11,7 @@ const ProjectLive = () => {
           <ProjectBanner
             title="Live Projects"
             imageUrl="https://via.placeholder.com/1200x300"
-           />
+          />
         </div>
         <LiveTable />
         <LiveTable />

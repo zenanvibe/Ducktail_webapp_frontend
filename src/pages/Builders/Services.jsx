@@ -1,8 +1,8 @@
 import React from "react";
-import Layout from "../layout/Layout";
+import Layout from "../../layout/builders/Layout";
 
-import ServicesTile from "../layout/ProjectServices/ServicesTile";
-import ProjectBanner from "../layout/ProjectBanner";
+import ServicesTile from "../../layout/builders/ProjectServices/ServicesTile";
+import ProjectBanner from "../../layout/builders/ProjectBanner";
 
 const Services = () => {
   return (

@@ -1,10 +1,9 @@
 import React from "react";
-import Layout from "../layout/Layout";
-import ProjectBanner from "../layout/ProjectBanner";
-import ProfileCard from "../layout/builders/ProfileCard/ProfileCard";
+import Layout from "../../layout/builders/Layout";
+import ProjectBanner from "../../layout/builders/ProjectBanner";
+import HoldTable from "../../layout/builders/ProjectHold/HoldTable";
 
-
-const ProjectCard = () => {
+const ProjectHold = () => {
   return (
     <div style={{ backgroundColor: "#E0E0E0" }}>
       <Layout>
@@ -14,10 +13,10 @@ const ProjectCard = () => {
             imageUrl="https://via.placeholder.com/1200x300"
           />
         </div>
-        <ProfileCard />
+        <HoldTable />
       </Layout>
     </div>
   );
 };
 
-export default ProjectCard;
+export default ProjectHold;

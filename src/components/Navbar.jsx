@@ -26,7 +26,7 @@ const Navbar = ({ isOpen, setIsOpen }) => {
         <button onClick={() => handlenv("/builder/notification")} className="w-8 h-8 bg-red-400 rounded-full flex justify-center items-center">
           <Bell color="#ffffff" />
         </button>
-        <button onClick={() => handlenv("/profile")} className="w-8 h-8 bg-gray-400 rounded-full flex justify-center items-center">
+        <button onClick={() => handlenv("/builder/profile")} className="w-8 h-8 bg-gray-400 rounded-full flex justify-center items-center">
           <User color="#ffffff" />
         </button>
 

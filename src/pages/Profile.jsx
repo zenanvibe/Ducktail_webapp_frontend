@@ -16,9 +16,6 @@ const Profile = () => {
             progress={75}
           />
         </div>
-       <div className="mt-5">
-       
-       </div>
       </Layout>
     </div>
   );

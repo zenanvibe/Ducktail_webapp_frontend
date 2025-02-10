@@ -149,7 +149,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               className="h-6"
             />
           </span>
-          <a href=" " onClick={() => handleNavigation("/customer")} className="block px-16 py-4 hover:bg-[#616161]">
+          <a href=" " onClick={() => handleNavigation("/profile")} className="block px-16 py-4 hover:bg-[#616161]">
             Profile
           </a>
         </div>

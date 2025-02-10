@@ -37,7 +37,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       {/* Navigation links */}
       <nav className={`mt-4 ${isOpen ? "block" : "hidden"} lg:block `}>
         <div
-          className={`relative ${isActive("/dashboard") ? "bg-[#616161]" : ""}`}
+          className={`relative ${isActive("/builder/dashboard") ? "bg-[#616161]" : ""}`}
         >
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <LayoutDashboard color="#ffffff" />
@@ -211,7 +211,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </a>
         </div>
         <div className={`relative ${
-            isActive("/profile") ? "bg-[#616161]" : ""
+            isActive("/builder/profile") ? "bg-[#616161]" : ""
           }`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img
@@ -220,7 +220,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               className="h-6"
             />
           </span>
-          <a href=" " onClick={() => handleNavigation("/profile")} className="block px-16 py-4 hover:bg-[#616161]">
+          <a href=" " onClick={() => handleNavigation("/builder/profile")} className="block px-16 py-4 hover:bg-[#616161]">
             Profile
           </a>
         </div>

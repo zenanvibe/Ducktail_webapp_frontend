@@ -32,14 +32,14 @@ const ChatBanner = ({ coverImageUrl,name }) => {
         <li
           className={`cursor-pointer px-4 py-2 h-full ${activeTab === "Chat" ? "bg-[#E0E0E0]" : "hover:bg-[#E0E0E0] active:bg-[#E0E0E0]"}`}
           style={{ borderRadius: "10px 10px 0 0" }}
-          onClick={() => handlenavigate("Chat", "/chat")}
+          onClick={() => handlenavigate("Chat", "/builder/chat")}
         >
           Chat
         </li>
         <li
           className={`cursor-pointer px-4 py-2 h-full ${activeTab === "Payment" ? "bg-[#E0E0E0]" : "hover:bg-[#E0E0E0] active:bg-[#E0E0E0]"}`}
           style={{ borderRadius: "10px 10px 0 0" }}
-          onClick={() => handlenavigate("Payment", "/payment")}
+          onClick={() => handlenavigate("Payment", "/builder/payment")}
         >
           Payment
         </li>

@@ -14,7 +14,7 @@ const CustomerRoutes = () => (
     <Route path="/livecard" element={<ProjectLiveCard />} />
     <Route path="/holdcard" element={<HoldCard />} />
     <Route path="/requestcard" element={<RequestCard />} />
-    <Route path="/customer" element={<CustomerProfile />} />
+    <Route path="/profile" element={<CustomerProfile />} />
     <Route path="/completedcard" element={<ProjectComplete />} />
     <Route path="/rejectcard" element={<ProjectReject />} />
   </Routes>

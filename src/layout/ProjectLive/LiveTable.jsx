@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 const LiveTable = () => {
+  const navigate = useNavigate();
   const projects = [
     {
       name: "Jane Cooper",
@@ -47,6 +49,10 @@ const LiveTable = () => {
     },
   };
 
+  const handlenav = (path) => {
+    navigate(path);
+  }
+
   return (
     <div className="bg-white shadow rounded-lg p-6">
       {/* Header Section */}
@@ -76,6 +82,7 @@ const LiveTable = () => {
             <tr
               key={index}
               className="text-sm text-gray-700 border-b hover:bg-gray-50"
+              onClick={()=> handlenav("/builder/profilecard")}
             >
               <td className="py-3 px-4">{project.name}</td>
               <td className="py-3 px-4">{project.id}</td>
@@ -96,10 +103,10 @@ const LiveTable = () => {
                 </span>
               </td>
               <td className="py-3 px-4 flex space-x-2">
-                <button className="text-blue-500 hover:text-blue-700">
+                <button onClick={() => handlenav("/builder/chat")} className="text-blue-500 hover:text-blue-700">
                   💬
                 </button>
-                <button className="text-blue-500 hover:text-blue-700">
+                <button onClick={() => handlenav("/builder/payment")} className="text-blue-500 hover:text-blue-700">
                   📁
                 </button>
               </td>

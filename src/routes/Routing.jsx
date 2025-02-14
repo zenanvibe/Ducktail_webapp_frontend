@@ -8,9 +8,9 @@ import CustomerRoutes from "./CustomerRoutes/CustomerRoutes";
 import LandingRoutes from "./LandingRoutes/LandingRoutes";
 
 const Routing = () => {
-  const { authUser } = useAuthStore();
+  const { isCheckingAuth, useAuth } = useAuthStore();
 
-  if (authUser) {
+  if (isCheckingAuth && useAuth) {
     return (
       <div className="flex items-center justify-center h-screen">
         <LoaderCircle className="size-10 animate-spin" />

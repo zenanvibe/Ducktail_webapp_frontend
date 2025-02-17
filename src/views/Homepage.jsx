@@ -17,7 +17,31 @@ const Homepage = () => {
   const [fontSize, setFontSize] = useState(
     window.innerWidth < 768 ? "30px" : "55px"
   );
+  const [isOpen, setIsOpen] = useState(false);
 
+  const states = [
+    "Karnataka",
+    "Tamil Nadu",
+    "Kerala",
+    "Andhra Pradesh",
+    "Maharashtra"
+  ];
+
+  const districts = [
+    "Bangalore Urban",
+    "Mysore",
+    "Hassan",
+    "Mangalore",
+    "Udupi"
+  ];
+
+  const taluks = [
+    "Bangalore North",
+    "Bangalore South",
+    "Yelahanka",
+    "Electronic City",
+    "Whitefield"
+  ];
   const [selectedImage, setSelectedImage] = useState(null);
 
   const images = [
@@ -100,9 +124,12 @@ const Homepage = () => {
             builders near you with Ducktail
           </p>
           <div className="flex items-center justify-center space-x-5">
-            <button className="px-7 py-3 bg-blue-600 text-sm text-white font-bold rounded-full hover:bg-blue-700">
-              FIND BUILDERS
-            </button>
+          <button
+        className="px-7 py-3 bg-blue-600 text-sm text-white font-bold rounded-full hover:bg-blue-700"
+        onClick={() => setIsOpen(true)}
+      >
+        FIND BUILDERS
+      </button>
             <button className="w-16 h-16 bg-black text-white rounded-full flex items-center justify-center relative z-10 shadow-lg">
               <div className="absolute inset-0 rounded-full bg-black animate-borderExplode"></div>
               <svg
@@ -122,6 +149,79 @@ const Homepage = () => {
             </button>
           </div>
         </div>
+        {isOpen && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg max-w-lg w-full relative overflow-y-auto max-h-[90vh]">
+      {/* Close Button */}
+      <button
+        className="absolute top-3 right-3 text-black text-xl font-bold hover:text-gray-700 focus:outline-none"
+        onClick={() => setIsOpen(false)}
+        aria-label="Close modal"
+      >
+        ×
+      </button>
+
+      {/* Modal Content */}
+      <h2 className="text-lg sm:text-xl font-bold text-center mb-1">
+        Simplifying Your Building Journey
+      </h2>
+      <p className="text-center text-gray-600 mb-4 text-xs sm:text-sm">
+        Connecting Dreams with Builders!
+      </p>
+      <hr className="border-gray-200 mb-4" />
+
+      <h3 className="text-sm sm:text-lg font-semibold text-center mb-4">
+        Find The Best Builders
+      </h3>
+
+      {/* Input Fields with Labels Above */}
+      <div className="space-y-6">
+        {[
+          { label: "State", data: states },
+          { label: "District", data: districts },
+          { label: "Taluk", data: taluks },
+        ].map(({ label, data }) => (
+          <div key={label} className="flex flex-col items-center">
+            {/* Label Above Input */}
+          
+            <div className="relative w-3/4 sm:w-2/3">
+              <select className="w-full border border-gray-300 px-2 sm:px-3 py-2 sm:py-2.5 rounded-md appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm text-gray-900">
+                <option value="">{`Select ${label}`}</option>
+                {data.map((item) => (
+                  <option key={item} value={item}>{item}</option>
+                ))}
+              </select>
+              {/* Dropdown Arrow Inside Input */}
+              <div className="absolute top-1/2 right-3 transform -translate-y-1/2 pointer-events-none">
+                <svg
+                  className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-5 text-center">
+        <button className="px-4 sm:px-6 py-2 bg-blue-600 text-white text-xs sm:text-sm font-bold rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          FIND
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
+
+
       </div>
 
       {/* Next Section */}

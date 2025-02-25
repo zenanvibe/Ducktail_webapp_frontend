@@ -106,8 +106,9 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-4">
-      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-4xl">
+    <div className="min-h-screen flex items-center justify-center p-4"
+      style={{ background: "linear-gradient(310deg, #555555 4%, white 38%)" }}>
+      <div className="flex flex-col lg:flex-row w-full max-w-4xl p-2 py-5 border border-gray-300 bg-white rounded-lg shadow-2xl overflow-hidden"p>
         {/* Step Indicator */}
         <div className="flex justify-between items-center mb-6">
           {steps.map((step, index) => (

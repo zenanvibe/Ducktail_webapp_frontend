@@ -31,14 +31,7 @@ const CustomerDetails = () => {
         ))}
       </div>
       
-      <div className="mt-4">
-        <label className="block text-sm font-medium text-gray-600">About Company</label>
-        <textarea 
-          defaultValue="I'm a Product Designer based in Melbourne, Australia..." 
-          disabled={!isEditing} 
-          className={`w-full p-2 mt-1 rounded-md ${isEditing ? "border border-gray-300" : "border-none"}`} 
-        />
-      </div>
+     
       
       {isEditing && (
         <div className="flex justify-end mt-4">

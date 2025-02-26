@@ -46,7 +46,6 @@ const SocialMedia = () => {
 const fields = [
     { label: "Facebook URL", value: "Enter Facebook URL" },
     { label: "LinkedIn URL", value: "Enter  URL" },
-    { label: "WhatsApp Number", value: "85585150052" },
     { label: "YouTube URL", value: "Enter  URL" },
     { label: "Instagram URL", value: "Enter  URL" },
   ];

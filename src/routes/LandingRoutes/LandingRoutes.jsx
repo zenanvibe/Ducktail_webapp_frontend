@@ -11,6 +11,8 @@ import Loginpage from "../../pages/Loginpage";
 import Signuppage from "../../pages/Signuppage";
 import useAuthStore from "../../store/useAuthStore";
 import DocumentUploadReq from "../../pages/Builders/DocumentUploadReq";
+import BuildersInfo from "../../views/BuildersInfo";
+import BuildersList from "../../views/BuildersList";
 
 const LandingRoutes = () => {
   const {useAuth,checkAuth} = useAuthStore();
@@ -34,6 +36,9 @@ const LandingRoutes = () => {
   <Route path="/login" element={<Loginpage />} />
   <Route path="/signup" element={!useAuth ? <Signuppage /> : <Navigate to="/" />} />
   <Route path="/upload-doc/:id" element={<DocumentUploadReq />} />
+  <Route path="/buildersinfo" element={<BuildersInfo />} />
+  <Route path="/builderslist" element={<BuildersList />} />
+
 </Routes>
  )
 };

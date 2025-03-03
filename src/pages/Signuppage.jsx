@@ -124,7 +124,7 @@ const SignupPage = () => {
                   {index < currentStep ? "✓" : index + 1}
                 </div>
                 <span
-                  className={`mt-2 text-sm text-center ${
+                   className={`mt-2 text-sm text-center ${
                     index === currentStep ? "text-blue-500 font-medium" : "text-gray-500"
                   }`}
                 >

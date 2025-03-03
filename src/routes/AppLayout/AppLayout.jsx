@@ -4,7 +4,7 @@ import Navbarlanding from "../../components/Navbarlanding";
 import Footerlanding from "../../components/Footerlanding";
 
 const noNavbarFooterPaths = [
-  "/login", "/signup", "/profile",  "/upload-doc/:id",
+  "/login", "/builder/signup", "/profile",  "/upload-doc/:id",
   // Builder Paths
   "/builder/dashboard", "/builder/liveproject", "/builder/projectinvite",
   "/builder/projectservices", "/builder/portfolio", "/builder/pendingproject",

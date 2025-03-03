@@ -50,7 +50,7 @@ const ProjectTile = ({ number, title, icon, chartId, chartColor, lineWidth }) =>
       series: [
         {
           name: "Developer Edition",
-          data: [4, 6, 5, 6, 4, 1].reverse(), // Reversed data
+          data: [4, 6, 5, 6, 4, 10].reverse(), // Reversed data
           color: chartColor,
         },
       ],

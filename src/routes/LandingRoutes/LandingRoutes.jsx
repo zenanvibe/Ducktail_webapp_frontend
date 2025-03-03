@@ -9,6 +9,8 @@ import ArchiDesign from "../../views/ArchiDesign";
 import PremiumConstruction from "../../views/PremiumConstruction";
 import Loginpage from "../../pages/Loginpage";
 import DocumentUploadReq from "../../pages/Builders/DocumentUploadReq";
+import BuildersInfo from "../../views/BuildersInfo";
+import BuildersList from "../../views/BuildersList";
 
 const LandingRoutes = () => {
   
@@ -23,6 +25,9 @@ const LandingRoutes = () => {
   <Route path="/premiumconstruction" element={<PremiumConstruction />} />
   <Route path="/login" element={<Loginpage />} />
   <Route path="/upload-doc/:id" element={<DocumentUploadReq />} />
+  <Route path="/buildersinfo" element={<BuildersInfo />} />
+  <Route path="/builderslist" element={<BuildersList />} />
+
 </Routes>
  )
 };

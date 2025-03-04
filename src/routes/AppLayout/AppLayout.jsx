@@ -14,7 +14,7 @@ const noNavbarFooterPaths = [
   "/builder/profile","/builder/support","/builder/profilecard",
   // Customer Paths
   "/projectinvite", "/livecard", "/holdcard", "/requestcard",
-   "/completedcard", "/rejectcard" ,"/chatbox" ,"/paymenthistory" ,"/help"
+   "/completedcard", "/rejectcard" ,"/chatbox" ,"/paymenthistory" ,"/help","/customersignup"
 ];
 
 const AppLayout = ({ children }) => {

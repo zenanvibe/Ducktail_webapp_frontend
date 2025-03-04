@@ -63,6 +63,7 @@ const BuildersList = () => {
                 </svg>
               </div>
             </div>
+
             
             {/* District Dropdown */}
             <div className="relative w-full md:w-64">
@@ -121,14 +122,7 @@ const BuildersList = () => {
           {builders.map((builder, index) => (
             <div key={index} className="bg-white rounded-lg overflow-hidden shadow border border-gray-100 p-4 relative">
               {/* Verified Badge */}
-              <div className="absolute top-4 right-4 z-10">
-                <div className="bg-green-500 p-1 rounded-md">
-                  <svg className="h-3 w-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-              </div>
-              
+        
               {/* Card Layout - Horizontal with image left, content right */}
               <div className="flex flex-col md:flex-row h-full gap-4">
                 {/* Builder Image */}
@@ -175,7 +169,7 @@ const BuildersList = () => {
                   {/* Buttons */}
                   <div className="flex gap-3 mt-auto">
                     <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex-1 text-center text-sm">VIEW MORE</button>
-                    <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded flex-1 text-center text-sm">ENQUIRE US</button>
+                    <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded flex-1 text-center text-sm">GET DIRECTION</button>
                   </div>
                 </div>
               </div>

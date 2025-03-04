@@ -10,6 +10,7 @@ import ProjectReject from "../../pages/Customer/ProjectReject";
 import CustomerChatBox from "../../pages/Customer/CustomerChatBox";
 import CustomerPayment from "../../pages/Customer/CustomerPayment";
 import CustomerHelp from "../../pages/Customer/CustomerHelp";
+import CustomerSignup from "../../pages/Customer/CustomerSignup";
 
 const CustomerRoutes = () => (
   <Routes>
@@ -23,6 +24,8 @@ const CustomerRoutes = () => (
     <Route path="/chatbox" element ={<CustomerChatBox />} />
     <Route path="/paymenthistory" element ={<CustomerPayment />} />
     <Route path="/help" element ={<CustomerHelp />} />
+    <Route path="/customersignup" element ={<CustomerSignup />} />
+
 
   </Routes>
 );

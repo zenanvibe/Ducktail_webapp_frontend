@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import useAuthStore from "../store/useAuthStore";
+import { useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
-  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [profileImage, setprofileImage] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({});
   const { signupBuilder, isSigningUp } = useAuthStore();
+  const navigate = useNavigate();
 
   const steps = [
     {
@@ -99,11 +101,11 @@ const SignupPage = () => {
     if (file) setFormData({ ...formData, [id]: file });
   };
 
-  const handleProfilePhotoChange = (e) => {
+  const handleprofileImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setProfilePhoto(URL.createObjectURL(file));
-      setFormData({ ...formData, profilePhoto: file });
+      setprofileImage(URL.createObjectURL(file));
+      setFormData({ ...formData, profileImage: file });
     }
   };
 
@@ -113,7 +115,8 @@ const SignupPage = () => {
       if (
         field.required &&
         (!formData[field.id] || formData[field.id] === "")
-      ) {
+      ) 
+      {
         toast.error(`Please fill out the ${field.label} field.`);
         return false;
       }
@@ -147,10 +150,9 @@ const SignupPage = () => {
     if (!validateStep()) return;
 
     try {
-      await signupBuilder(formData);
-      toast.success("Account created successfully!");
+      await signupBuilder(formData,navigate)
       setFormData({});
-      setProfilePhoto(null);
+      setprofileImage(null);
       setCurrentStep(0);
     } catch (error) {
       console.error("Signup failed:", error);
@@ -243,11 +245,11 @@ const SignupPage = () => {
             ))}
             {/* Profile Photo Upload */}
             <div className="flex justify-center mb-6">
-              <label htmlFor="profilePhoto" className="relative cursor-pointer">
+              <label htmlFor="profileImage" className="relative cursor-pointer">
                 <div className="w-24 h-24 rounded-full border-2 border-gray-300 flex items-center justify-center overflow-hidden">
-                  {profilePhoto ? (
+                  {profileImage ? (
                     <img
-                      src={profilePhoto}
+                      src={profileImage}
                       alt="Profile"
                       className="w-full h-full object-cover"
                     />
@@ -256,10 +258,10 @@ const SignupPage = () => {
                   )}
                 </div>
                 <input
-                  id="profilePhoto"
+                  id="profileImage"
                   type="file"
                   className="hidden"
-                  onChange={handleProfilePhotoChange}
+                  onChange={handleprofileImageChange}
                 />
               </label>
             </div>

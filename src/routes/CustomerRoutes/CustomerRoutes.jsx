@@ -12,8 +12,12 @@ import CustomerPayment from "../../pages/Customer/CustomerPayment";
 import CustomerHelp from "../../pages/Customer/CustomerHelp";
 import CustomerSignup from "../../pages/Customer/CustomerSignup";
 
-const CustomerRoutes = () => (
-  <Routes>
+
+
+const CustomerRoutes = () => {
+  
+  return(
+    <Routes>
     <Route path="/projectinvite" element={<ProjectInvite />} />
     <Route path="/livecard" element={<ProjectLiveCard />} />
     <Route path="/holdcard" element={<HoldCard />} />
@@ -24,10 +28,11 @@ const CustomerRoutes = () => (
     <Route path="/chatbox" element ={<CustomerChatBox />} />
     <Route path="/paymenthistory" element ={<CustomerPayment />} />
     <Route path="/help" element ={<CustomerHelp />} />
-    <Route path="/customersignup" element ={<CustomerSignup />} />
+    <Route path="/customersignup"  element={<CustomerSignup />} />
 
 
   </Routes>
-);
+  )
+}
 
 export default CustomerRoutes;

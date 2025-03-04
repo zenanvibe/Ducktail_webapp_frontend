@@ -71,11 +71,11 @@ const CustomerSignup = () => {
               </div>
             </div>
             
-            <div className="flex justify-end">
+            {/* <div className="flex justify-end">
               <a href=" " className="text-sm text-gray-500 hover:underline">
                 Forget password?
               </a>
-            </div>
+            </div> */}
             
             <div className="flex justify-center">
               <button

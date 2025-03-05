@@ -9,7 +9,7 @@ const useAuthStore = create(
       user: null,
       userType: null, // 'builder' or 'customer'
       token: null,
-      isCheckingAuth: true,
+      isCheckingAuth: false,
 
       // ✅ Check Authentication (Runs on Page Load)
       checkAuth: async () => {
@@ -88,6 +88,36 @@ const useAuthStore = create(
         }
       },
 
+      //✅ Builder Login
+      loginBuilder: async (credential,navigate) => {
+        try {
+          const response = await axiosInstance.post("/builders/auth/login", credential);
+          
+          localStorage.setItem("builderToken", response.data.token);
+          set({ user: response.data.user, userType: "builder", token: response.data.token });
+          navigate("/builder/dashboard")
+          toast.success("Builder Login Successfully");
+        } catch (error) {
+          toast.error(error.response?.data?.message || "Builder Login Failed");
+        }
+      },
+
+
+      //✅ Customer Login
+      customerLogin: async (credential) => {
+        
+         try {
+           const response = await axiosInstance.post("api/v2/customer/login", credential);
+
+           localStorage.setItem("customerToken", response.data.token);
+           set({ user: response.data.user, userType: "customer", token: response.data.token });
+
+           toast.success("Customer Login Successfully")
+         } catch (error) {
+           toast.error(error.response?.data?.message || "Customer Login Failed");
+         }
+      },
+      
       // ✅ Logout (For Both Users)
       logout: () => {
         localStorage.removeItem("builderToken");

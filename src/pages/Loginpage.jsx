@@ -1,7 +1,38 @@
 import React from "react";
+import { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
+import toast from "react-hot-toast"
+import useAuthStore from "../store/useAuthStore"
+import { useNavigate } from "react-router-dom";
 
 const Loginpage = () => {
+  const [credential, setCredential] = useState({
+    email: "",
+    password:""
+  });
+  const { loginBuilder } = useAuthStore();
+  const navigate = useNavigate();
+
+  
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCredential({...credential,[name]:value});
+  }
+
+  const handleLogin=async(e)=>{
+    e.preventDefault();
+    try {
+      await loginBuilder(credential,navigate);
+      setCredential("")
+    } catch (error) {
+       console.error("Login failed:", error);
+       toast.error(error.response?.data?.message || "Login failed");
+    }
+}
+
+
+
+
   return (
     <div
       className="min-h-screen flex items-center justify-center p-4"
@@ -55,12 +86,15 @@ const Loginpage = () => {
                 </span>
                 <input
                   type="text"
+                  name="email"
+                  value={credential.email}
                   className="w-full px-10 py-2 mt-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300"
                   style={{
                     backgroundColor: "#dddddd",
                     borderRadius: "24px",
                   }}
                   placeholder="Email ID / Ducktail ID"
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -72,12 +106,15 @@ const Loginpage = () => {
                 </span>
                 <input
                   type="password"
+                  name="password"
+                  value={credential.password}
                   className="w-full px-10 py-2 mt-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300"
                   style={{
                     backgroundColor: "#dddddd",
                     borderRadius: "24px",
                   }}
                   placeholder="Password"
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -88,6 +125,7 @@ const Loginpage = () => {
             </div>
             <div className="flex justify-center">
               <button
+                onClick={handleLogin}
                 className="w-28 px-4 py-1 mt-4 text-black border-2 transition-all duration-300"
                 style={{
                   background: "linear-gradient(310deg, #dddddd 10%, white)",
@@ -108,7 +146,10 @@ const Loginpage = () => {
 
             <p className="mt-4 text-center text-sm text-gray-800">
               Not registered yet?{" "}
-              <a href="/builder/signup" className="text-blue-600 hover:underline">
+              <a
+                href="/builder/signup"
+                className="text-blue-600 hover:underline"
+              >
                 Sign up
               </a>
             </p>

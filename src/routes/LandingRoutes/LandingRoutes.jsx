@@ -7,10 +7,10 @@ import ConstructionConsultation from "../../views/ConstructionConsultation";
 import CustomerSupport from "../../views/CustomerSupport";
 import ArchiDesign from "../../views/ArchiDesign";
 import PremiumConstruction from "../../views/PremiumConstruction";
-import Loginpage from "../../pages/Loginpage";
 import DocumentUploadReq from "../../pages/Builders/DocumentUploadReq";
 import BuildersInfo from "../../views/BuildersInfo";
 import BuildersList from "../../views/BuildersList";
+import ProtectedLoginRoute from "../ProtectedLoginRoute";
 
 const LandingRoutes = () => {
   
@@ -23,7 +23,7 @@ const LandingRoutes = () => {
   <Route path="/support" element={<CustomerSupport />} />
   <Route path="/archidesign" element={<ArchiDesign />} />
   <Route path="/premiumconstruction" element={<PremiumConstruction />} />
-  <Route path="/login" element={<Loginpage />} />
+  <Route path="/login" element={<ProtectedLoginRoute />} />
   <Route path="/upload-doc/:id" element={<DocumentUploadReq />} />
   <Route path="/buildersinfo" element={<BuildersInfo />} />
   <Route path="/builderslist" element={<BuildersList />} />

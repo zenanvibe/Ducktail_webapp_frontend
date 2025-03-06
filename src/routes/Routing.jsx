@@ -10,7 +10,7 @@ import LandingRoutes from "./LandingRoutes/LandingRoutes";
 const Routing = () => {
   const { isCheckingAuth } = useAuthStore();
 
-  if (isCheckingAuth) {
+  if (!isCheckingAuth) {
     return (
       <div className="flex items-center justify-center h-screen">
         <LoaderCircle className="size-10 animate-spin" />

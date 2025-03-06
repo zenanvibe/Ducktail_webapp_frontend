@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { LockClosedIcon, UserIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
+import useAuthStore from "../../store/useAuthStore";
 
 const CustomerSignup = () => {
+  const navigate = useNavigate();
+  const customerSignup = useAuthStore((state) => state.customerSignup);
+  
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await customerSignup(formData.name, formData.email, formData.password);
+    navigate("/login?type=customer"); // Navigate after successful signup
+  };
+
   return (
     <div
       className="min-h-screen flex items-center justify-center p-4"
       style={{ background: "linear-gradient(310deg, #555555 4%, white 38%)" }}
     >
-      {/* Box Container */}
       <div className="flex flex-col w-full max-w-md p-6 border border-gray-300 bg-white rounded-lg shadow-2xl overflow-hidden items-center">
-        {/* Right Section */}
         <div className="flex flex-col justify-center w-full p-8 lg:p-10 text-center">
           <h2 className="text-2xl font-semibold text-gray-800">SIGNUP</h2>
-          <form className="mt-6 w-full">
+          <form className="mt-6 w-full" onSubmit={handleSubmit}>
             {/* Name Input */}
             <div className="mb-4">
               <div className="relative">
@@ -21,13 +40,17 @@ const CustomerSignup = () => {
                 </span>
                 <input
                   type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="w-full px-10 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300"
                   style={{ backgroundColor: "#dddddd", borderRadius: "24px" }}
                   placeholder="Full Name"
+                  required
                 />
               </div>
             </div>
-            
+
             {/* Email Input */}
             <div className="mb-4">
               <div className="relative">
@@ -48,14 +71,18 @@ const CustomerSignup = () => {
                   </svg>
                 </span>
                 <input
-                  type="text"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full px-10 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300"
                   style={{ backgroundColor: "#dddddd", borderRadius: "24px" }}
                   placeholder="Email ID / Ducktail ID"
+                  required
                 />
               </div>
             </div>
-            
+
             {/* Password Input */}
             <div className="mb-4">
               <div className="relative">
@@ -64,21 +91,20 @@ const CustomerSignup = () => {
                 </span>
                 <input
                   type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   className="w-full px-10 py-2 border rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300"
                   style={{ backgroundColor: "#dddddd", borderRadius: "24px" }}
                   placeholder="Password"
+                  required
                 />
               </div>
             </div>
-            
-            {/* <div className="flex justify-end">
-              <a href=" " className="text-sm text-gray-500 hover:underline">
-                Forget password?
-              </a>
-            </div> */}
-            
+
             <div className="flex justify-center">
               <button
+                type="submit"
                 className="w-28 px-4 py-1 mt-4 text-black border-2 transition-all duration-300"
                 style={{
                   background: "linear-gradient(310deg, #dddddd 10%, white)",

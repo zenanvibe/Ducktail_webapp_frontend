@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 import "../css/Navbarlanding.css";
+import { useNavigate } from "react-router-dom";
 
 const Navbarlanding = () => {
   const [activeLink, setActiveLink] = useState("HOME");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
+    // setIsDropdownOpen((prev) => !prev);
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  const handleLoginRedirect = (userType) => {
+    navigate(`/login?type=${userType}`);
+    setIsDropdownOpen(false);
+  };
+
 
   const toggleMenu = () => {
     if (isMobileMenuOpen) {
@@ -70,26 +79,24 @@ const Navbarlanding = () => {
                   e.preventDefault();
                   toggleDropdown();
                 }}
-                className={`relative px-4 py-2 text-[14px] font-bold transition-all hover:rounded-full duration-300 hover:text-gray-500 hover:bg-gray-100 ${
-                  activeLink === "JOIN US" ? "text-gray-500" : "text-black"
-                }`}
+                className="relative px-4 py-2 text-[14px] font-bold transition-all hover:rounded-full duration-300 hover:text-gray-500 hover:bg-gray-100"
               >
                 JOIN US
               </a>
               {isDropdownOpen && (
                 <div className="absolute left-0 mt-2 bg-gray-100 rounded shadow-lg">
-                  <a
-                    href="/login"
-                    className="block px-4 py-2 text-black hover:bg-gray-200"
+                  <button
+                    onClick={() => handleLoginRedirect("builder")}
+                    className="block w-full text-left px-4 py-2 text-black hover:bg-gray-200"
                   >
                     Builder
-                  </a>
-                  <a
-                    href="/login"
-                    className="block px-4 py-2 text-black hover:bg-gray-200"
+                  </button>
+                  <button
+                    onClick={() => handleLoginRedirect("customer")}
+                    className="block w-full text-left px-4 py-2 text-black hover:bg-gray-200"
                   >
                     Customer
-                  </a>
+                  </button>
                 </div>
               )}
             </div>

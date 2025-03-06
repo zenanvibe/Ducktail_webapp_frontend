@@ -28,7 +28,7 @@ const CustomerRoutes = () => {
     <Route path="/chatbox" element ={<CustomerChatBox />} />
     <Route path="/paymenthistory" element ={<CustomerPayment />} />
     <Route path="/help" element ={<CustomerHelp />} />
-    <Route path="/customersignup"  element={<CustomerSignup />} />
+    <Route path="/signup"  element={<CustomerSignup />} />
 
 
   </Routes>

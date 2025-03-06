@@ -10,37 +10,10 @@ const useAuthStore = create(
       userType: null, // 'builder' or 'customer'
       token: null,
       isCheckingAuth: false,
-
-      // ✅ Check Authentication (Runs on Page Load)
-      checkAuth: async () => {
-        set({ isCheckingAuth: true });
-        try {
-          const builderToken = localStorage.getItem("builderToken");
-          const customerToken = localStorage.getItem("customerToken");
-
-          if (builderToken) {
-            const response = await axiosInstance.get("/api/builder/auth", {
-              headers: { Authorization: `Bearer ${builderToken}` },
-            });
-            set({ user: response.data.user, userType: "builder", token: builderToken });
-          } else if (customerToken) {
-            const response = await axiosInstance.get("/api/customer/auth", {
-              headers: { Authorization: `Bearer ${customerToken}` },
-            });
-            set({ user: response.data.user, userType: "customer", token: customerToken });
-          } else {
-            set({ user: null, userType: null, token: null });
-          }
-        } catch (error) {
-          console.error("Auth Check Failed:", error);
-          set({ user: null, userType: null, token: null });
-        } finally {
-          set({ isCheckingAuth: false });
-        }
-      },
+      
 
       // ✅ Builder Signup 
-      signupBuilder: async (builderData, navigate) => {
+      signupBuilder: async (builderData) => {
         set({ isSigningUp: true });
         try {
           const formData = new FormData();
@@ -60,7 +33,6 @@ const useAuthStore = create(
             localStorage.setItem("authToken", res.data.token);
           }
 
-          navigate("/builder/dashboard");
           toast.success("Account created successfully");
         } catch (error) {
           console.error("Signup Error:", error);
@@ -73,7 +45,7 @@ const useAuthStore = create(
       // ✅ Customer Signup (Updated to use axiosInstance)
       customerSignup: async (name, email, password) => {
         try {
-          const response = await axiosInstance.post("/api/v2/customer/signup", {
+          const response = await axiosInstance.post("/customer/signup", {
             name,
             email,
             password,
@@ -89,41 +61,48 @@ const useAuthStore = create(
       },
 
       //✅ Builder Login
-      loginBuilder: async (credential,navigate) => {
+      loginBuilder: async (credential) => {
         try {
           const response = await axiosInstance.post("/builders/auth/login", credential);
-          
           localStorage.setItem("builderToken", response.data.token);
-          set({ user: response.data.user, userType: "builder", token: response.data.token });
-          navigate("/builder/dashboard")
+          console.log(response.data.user.builderUniqueId);
+          set({ user: response.data.user.builderUniqueId, userType: "builder", token: response.data.token });
           toast.success("Builder Login Successfully");
         } catch (error) {
+          console.log(error);
           toast.error(error.response?.data?.message || "Builder Login Failed");
         }
       },
 
-
       //✅ Customer Login
       customerLogin: async (credential) => {
-        
-         try {
-           const response = await axiosInstance.post("api/v2/customer/login", credential);
-
-           localStorage.setItem("customerToken", response.data.token);
-           set({ user: response.data.user, userType: "customer", token: response.data.token });
-
-           toast.success("Customer Login Successfully")
-         } catch (error) {
-           toast.error(error.response?.data?.message || "Customer Login Failed");
-         }
+        try {
+          const response = await axiosInstance.post("/customer/login", credential);
+          localStorage.setItem("customerToken", response.data.token);
+          console.log(response.data.customerId);
+          set({ user: response.data.customerId, userType: "customer", token: response.data.token });
+          toast.success("Customer Login Successfully");
+        } catch (error) {
+          toast.error(error.response?.data?.message || "Customer Login Failed");
+        }
       },
       
-      // ✅ Logout (For Both Users)
-      logout: () => {
-        localStorage.removeItem("builderToken");
-        localStorage.removeItem("customerToken");
-        set({ user: null, userType: null, token: null });
-        toast.info("Logged out successfully");
+      // ✅ Logout (For Builder Only)
+      logoutBuilder: () => {
+        if (get().userType === "builder") {
+          localStorage.removeItem("builderToken");
+          set({ user: null, userType: null, token: null });
+          toast.info("Builder logged out successfully");
+        }
+      },
+      
+      // ✅ Logout (For Customer Only)
+      logoutCustomer: () => {
+        if (get().userType === "customer") {
+          localStorage.removeItem("customerToken");
+          set({ user: null, userType: null, token: null });
+          toast.info("Customer logged out successfully");
+        }
       },
     }),
     {

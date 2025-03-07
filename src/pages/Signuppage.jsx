@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,139 @@ import { useNavigate } from "react-router-dom";
 const SignupPage = () => {
   const [profileImage, setprofileImage] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    latitude: "",
+    longitude: ""
+  });
   const { signupBuilder, isSigningUp } = useAuthStore();
   const navigate = useNavigate();
+  const mapRef = useRef(null);
+  const googleMapRef = useRef(null);
+  const markerRef = useRef(null);
+
+  // Initialize Google Map
+  useEffect(() => {
+    const loadGoogleMapsScript = () => {
+      // Check if the script is already loaded
+      if (window.google && window.google.maps) {
+        initializeMap();
+        return;
+      }
+
+      // Create the script element
+      const googleMapScript = document.createElement('script');
+      googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`;
+      googleMapScript.async = true;
+      googleMapScript.defer = true;
+      googleMapScript.onload = initializeMap;
+      document.body.appendChild(googleMapScript);
+    };
+
+    const initializeMap = () => {
+      if (currentStep === 1 && mapRef.current && !googleMapRef.current) {
+        // Default center (India)
+        const defaultLocation = { lat: 20.5937, lng: 78.9629 };
+        
+        // Create map
+        const map = new window.google.maps.Map(mapRef.current, {
+          zoom: 5,
+          center: defaultLocation,
+          mapTypeControl: false,
+        });
+        
+        // Create marker
+        const marker = new window.google.maps.Marker({
+          position: defaultLocation,
+          map: map,
+          draggable: true,
+        });
+        
+        // Add click listener to map
+        map.addListener('click', (e) => {
+          const clickedLocation = e.latLng;
+          marker.setPosition(clickedLocation);
+          updateLocationFields(clickedLocation);
+        });
+        
+        // Add dragend listener to marker
+        marker.addListener('dragend', () => {
+          const markerPosition = marker.getPosition();
+          updateLocationFields(markerPosition);
+        });
+        
+        // Store references
+        googleMapRef.current = map;
+        markerRef.current = marker;
+        
+        // If we already have lat/lng in the form, position the marker there
+        if (formData.latitude && formData.longitude) {
+          const position = {
+            lat: parseFloat(formData.latitude),
+            lng: parseFloat(formData.longitude)
+          };
+          marker.setPosition(position);
+          map.setCenter(position);
+          map.setZoom(15);
+        }
+      }
+    };
+    
+    if (currentStep === 1) {
+      loadGoogleMapsScript();
+    }
+    
+    return () => {
+      // Clean up references when component unmounts or step changes
+      if (currentStep !== 1) {
+        googleMapRef.current = null;
+        markerRef.current = null;
+      }
+    };
+  }, [currentStep, formData.latitude, formData.longitude]);
+
+  // Function to update lat/lng fields
+  const updateLocationFields = (location) => {
+    setFormData({
+      ...formData,
+      latitude: location.lat().toFixed(6),
+      longitude: location.lng().toFixed(6)
+    });
+  };
+
+  // Function to get current location
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const currentLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          
+          setFormData({
+            ...formData,
+            latitude: currentLocation.lat.toFixed(6),
+            longitude: currentLocation.lng.toFixed(6)
+          });
+          
+          // Update map and marker if they exist
+          if (googleMapRef.current && markerRef.current) {
+            markerRef.current.setPosition(currentLocation);
+            googleMapRef.current.setCenter(currentLocation);
+            googleMapRef.current.setZoom(15);
+          }
+          
+          toast.success("Location detected successfully!");
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          toast.error("Unable to get your location. Please select on the map.");
+        }
+      );
+    } else {
+      toast.error("Geolocation is not supported by your browser. Please select on the map.");
+    }
+  };
 
   const steps = [
     {
@@ -65,6 +195,8 @@ const SignupPage = () => {
         { label: "District", type: "text", id: "district", required: true },
         { label: "Taluk", type: "text", id: "taluk" },
         { label: "Postcode", type: "number", id: "postcode", required: true },
+        { label: "Latitude", type: "text", id: "latitude", required: true },
+        { label: "Longitude", type: "text", id: "longitude", required: true },
       ],
     },
     {
@@ -161,9 +293,12 @@ const SignupPage = () => {
     }
   };
 
+  // Check if we're on the address step
+  const isAddressStep = currentStep === 1;
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-100">
-      <div className="w-full max-w-4xl  p-6 border bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-4xl p-6 border bg-white rounded-lg shadow-lg">
         {/* Stepper UI */}
         <div className="mb-6">
           <div className="flex justify-between items-center">
@@ -248,28 +383,62 @@ const SignupPage = () => {
                 )}
               </div>
             ))}
-            {/* Profile Photo Upload */}
-            <div className="flex justify-center mb-6">
-              <label htmlFor="profileImage" className="relative cursor-pointer">
-                <div className="w-24 h-24 rounded-full border-2 border-gray-300 flex items-center justify-center overflow-hidden">
-                  {profileImage ? (
-                    <img
-                      src={profileImage}
-                      alt="Profile"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-gray-500">Upload</span>
-                  )}
-                </div>
-                <input
-                  id="profileImage"
-                  type="file"
-                  className="hidden"
-                  onChange={handleprofileImageChange}
-                />
+          </div>
+
+          {/* Map for location selection */}
+          {isAddressStep && (
+            <div className="mt-6">
+              <label className="text-gray-700 text-sm font-medium mb-2 block">
+                Select Location on Map <span className="text-red-500">*</span>
               </label>
+              <div 
+                ref={mapRef} 
+                className="h-64 w-full border rounded-md overflow-hidden mb-4"
+              ></div>
+              <p className="text-sm text-gray-500 mb-4">
+                Click on the map to select your location or use the button below to get your current location.
+              </p>
+              <div className="flex justify-center mb-6">
+                <button
+                  type="button"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center"
+                  onClick={getCurrentLocation}
+                >
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className="h-5 w-5 mr-2" 
+                    viewBox="0 0 20 20" 
+                    fill="currentColor"
+                  >
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  </svg>
+                  Get Current Location
+                </button>
+              </div>
             </div>
+          )}
+
+          {/* Profile Photo Upload */}
+          <div className="flex justify-center mb-6 mt-6">
+            <label htmlFor="profileImage" className="relative cursor-pointer">
+              <div className="w-24 h-24 rounded-full border-2 border-gray-300 flex items-center justify-center overflow-hidden">
+                {profileImage ? (
+                  <img
+                    src={profileImage}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-gray-500">Upload</span>
+                )}
+              </div>
+              <input
+                id="profileImage"
+                type="file"
+                className="hidden"
+                onChange={handleprofileImageChange}
+              />
+            </label>
           </div>
 
           {/* Buttons */}

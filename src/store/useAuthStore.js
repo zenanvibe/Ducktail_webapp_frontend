@@ -130,7 +130,7 @@
           if (get().userType === "customer") {
             localStorage.removeItem("customerToken");
             set({ user: null, userType: null, token: null });
-            toast.info("Customer logged out successfully");
+            toast.success("Customer logged out successfully");
           }
         },
       }),

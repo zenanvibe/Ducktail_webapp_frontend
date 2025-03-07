@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import ApexCharts from 'apexcharts';
+import useDashboardStore from '../../../store/builders/useDashboardStore';
 
 const ProjectTile = ({ number, title, icon, chartId, chartColor, lineWidth }) => {
   useEffect(() => {
@@ -35,7 +36,7 @@ const ProjectTile = ({ number, title, icon, chartId, chartColor, lineWidth }) =>
         enabled: false,
       },
       stroke: {
-        width: lineWidth, // Use the lineWidth prop
+        width: lineWidth,
         colors: [chartColor],
       },
       grid: {
@@ -50,7 +51,7 @@ const ProjectTile = ({ number, title, icon, chartId, chartColor, lineWidth }) =>
       series: [
         {
           name: "Developer Edition",
-          data: [4, 6, 5, 6, 4, 10].reverse(), // Reversed data
+          data: [4, 6, 5, 6, 4, 10].reverse(),
           color: chartColor,
         },
       ],
@@ -74,7 +75,6 @@ const ProjectTile = ({ number, title, icon, chartId, chartColor, lineWidth }) =>
     const chart = new ApexCharts(document.getElementById(chartId), options);
     chart.render();
 
-    // Cleanup on unmount
     return () => {
       chart.destroy();
     };
@@ -99,11 +99,17 @@ const ProjectTile = ({ number, title, icon, chartId, chartColor, lineWidth }) =>
 };
 
 const ProjectTiles = () => {
+  const { projectTile, getProjectTile } = useDashboardStore();
+
+  useEffect(() => {
+    getProjectTile();
+  }, [getProjectTile]);
+
   const tilesData = [
-    { number: 5, title: 'Live projlkoects', icon: '/protile/engineer_10727828.png', chartId: 'chart-1', chartColor: '#2FB2AB', lineWidth: 1 },
-    { number: 3, title: 'Pending Projects', icon: '/protile/onboarding_16751381.png', chartId: 'chart-2', chartColor: '#27CFA7', lineWidth: 1 },
-    { number: 2, title: 'Completed projects', icon: '/protile/folder_11171774.png', chartId: 'chart-3', chartColor: '#6142FF', lineWidth: 1 },
-    { number: 18, title: 'Project enquiries', icon: '/protile/questionnaire_11275251.png', chartId: 'chart-4', chartColor: '#FA902F', lineWidth: 1 },
+    { number: projectTile?.live_projects || 0, title: 'Live projects', icon: '/protile/engineer_10727828.png', chartId: 'chart-1', chartColor: '#2FB2AB', lineWidth: 1 },
+    { number: projectTile?.pending_projects || 0, title: 'Pending Projects', icon: '/protile/onboarding_16751381.png', chartId: 'chart-2', chartColor: '#27CFA7', lineWidth: 1 },
+    { number: projectTile?.completed_projects || 0, title: 'Completed projects', icon: '/protile/folder_11171774.png', chartId: 'chart-3', chartColor: '#6142FF', lineWidth: 1 },
+    { number: projectTile?.project_enquiries || 0, title: 'Project enquiries', icon: '/protile/questionnaire_11275251.png', chartId: 'chart-4', chartColor: '#FA902F', lineWidth: 1 },
   ];
 
   return (
@@ -116,7 +122,7 @@ const ProjectTiles = () => {
           icon={tile.icon}
           chartId={tile.chartId}
           chartColor={tile.chartColor}
-          lineWidth={tile.lineWidth} // Pass the lineWidth prop
+          lineWidth={tile.lineWidth}
         />
       ))}
     </div>

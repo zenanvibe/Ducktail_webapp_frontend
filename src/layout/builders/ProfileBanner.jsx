@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProfileDetails from "./ProfileDetails/ProfileDetails";
 import AddressDetails from "./ProfileDetails/AddressDetails";
 import SocialMedia from "./ProfileDetails/SocialMedia";
 import Documentation from "./ProfileDetails/Documentation";
+import useProfileStore from "../../store/builders/useProfileStore"; 
 
-const ProfileBanner = ({
-  coverImageUrl,
-  profileImageUrl,
-  name,
-  role,
-  location,
-  progress,
-}) => {
-  const [activeTab, setActiveTab] = useState("profile"); // State for active section
+const ProfileBanner = ({ coverImageUrl, name, role, location, progress }) => {
+  const [activeTab, setActiveTab] = useState("profile");
+  const { profile, fetchProfile, isLoading } = useProfileStore();
+
+  useEffect(() => {
+    fetchProfile(); // ✅ Fetch profile data on mount
+  }, [fetchProfile]);
 
   return (
     <>
@@ -31,11 +30,17 @@ const ProfileBanner = ({
         <div className="relative px-9 py-3 bg-white">
           {/* Profile Image */}
           <div className="absolute -top-7 left-4">
-            <img
-              src={profileImageUrl}
-              alt="Profile"
-              className="w-32 h-32 rounded-full border-4 border-white shadow-lg"
-            />
+            {isLoading ? (
+              <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg flex items-center justify-center bg-gray-200">
+                <div className="w-10 h-10 border-4 border-blue-500 border-solid border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : (
+              <img
+                src={profile?.profile_image} // ✅ Use fetched profile image
+                alt="Profile"
+                className="w-32 h-32 rounded-full border-4 border-white shadow-lg"
+              />
+            )}
           </div>
 
           {/* User Info */}
@@ -107,7 +112,7 @@ const ProfileBanner = ({
       <div className="mt-6 p-6 bg-white shadow-md rounded-2xl">
         {activeTab === "profile" && <ProfileDetails />}
         {activeTab === "address" && <AddressDetails />}
-        {activeTab === "documentation" &&  <Documentation /> }
+        {activeTab === "documentation" && <Documentation />}
         {activeTab === "social" && <SocialMedia />}
       </div>
     </>

@@ -20,13 +20,14 @@ const Dashboard = () => {
         <div className="mt-5 py-5">
           <ProjectTiles />
         </div>
-       <div className="mt-3 py-5">
+        <div className="flex justify-between">
+          <div className="mt-3 py-5">
             <Barchart />
           </div>
           <div className="mt-3 py-5">
             <Piechart />
           </div>
-       
+        </div>
       </Layout>
     </div>
   );

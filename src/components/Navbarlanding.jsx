@@ -6,12 +6,16 @@ const Navbarlanding = () => {
   const [activeLink, setActiveLink] = useState("HOME");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [loginDropdownOpen, setloginDropdownOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const navigate = useNavigate();
 
   const toggleDropdown = () => {
-    // setIsDropdownOpen((prev) => !prev);
-    setIsDropdownOpen(!isDropdownOpen);
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  const loginToggle = () => {
+    setloginDropdownOpen((prev) => !prev);
   };
 
   const handleLoginRedirect = (userType) => {
@@ -19,14 +23,13 @@ const Navbarlanding = () => {
     setIsDropdownOpen(false);
   };
 
-
   const toggleMenu = () => {
     if (isMobileMenuOpen) {
       setIsClosing(true);
       setTimeout(() => {
         setIsMobileMenuOpen(false);
         setIsClosing(false);
-      }, 1000); // Duration of the reverse animation
+      }, 1000);
     } else {
       setIsMobileMenuOpen(true);
     }
@@ -34,23 +37,23 @@ const Navbarlanding = () => {
 
   const handleActiveLink = (navlink, event) => {
     event.preventDefault();
-    console.log(navlink);
     setActiveLink(navlink);
   };
+
   return (
-    <nav className="bg-white shadow-md ">
+    <nav className="bg-white shadow-md">
       <div className="max-w-6xl mx-auto px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo Section */}
+          {/* Logo */}
           <div className="flex-shrink-0">
             <img
               src="/assets/white background.jpg"
               alt="Ducktail"
-              className="h-8 sm:h-12" // Smaller logo size on mobile
+              className="h-8 sm:h-12"
             />
           </div>
 
-          {/* Navigation Links */}
+          {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-3 items-center">
             <a
               href=" "
@@ -61,10 +64,15 @@ const Navbarlanding = () => {
             >
               HOME
             </a>
-
             <a
               href="#services"
-              onClick={(e) => handleActiveLink("SERVICES", e)}
+              onClick={(e) => {
+                e.preventDefault();
+                document
+                  .getElementById("services")
+                  ?.scrollIntoView({ behavior: "smooth" });
+                setActiveLink("SERVICES");
+              }}
               className={`relative px-4 py-2 text-[14px] font-bold transition-all hover:rounded-full duration-300 hover:text-gray-500 hover:bg-gray-100 ${
                 activeLink === "SERVICES" ? "text-gray-500" : "text-black"
               }`}
@@ -72,17 +80,14 @@ const Navbarlanding = () => {
               SERVICES
             </a>
 
+            {/* JOIN US Dropdown */}
             <div className="relative">
-              <a
-                href=" "
-                onClick={(e) => {
-                  e.preventDefault();
-                  toggleDropdown();
-                }}
+              <button
+                onClick={toggleDropdown}
                 className="relative px-4 py-2 text-[14px] font-bold transition-all hover:rounded-full duration-300 hover:text-gray-500 hover:bg-gray-100"
               >
                 JOIN US
-              </a>
+              </button>
               {isDropdownOpen && (
                 <div className="absolute left-0 mt-2 bg-gray-100 rounded shadow-lg">
                   <button
@@ -110,7 +115,6 @@ const Navbarlanding = () => {
             >
               CAREER
             </a>
-
             <a
               href=" "
               onClick={(e) => handleActiveLink("SUPPORT", e)}
@@ -122,16 +126,30 @@ const Navbarlanding = () => {
             </a>
           </div>
 
-          {/* Login Button */}
+          {/* Login Button (Triggers Dropdown) */}
           <div className="hidden md:flex items-center">
-            {" "}
-            {/* Hide on small screens */}
-            <a
-              href=" "
+            <button
+              onClick={loginToggle}
               className="bg-blue-600 text-white font-bold px-6 py-2 rounded-full hover:bg-blue-700"
             >
               LOGIN
-            </a>
+            </button>
+            {loginDropdownOpen && (
+              <div className="absolute mt-36 bg-gray-100 rounded shadow-lg">
+                <button
+                  onClick={() => handleLoginRedirect("builder")}
+                  className="block w-full text-left px-4 py-2 text-black hover:bg-gray-200"
+                >
+                  Builder
+                </button>
+                <button
+                  onClick={() => handleLoginRedirect("customer")}
+                  className="block w-full text-left px-4 py-2 text-black hover:bg-gray-200"
+                >
+                  Customer
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -140,9 +158,7 @@ const Navbarlanding = () => {
               onClick={toggleMenu}
               className="text-gray-600 focus:outline-none"
             >
-              {isMobileMenuOpen ? (
-                ""
-              ) : (
+              {!isMobileMenuOpen && (
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -162,11 +178,12 @@ const Navbarlanding = () => {
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="menu-overlay">
           <div className={`black-shade ${isClosing ? "slide-out" : ""}`}></div>
           <div className={`menu-content ${isClosing ? "slide-out" : ""}`}>
-            {/* Close Button */}
             <button onClick={toggleMenu} className="absolute top-4 right-4">
               <svg
                 className="w-6 h-6"
@@ -183,18 +200,40 @@ const Navbarlanding = () => {
                 ></path>
               </svg>
             </button>
-            {/* Navigation Links */}
             <a href=" " className="block mt-8 text-black font-bold">
               HOME
             </a>
             <a href=" " className="block mt-4 text-black font-bold">
               SERVICES
             </a>
-            <a href=" " className="block mt-4 text-black font-bold">
-              JOIN US
-            </a>
+
+            {/* JOIN US in Mobile Menu */}
+            <div className="mt-4">
+              <button onClick={toggleDropdown} className="text-black font-bold">
+                JOIN US
+              </button>
+              {isDropdownOpen && (
+                <div className="bg-gray-100 rounded shadow-lg p-2">
+                  <button
+                    onClick={() => handleLoginRedirect("builder")}
+                    className="block w-full text-left px-4 py-2 text-black hover:bg-gray-200"
+                  >
+                    Builder
+                  </button>
+                  <button
+                    onClick={() => handleLoginRedirect("customer")}
+                    className="block w-full text-left px-4 py-2 text-black hover:bg-gray-200"
+                  >
+                    Customer
+                  </button>
+                </div>
+              )}
+            </div>
             <a href=" " className="block mt-4 text-black font-bold">
               CAREER
+            </a>
+            <a href=" " className="block mt-4 text-black font-bold">
+              SUPPORT
             </a>
           </div>
         </div>

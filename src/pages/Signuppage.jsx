@@ -115,8 +115,7 @@ const SignupPage = () => {
       if (
         field.required &&
         (!formData[field.id] || formData[field.id] === "")
-      ) 
-      {
+      ) {
         toast.error(`Please fill out the ${field.label} field.`);
         return false;
       }
@@ -126,20 +125,21 @@ const SignupPage = () => {
 
   const handleNextStep = () => {
     const stepFields = steps[currentStep].fields;
-    
+
     // Check for any empty required fields
-    const emptyFields = stepFields.some((field) => 
-      field.required && (!formData[field.id] || formData[field.id].toString().trim() === " ")
+    const emptyFields = stepFields.some(
+      (field) =>
+        field.required &&
+        (!formData[field.id] || formData[field.id].toString().trim() === " ")
     );
-  
+
     if (emptyFields) {
       toast.error("Please fill out all required fields.");
       return;
     }
-  
+
     setCurrentStep((prev) => prev + 1);
   };
-
 
   const handlePreviousStep = () => {
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
@@ -150,9 +150,10 @@ const SignupPage = () => {
     if (!validateStep()) return;
 
     try {
-      await signupBuilder(formData,navigate)
+      await signupBuilder(formData);
       setFormData({});
       setprofileImage(null);
+      navigate("/login?type=builder");
       setCurrentStep(0);
     } catch (error) {
       console.error("Signup failed:", error);
@@ -162,9 +163,9 @@ const SignupPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-100">
-      <div className="w-full max-w-4xl p-6 border bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-4xl  p-6 border bg-white rounded-lg shadow-lg">
         {/* Stepper UI */}
-        <div className="mb-8">
+        <div className="mb-6">
           <div className="flex justify-between items-center">
             {steps.map((step, index) => (
               <div key={index} className="flex flex-col items-center flex-1">
@@ -198,6 +199,10 @@ const SignupPage = () => {
             ></div>
           </div>
         </div>
+        {/* Registration Heading */}
+        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-8">
+          Builder Registration
+        </h2>
 
         {/* Form Fields */}
         <form onSubmit={handleSubmit} className="mt-6">

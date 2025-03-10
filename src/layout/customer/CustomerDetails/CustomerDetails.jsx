@@ -1,12 +1,47 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
-
+import useProfileStore from "../../../store/customer/useProfileStore";
+import toast from 'react-hot-toast'
 const CustomerDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
   
+   
+   const [profileData, setProfileData] = useState({});
+   const [loading, setLoading] = useState(true);
+  const { fetchProfile } = useProfileStore();
   const toggleEdit = () => {
     setIsEditing(!isEditing);
   };
+
+  const loadProfile = async () => {
+    try {
+      setLoading(true);
+      const profile = await fetchProfile(); // Assume fetchProfile returns data
+      setProfileData(profile);
+      console.log(profile);
+      
+    } catch (error) {
+      toast.error("Failed to load profile data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadProfile();
+  }, []);
+
+
+const fields = [
+  { label: "Ductail ID", value:  "758976DE" },
+  { label: "Customer Name", value: "Enter Company Name" },
+  { label: "Email", value: "Enter Email" },
+  { label: "Password", value: "Enter Email" },
+  { label: "Phone Number", value: "Enter Phone Number" },
+  { label: "What's app Number", value: "Enter WhatsApp Number" },
+  { label: "Age", value: "Enter Age" },
+  { label: "Gender", value: "Enter Gender" },
+];
 
   return (
     <div className=" ">
@@ -27,7 +62,7 @@ const CustomerDetails = () => {
               disabled={!isEditing} 
               className={`w-full p-2 mt-1 rounded-md ${isEditing ? "border border-gray-300" : "border-none"}`} 
             />
-          </div>
+          </div>  
         ))}
       </div>
       
@@ -43,15 +78,6 @@ const CustomerDetails = () => {
   );
 };
 
-const fields = [
-  { label: "Ductail ID", value: "7392836DEH" },
-  { label: "Customer Name", value: "Enter Company Name" },
-  { label: "Email", value: "Enter Email" },
-  { label: "Password", value: "Enter Email" },
-  { label: "Phone Number", value: "Enter Phone Number" },
-  { label: "What's app Number", value: "Enter WhatsApp Number" },
-  { label: "Age", value: "Enter Age" },
-  { label: "Gender", value: "Enter Gender" },
-];
+
 
 export default CustomerDetails;

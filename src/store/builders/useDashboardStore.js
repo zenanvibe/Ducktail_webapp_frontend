@@ -34,6 +34,8 @@ const useDashboardStore = create(
           );
 
           set({ cardTile: response.data });
+          console.log(response.data);
+          
         } catch (error) {
           console.error("Card Tile Fetch Error:", error);
           toast.error(error.response?.data?.message || "Failed to load card data");

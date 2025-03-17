@@ -21,17 +21,12 @@ const Landscaping = () => {
           {/* Title Section */}
           <div className="text-white flex-1 px-6">
             <h1 className="text-4xl md:text-5xl font-bold mb-5">
-              <span className="text-yellow-400">Landscaping </span>
+              <span className="text-yellow-400"> Support </span>
               
             </h1>
             <p className="text-base md:text-lg text-gray-200 max-w-xl">
-            At Ducktail Construction, we craft relaxing outdoor spaces that bring your vision of a
-royal garden experience to life. From luxurious pools to serene landscapes adorned
-with elegant fountains, we seamlessly blend artistry and functionality to create a
-space that’s uniquely yours. By incorporating the natural flora of the region, we
-enhance the beauty of your surroundings, ensuring your outdoor space feels
-harmonious, authentic, and vibrant. With a focus on premium aesthetics and
-timeless design, we create a tranquil haven where luxury meets nature’s charm.
+            At Ducktail Construction, we create serene outdoor spaces with elegant pools, fountains, and regional flora, blending artistry and nature to craft your perfect haven.
+
             </p>
           </div>
 

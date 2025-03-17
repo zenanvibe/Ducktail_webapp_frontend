@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const HomeLoan = () => {
   const [showMore, setShowMore] = useState(false);
@@ -7,38 +7,32 @@ const HomeLoan = () => {
   }, []);
 
   return (
-<div className="relative min-h-[80vh] w-full">
-  {/* Background Image */}
-  <div 
-    className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-    style={{
-      backgroundImage: "url('/assets/DUCKTAIL-HOMELOAN.aviF')",
-      backgroundSize: 'cover', // Ensures the image covers the entire area
-      backgroundPosition: 'center', // Centers the image
-      width: '100%', // Ensures the image takes full width
-      height: '100%', // Ensures the image takes full height
-    }}
-  >
-    <div className="absolute inset-0 bg-black/50"></div>
-  </div>
+    <div className="relative min-h-[80vh] w-full">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/assets/DUCKTAIL-HOMELOAN.aviF')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <div className="absolute inset-0 bg-black/50"></div>
+      </div>
 
-
-
-
-
-   {/* Main Content */}
-   <div className="relative z-10 flex min-h-[66vh] items-center px-6 py-12">
+      {/* Main Content */}
+      <div className="relative z-10 flex min-h-[66vh] items-center px-6 py-12">
         <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Title Section */}
           <div className="text-white flex-1 px-6">
             <h1 className="text-4xl md:text-5xl font-bold mb-5">
-              <span className="text-yellow-400">HOME </span>
-              CONSTRUCTION
+              <span className="text-yellow-400">Smart Loans for  </span>
+              Smart Homes
             </h1>
-            <p className="text-base md:text-lg text-gray-200 max-w-xl">
-              For those seeking luxury, DUCKTAIL offers premium construction services. We use premium
-              materials and skilled craftsmanship to deliver beautiful, durable results.Let us build your
-dream space with the highest standards in mind.
+            <p className="text-lg md:text-xl text-gray-200 max-w-xl">
+              Apply effortlessly with Ducktail – Click, Apply, and Move In to your dream home today!
             </p>
           </div>
 
@@ -65,65 +59,199 @@ dream space with the highest standards in mind.
           </div>
         </div>
       </div>
-        {/* Combined Content Section with Show More */}
-        <div className="relative z-10 px-6 py-8 bg-white mt-6">
-        <h2 className="text-2xl font-bold text-center mb-4">Types of Home Loan</h2>
-        <div className={`space-y-6 ${showMore ? '' : 'max-h-[60vh] overflow-hidden'}`}>
-          {[
-            { title: "Home Purchase Loan", items: ["For purchasing a new or resale residential property.", "Covers up to 75%-90% of the property value, depending on eligibility."] },
-            { title: "Home Construction Loan", items: ["For constructing a house on your own land.", "Funds disbursed in stages based on construction progress."] },
-            { title: "Land or Plot Loan", items: ["For buying a residential plot with intent to build a home.", "Shorter tenure and different interest rates compared to standard home loans."] },
-            { title: "Home Improvement Loan", items: ["For renovation, repairs, and home upgrades.", "Covers work like tiling, plumbing, painting, and structural repairs."] },
-            { title: "Home Extension Loan", items: ["For adding extra space or rooms in an existing home.", "Ideal for growing families needing more space."] },
-            { title: "Balance Transfer Home Loan", items: ["For transferring an existing home loan to a lender with lower interest rates.", "Helps reduce the total interest paid over the tenure."] },
-            { title: "NRI Home Loans", items: ["For NRIs looking to invest in property in India.", "Special eligibility criteria and documentation required."] },
-            { title: "PMAY Subsidy-Linked Loans", items: ["Offered under Pradhan Mantri Awas Yojana (PMAY).", "Provides interest subsidies for first-time home buyers in specific income groups."] },
-            { title: "Top-Up Home Loan", items: ["An additional loan on top of an existing home loan.", "Can be used for home renovation or personal expenses."] },
-            { title: "Joint Home Loans", items: ["Taken jointly by two or more people, usually spouses or family members.", "Higher eligibility due to combined income."] }
-          ].map((loan, index) => (
-            <div key={index}>
-              <h3 className="text-xl font-semibold">{index + 1}. {loan.title}</h3>
-              <ul className="list-disc list-inside pl-3 text-sm">
-                {loan.items.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+
+      {/* Types of Home Loan Section */}
+      <div className="relative z-10 px-6 py-8 bg-white mt-6">
+        <h2 className="text-3xl font-bold text-center mb-6" style={{ fontSize: "32px" }}>Types of Home Loan</h2>
+        <div className={`space-y-8 ${showMore ? '' : 'max-h-[60vh] overflow-hidden'}`}>
+          <div>
+            <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>1. Home Purchase Loan</h3>
+            <ul className="list-disc pl-8 space-y-2">
+              <li style={{ fontSize: "16px" }}>A Home Purchase Loan is the most common type of home loan, designed for individuals looking to buy a new or resale residential property. 
+</li>
+              <li style={{ fontSize: "16px" }}>The loan amount generally covers 75% to 90% of the property's value, based on the borrower's income, credit score, and repayment capacity. 
+</li>
+              <li style={{ fontSize: "16px" }}>These loans come with fixed or floating interest rates and can be repaid through EMIs over a tenure of 10 to 30 years.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>2. Home Construction Loan</h3>
+            <ul className="list-disc pl-8 space-y-2">
+              <li style={{ fontSize: "16px" }}>This loan is ideal for individuals who already own a plot of land and want to construct a house. </li>
+              <li style={{ fontSize: "16px" }}>The disbursement happens in phases based on the progress of construction, ensuring that funds are used appropriately.
+</li>
+              <li style={{ fontSize: "16px" }}> Borrowers must submit a detailed construction plan, cost estimate, and legal land ownership documents to avail of this loan.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>3. Land or Plot Loan</h3>
+            <ul className="list-disc pl-8 space-y-2">
+              <li style={{ fontSize: "16px" }}>A Land or Plot Loan is offered to borrowers who want to purchase a residential plot to construct a home in the future.</li>
+              <li style={{ fontSize: "16px" }}>Unlike home purchase loans, these loans have a shorter tenure (typically 10-15 years) and higher interest rates.</li>
+              <li style={{ fontSize: "16px" }}>Higher interest rates than home purchase loans</li>
+              <li style={{ fontSize: "16px" }}>The borrower must ensure that the plot is located within municipal or development authority limits for loan approval.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>4. Home Improvement Loan</h3>
+            <ul className="list-disc pl-8 space-y-2">
+              <li style={{ fontSize: "16px" }}>A Home Improvement Loan is used for renovating, repairing, or upgrading an existing home.</li>
+              <li style={{ fontSize: "16px" }}> It covers expenses such as painting, flooring, plumbing, electrical work, structural repairs, and even kitchen or bathroom remodeling. </li>
+              <li style={{ fontSize: "16px" }}>The loan is usually offered with flexible repayment options and requires the borrower to submit an estimate of renovation costs.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>5. Home Extension Loan</h3>
+            <ul className="list-disc pl-8 space-y-2">
+              <li style={{ fontSize: "16px" }}>A Home Extension Loan is useful for homeowners who want to expand their living space by adding extra rooms, constructing an additional floor, or modifying the existing structure. 
+</li>
+              <li style={{ fontSize: "16px" }}>This loan is commonly availed by growing families who need additional space. Borrowers need to provide architectural plans and an estimated construction cost to get approval.
+</li>
+ 
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>6. Balance Transfer Home Loan</h3>
+            <ul className="list-disc pl-8 space-y-2">
+              <li style={{ fontSize: "16px" }}>A Balance Transfer Home Loan allows borrowers to transfer an existing home loan to another lender offering a lower interest rate. 
+</li>
+              <li style={{ fontSize: "16px" }}>This helps in reducing the overall interest burden and lowering EMI payments. The borrower must have a good repayment track record to qualify for the transfer. 
+</li>
+              <li style={{ fontSize: "16px" }}>Lowers EMI payments</li>
+              <li style={{ fontSize: "16px" }}>Some banks offer top-up loans with balance transfers</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>7. NRI Home Loans</h3>
+            <ul className="list-disc pl-8 space-y-2">
+              <li style={{ fontSize: "16px" }}>Designed for Non-Resident Indians to purchase property in India</li>
+              <li style={{ fontSize: "16px" }}>The documentation and eligibility criteria for NRI home loans are different from those for Indian residents, requiring additional documents like overseas income proof, NRI account details, and passport/visa copies. 
+</li>
+              <li style={{ fontSize: "16px" }}>Many banks offer specialized NRI loan services with dedicated customer support.</li>
+
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>8. PMAY Subsidy-Linked Loans</h3>
+            <ul className="list-disc pl-8 space-y-2">
+              <li style={{ fontSize: "16px" }}>Under the Pradhan Mantri Awas Yojana (PMAY), eligible first-time homebuyers can avail of interest subsidies on their home loans. 
+</li>
+              <li style={{ fontSize: "16px" }}>The scheme is targeted at families in the Economically Weaker Section (EWS), Low-Income Group (LIG), and Middle-Income Group (MIG). 
+</li>
+              <li style={{ fontSize: "16px" }}>The subsidy percentage depends on income category and loan amount, making homeownership more affordable.
+</li>
+              
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>9. Top-Up Home Loan</h3>
+            <ul className="list-disc pl-8 space-y-2">
+              <li style={{ fontSize: "16px" }}>A Top-Up Home Loan is an additional loan provided on an existing home loan. Borrowers can use the funds for any purpose, including home renovation, medical emergencies, education expenses, or debt consolidation. The interest rate is usually lower than personal loans, making it an attractive financing option.
+</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>10. Joint Home Loans</h3>
+            <ul className="list-disc pl-8 space-y-2">
+              <li style={{ fontSize: "16px" }}>A Joint Home Loan is taken by two or more applicants, usually spouses, siblings, or parents and children. This helps in increasing loan eligibility since the combined income of the applicants is considered.</li>
+              <li style={{ fontSize: "16px" }}> Co-borrowers can also avail tax benefits under sections 80C and 24(b) of the Income Tax Act. However, all applicants share equal liability in loan repayment.
+</li>
+            </ul>
+          </div>
         </div>
-        
+
         {/* Key Documents Section inside Show More */}
         {showMore && (
           <>
-            <h2 className="text-2xl font-bold text-center mb-4 mt-8">Key Documents for Home Loan</h2>
-            {[
-              { title: "Identity & Address Proof", items: ["Aadhaar, PAN, Passport, Voter ID, or Driving License."] },
-              { title: "Income Proof", items: ["Salaried: Last 3-6 months' salary slips, Form 16, and bank statements.", "Self-Employed: Last 3 years' ITR, audited financials, and business documents."] },
-              { title: "Property Documents", items: ["Sale Agreement, Title Deed, EC, Approved Building Plan, and NOC."] },
-              { title: "Additional Documents", items: ["Recent photos, loan statements, processing fee cheque.", "Co-applicant’s documents (if applicable)."] }
-            ].map((doc, index) => (
-              <div key={index} className="mb-4">
-                <h3 className="text-xl font-semibold">{index + 1}. {doc.title}</h3>
-                <ul className="list-disc list-inside pl-3 text-sm">
-                  {doc.items.map((item, idx) => (
-                    <li key={idx}>{item}</li>
-                  ))}
+            <h2 className="text-3xl font-bold text-center mb-6 mt-8" style={{ fontSize: "32px" }}>Key Documents for Home Loan</h2>
+            
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>1. Identity & Address Proof</h3>
+                <h4 className="text-lg font-medium ml-4 mb-2" style={{ fontSize: "18px" }}>Applicants must provide valid identity and address proof, which can include:</h4>
+<ul className="list-disc pl-8 space-y-2">
+                  <li style={{ fontSize: "16px" }}>Aadhaar Card</li>
+                  <li style={{ fontSize: "16px" }}>PAN Card</li>
+                  <li style={{ fontSize: "16px" }}>Passport</li>
+                  <li style={{ fontSize: "16px" }}>Voter ID</li>
+                  <li style={{ fontSize: "16px" }}>Driving License</li>
+                  <li style={{ fontSize: "16px" }}>These establish personal details and residential address</li>
                 </ul>
               </div>
-            ))}
+
+              <div>
+                <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>2. Income Proof</h3>
+                <h4 className="text-lg font-medium ml-4 mb-2" style={{ fontSize: "18px" }}>For Salaried Individuals:</h4>
+                <ul className="list-disc pl-8 space-y-2">
+                  <li style={{ fontSize: "16px" }}>Last 3 to 6 months' salary slips</li>
+                  <li style={{ fontSize: "16px" }}>Latest Form 16 or Income Tax Return (ITR)</li>
+                  <li style={{ fontSize: "16px" }}>Bank statements (last 6 months) showing salary credits</li>
+                </ul>
+                
+                <h4 className="text-lg font-medium ml-4 mb-2 mt-4" style={{ fontSize: "18px" }}>For Self-Employed Individuals & Business Owners:</h4>
+                <ul className="list-disc pl-8 space-y-2">
+                  <li style={{ fontSize: "16px" }}>Last 3 years' Income Tax Returns (ITR)</li>
+                  <li style={{ fontSize: "16px" }}>Audited financial statements (Profit & Loss, Balance Sheet)</li>
+                  <li style={{ fontSize: "16px" }}>Business registration documents (GST certificate, Trade License, etc.)</li>
+                  <li style={{ fontSize: "16px" }}>Bank statements (last 12 months)</li>
+                </ul>
+              </div>
+
+              <div>
+               
+                <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>3. Property Documents</h3>
+                <h4 className="text-lg font-medium ml-4 mb-2" style={{ fontSize: "18px" }}>To verify legal ownership and ensure that the property is free from disputes, the following property-related documents are required:</h4>
+                <ul className="list-disc pl-8 space-y-2">
+                  <li style={{ fontSize: "16px" }}>Sale Agreement (Proof of property purchase)</li>
+                  <li style={{ fontSize: "16px" }}>Title Deed (Legal ownership document)</li>
+                  <li style={{ fontSize: "16px" }}>Encumbrance Certificate (EC) (Ensures no pending legal dues)</li>
+                  <li style={{ fontSize: "16px" }}>Approved Building Plan (Issued by the municipal authority)</li>
+                  <li style={{ fontSize: "16px" }}>No Objection Certificate (NOC) from relevant authorities</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>4. Additional Documents</h3>
+                <h4 className="text-lg font-medium ml-4 mb-2" style={{ fontSize: "18px" }}>Banks may also ask for:</h4>
+ <ul className="list-disc pl-8 space-y-2">
+                  <li style={{ fontSize: "16px" }}>Recent passport-size photographs</li>
+                  <li style={{ fontSize: "16px" }}>Existing loan/credit card statements (if any)</li>
+                  <li style={{ fontSize: "16px" }}>Processing fee cheque for loan application</li>
+                  <li style={{ fontSize: "16px" }}>Co-applicants documents (if applying for a joint loan)</li>
+                </ul>
+              </div>
+            </div>
+
             {/* Show Less button below Key Documents */}
-            <div className="text-center mt-4">
-              <button onClick={() => setShowMore(false)} className="text-orange-500 font-semibold">
+            <div className="text-center mt-6">
+              <button 
+                onClick={() => setShowMore(false)} 
+                className="text-orange-500 font-semibold" 
+                style={{ fontSize: "18px" }}
+              >
                 Show Less
               </button>
             </div>
           </>
         )}
-        
+
         {/* Show More button for Types of Home Loan */}
         {!showMore && (
-          <div className="text-center mt-4">
-            <button onClick={() => setShowMore(true)} className="text-orange-500 font-semibold">
+          <div className="text-center mt-6">
+            <button 
+              onClick={() => setShowMore(true)} 
+              className="text-orange-500 font-semibold" 
+              style={{ fontSize: "18px" }}
+            >
               Show More
             </button>
           </div>

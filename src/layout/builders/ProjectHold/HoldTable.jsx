@@ -6,7 +6,6 @@ const HoldTable = () => {
       name: "Theresa Webb",
       id: "Graphic Design",
       started: "Jan 5, 2025",
-      deadline: "Feb 20, 2025",
       status: "On Hold",
       statusColor: "orange",
     },
@@ -14,7 +13,6 @@ const HoldTable = () => {
       name: "Albert Flores",
       id: "Frontend Development",
       started: "Dec 1, 2024",
-      deadline: "Jan 15, 2025",
       status: "Paused",
       statusColor: "blue",
     },
@@ -68,7 +66,6 @@ const HoldTable = () => {
             <th className="py-2 px-4">Customer Name</th>
             <th className="py-2 px-4">Customer ID</th>
             <th className="py-2 px-4">Started</th>
-            <th className="py-2 px-4">Deadline</th>
             <th className="py-2 px-4">Status</th>
           </tr>
         </thead>
@@ -81,7 +78,6 @@ const HoldTable = () => {
               <td className="py-3 px-4">{project.name}</td>
               <td className="py-3 px-4">{project.id}</td>
               <td className="py-3 px-4">{project.started}</td>
-              <td className="py-3 px-4">{project.deadline}</td>
               <td className="py-3 px-4">
                 <div
                   className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${

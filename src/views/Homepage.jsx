@@ -306,80 +306,82 @@ const Homepage = () => {
 
       {/* service */}
       <section id="services" className="py-6">
-      <div className="container max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
-          DUCKTAIL'S OTHER SERVICES
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-20 py-5">
-          {[
-            {
-              title: "Home Loan",
-              img: "/assets/Home-Loan.jpg",
-              link: "/homeloan", // Use correct route
-              comingSoon: false,
-            },
-            {
-              title: "Archi - Design",
-              img: "/assets/art-design.jpg",
-              link: "/archidesign",
-              comingSoon: false,
-            },
-            {
-              title: "Customer Support",
-              img: "/assets/Customer-Support.jpg",
-              link: "/support",
-              comingSoon: false,
-            },
-            {
-              title: "Real Estate",
-              img: "/assets/Untitled-design-36.jpg",
-              comingSoon: true,
-            },
-            {
-              title: "Construction Consultation",
-              img: "/assets/Consulting.png",
-              link: "/constructionconsultation",
-              comingSoon: false,
-            },
-            {
-              title: "Landscaping",
-              img: "/assets/450.jpg",
-              link: "/landscaping",
-              comingSoon: false,
-            },
-            {
-              title: "Premium Construction",
-              img: "/assets/2964.jpg",
-              link: "/premiumconstruction",
-              comingSoon: false,
-            },
-            {
-              title: "Interior Designers",
-              img: "/assets/Interior-Design.png",
-              comingSoon: true,
-            },
-          ].map((service, index) => (
-            <Link to={service.link || "#"} key={index} className="group">
-              <div className="bg-white rounded-2xl shadow-sm overflow-hidden text-center cursor-pointer">
-                <div className="overflow-hidden">
-                  <img
-                    src={service.img}
-                    alt={service.title}
-                    className="w-full h-30 object-cover transform transition duration-300 group-hover:scale-110"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-medium text-lg">{service.title}</h3>
-                  {service.comingSoon && (
-                    <p className="text-gray-500 text-sm">(Coming Soon)</p>
-                  )}
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
+  <div className="container max-w-6xl mx-auto px-4">
+    <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
+      DUCKTAIL'S OTHER SERVICES
+    </h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-20 py-5">
+      {[
+        {
+          title: "Home Loan",
+          img: "/assets/Home-Loan.jpg",
+          link: "/homeloan",
+          comingSoon: false,
+        },
+        {
+          title: "Archi - Design",
+          img: "/assets/art-design.jpg",
+          link: "/archidesign",
+          comingSoon: false,
+        },
+        {
+          title: "Customer Support",
+          img: "/assets/Customer-Support.jpg",
+          link: "/support",
+          comingSoon: false,
+        },
+        {
+          title: "Real Estate",
+          img: "/assets/Untitled-design-36.jpg",
+          comingSoon: true,
+        },
+        {
+          title: "Construction Consultation",
+          img: "/assets/Consulting.png",
+          link: "/constructionconsultation",
+          comingSoon: false,
+        },
+        {
+          title: "Landscaping",
+          img: "/assets/450.jpg",
+          link: "/landscaping",
+          comingSoon: false,
+        },
+        {
+          title: "Premium Construction",
+          img: "/assets/2964.jpg",
+          link: "/premiumconstruction",
+          comingSoon: false,
+        },
+        {
+          title: "Interior Designers",
+          img: "/assets/Interior-Design.png",
+          comingSoon: true,
+        },
+      ].map((service, index) => (
+        <Link to={service.link || "#"} key={index} className="group h-full">
+          <div className="bg-white rounded-2xl hover:shadow-lg transition-shadow duration-300 overflow-hidden text-center cursor-pointer border flex flex-col h-full">
+            <div className="overflow-hidden">
+              <img
+                src={service.img}
+                alt={service.title}
+                className="w-full h-40 object-cover transform transition duration-300 group-hover:scale-110"
+              />
+            </div>
+            <div className="p-4 flex-grow flex flex-col items-center justify-center text-center">
+              <h3 className="font-medium text-lg">{service.title}</h3>
+              {service.comingSoon && (
+                <p className="text-gray-500 text-sm">(Coming Soon)</p>
+              )}
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  </div>
+</section>
+
+
 
       {/* tile 1 */}
       <section className="relative py-4 flex justify-center">
@@ -410,11 +412,12 @@ const Homepage = () => {
           >
             <div className="flex flex-col lg:flex-row items-center justify-between py-12">
               {/* Text Content */}
-              <div className="text-left max-w-md  lg:max-w-lg">
-                <h2 className="text-3xl sm:text-4xl font-bold text-black mb-4">
-                  Turn Your Dream Home into Reality with Our Easy Home Loans!
-                </h2>
-              </div>
+              <div className="text-left max-w-[28rem] lg:max-w-[42rem]">
+  <h2 className="text-3xl sm:text-4xl font-bold text-black mb-4">
+    Turn Your Dream Home into Reality with Our Easy Home Loans!
+  </h2>
+</div>
+
 
               {/* Button */}
               <div className="mt-6 lg:mt-0">
@@ -431,63 +434,67 @@ const Homepage = () => {
       </section>
 
       {/* service 2 */}
-      <section className="py-7 ">
-        <div className="container max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">
-            WHY CHOOSE DUCKTAIL
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-14">
-            {[
-              {
-                title: "10 Years Warranty",
-                img: "/assets/Ducktail-10-years-warrenty-1 (1).png",
-              },
-              {
-                title: "Ducktail Verified Builders",
-                img: "/assets/Ducktail-verified-builders.png",
-              },
-              {
-                title: "Customer Support",
-                img: "/assets/Support-service.png",
-              },
-              {
-                title: "Organized System",
-                img: "/assets/organised-service.png",
-              },
-              {
-                title: "Easy Home Loan",
-                img: "/assets/Easy-home-loan.png",
-              },
-              {
-                title: "Customer Log-In Dashboard",
-                img: "/assets/Customer-login.png",
-              },
-              {
-                title: "One Stop Solution",
-                img: "/assets/One-stop-solution.png",
-              },
-              {
-                title: "Certified Builders",
-                img: "/assets/Certified-builders.png",
-              },
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="bg-gray-100 rounded-xl shadow-xl md:p-6R p-10  text-center hover:shadow-lg transition-shadow duration-300"
-              >
-                <div className="overflow-hidden">
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-24 h-24 mx-auto mb-1 transform transition-transform duration-300 hover:scale-110"
-                  />
-                </div>
-                <h3 className="text-base font-semibold">{item.title}</h3>
-              </div>
-            ))}
+      <section className="py-7">
+  <div className="container max-w-6xl mx-auto px-4">
+    <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">
+      WHY CHOOSE DUCKTAIL
+    </h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-14">
+      {[
+        {
+          title: "10 Years Warranty",
+          img: "/assets/Ducktail-10-years-warrenty-1 (1).png",
+        },
+        {
+          title: "Ducktail Verified Builders",
+          img: "/assets/Ducktail-verified-builders.png",
+        },
+        {
+          title: "Customer Support",
+          img: "/assets/Support-service.png",
+        },
+        {
+          title: "Organized System",
+          img: "/assets/organised-service.png",
+        },
+        {
+          title: "Easy Home Loan",
+          img: "/assets/Easy-home-loan.png",
+        },
+        {
+          title: "Customer Log-in Dashboard",
+          img: "/assets/Customer-login.png",
+          large: true, // Add a flag for large images
+        },
+        {
+          title: "One Stop Solution",
+          img: "/assets/One-stop-solution.png",
+        },
+        {
+          title: "Certified Builders",
+          img: "/assets/Certified-builders.png",
+        },
+      ].map((item, index) => (
+        <div
+          key={index}
+          className="bg-gray-100 rounded-xl shadow-xl md:p-6 p-10 text-center hover:shadow-lg transition-shadow duration-300"
+        >
+          <div className="overflow-hidden">
+            <img
+              src={item.img}
+              alt={item.title}
+              className={`mx-auto mb-1 transform transition-transform duration-300 hover:scale-110 ${
+                item.large ? "w-32 h-24" : "w-24 h-24"
+              }`}
+            />
           </div>
+          <h3 className="text-base font-semibold">{item.title}</h3>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* tile 2 */}
       <section className="relative py-12 flex justify-center">

@@ -11,6 +11,8 @@ import DocumentUploadReq from "../../pages/Builders/DocumentUploadReq";
 import BuildersInfo from "../../views/BuildersInfo";
 import BuildersList from "../../views/BuildersList";
 import ProtectedLoginRoute from "../ProtectedLoginRoute";
+import TermsCondition from "../../views/TermsCondition";
+import PrivacyPolicy from "../../views/PrivacyPolicy";
 
 const LandingRoutes = () => {
   
@@ -27,7 +29,8 @@ const LandingRoutes = () => {
   <Route path="/upload-doc/:id" element={<DocumentUploadReq />} />
   <Route path="/buildersinfo" element={<BuildersInfo />} />
   <Route path="/builderslist" element={<BuildersList />} />
-
+  <Route path="/termscondition" element={<TermsCondition/>} />
+  <Route path="/privacypolicy" element={<PrivacyPolicy/>} />
 </Routes>
  )
 };

@@ -2,7 +2,7 @@
   import { persist } from "zustand/middleware";
   import { toast } from "react-hot-toast";
   // import { toast } from "react-toast";
-  import axiosInstance from "../lib/axiosInstance";
+  import { axiosInstance } from "../lib/axiosInstance";
 
   const useAuthStore = create(
     persist(
@@ -77,23 +77,27 @@
         //✅ Builder Login
         loginBuilder: async (credential) => {
           try {
-            const response = await axiosInstance.post(
-              "/builders/auth/login",
-              credential
-            );
+            const response = await axiosInstance.post("/builders/auth/login", credential);
             localStorage.setItem("builderToken", response.data.token);
-            console.log(response.data.user.builderUniqueId);
+        
+            // Decode JWT to extract builderId
+            const tokenPayload = JSON.parse(atob(response.data.token.split(".")[1])); // Decoding JWT
+            console.log("Decoded Token Payload:", tokenPayload); // Debugging
+        
             set({
-              user: response.data.user.builderUniqueId,
+              user: tokenPayload.builderId, // ✅ Store builderId explicitly
               userType: "builder",
               token: response.data.token,
             });
+        
             toast.success("Builder Login Successfully");
           } catch (error) {
             console.log(error);
             toast.error(error.response?.data?.message || "Builder Login Failed");
           }
         },
+        
+        
 
         //✅ Customer Login
         customerLogin: async (credential) => {

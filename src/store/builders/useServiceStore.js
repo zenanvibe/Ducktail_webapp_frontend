@@ -1,24 +1,26 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { toast } from "react-hot-toast";
-import axiosInstance from "../../lib/axiosInstance";
+import { axiosInstancev1 } from "../../lib/axiosInstance";
 import useAuthStore from "../useAuthStore";
 
 const useServiceStore = create(
   persist((set, get) => ({
     isLoading: false,
-    service: [],
-    //Get all services 
+    allServices: [], // Stores all services
+    builderServices: [], // Stores builder-specific services
+    
+    // Get all services
     fetchServices: async () => {
       set({ isLoading: true });
       const { token } = useAuthStore.getState();
       try {
-        const response = await axiosInstance.get("builder/services", {
+        const response = await axiosInstancev1.get("builder/services", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        set({ services: response.data.services, isLoading: false });
+        set({ allServices: response.data, isLoading: false });
       } catch (error) {
         set({ isLoading: false });
         toast.error(
@@ -26,42 +28,56 @@ const useServiceStore = create(
         );
       }
     },
-    fetchBuilderservice: async (builderId) => {
-      set({ isloading: true });
-      const { token } = useAuthStore.getState();
-      try {
-        const response = await axiosInstance.get(`builder/${builderId}/services`, {
-          headers: {
-            Authorization:`Bearer ${token}`
-          }
-        });
-        set({ services: response.data.services, isLoading: false });
-      } catch (error) {
-         set({ isLoading: false });
-         toast.error(
-           error.response?.data?.message || "Failed to fetch services"
-         );
-      }
-    },
-    //Create new services
-    createService: async (name) => {
+    
+    // Fetch services for a specific builder
+    fetchBuilderService: async () => {
       set({ isLoading: true });
-      const { token } = useAuthStore.getState();
+      const { token, user: builderId } = useAuthStore.getState(); // Get builderId from useAuthStore
+
+      if (!builderId) {
+        set({ isLoading: false });
+        toast.error("Builder ID not found");
+        return;
+      }
+
       try {
-        const response = await axiosInstance.post("api/v1/builder/service",name,{
+        const response = await axiosInstancev1.get(
+          `builder/${builderId}/services`,
+          {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log(name);
-        
+        set({ builderServices: response.data, isLoading: false });
+      } catch (error) {
+        set({ isLoading: false });
+        toast.error(
+          error.response?.data?.message || "Failed to fetch builder services"
+        );
+      }
+    },
+    
+    // Create new service
+    fetchCreateService: async (name) => {
+      set({ isLoading: true });
+      const { token } = useAuthStore.getState();
+      try {
+        const response = await axiosInstancev1.post(
+          "builder/service",
+          name,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         set((state) => ({
-          services: [...state.services, response.data.service],
+          createServices: [...state.allServices, response.data],
           isLoading: false,
         }));
-        toast.success("service added");
-        console.log(response.data.service);
+        console.log(response.data);
+        toast.success("Service added");
       } catch (error) {
         set({ isLoading: false });
         toast.error(
@@ -69,12 +85,13 @@ const useServiceStore = create(
         );
       }
     },
-    //Add existing services to builder
+    
+    // Add existing services to builder
     addServiceToBuilder: async (serviceId, builderId) => {
       set({ isLoading: true });
       const { token } = useAuthStore.getState();
       try {
-        await axiosInstance.post(
+        await axiosInstancev1.post(
           `builder/service/add`,
           { serviceId, builderId },
           {

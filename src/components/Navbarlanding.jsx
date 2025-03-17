@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../css/Navbarlanding.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbarlanding = () => {
   const [activeLink, setActiveLink] = useState("HOME");
@@ -9,6 +9,7 @@ const Navbarlanding = () => {
   const [loginDropdownOpen, setloginDropdownOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -19,9 +20,11 @@ const Navbarlanding = () => {
   };
 
   const handleLoginRedirect = (userType) => {
+    localStorage.setItem("redirectAfterLogin", location.pathname); // Store current page
     navigate(`/login?type=${userType}`);
     setIsDropdownOpen(false);
   };
+  
 
   const toggleMenu = () => {
     if (isMobileMenuOpen) {

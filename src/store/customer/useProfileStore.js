@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { toast } from "react-hot-toast";
-import axiosInstance from "../../lib/axiosInstance";
+import { axiosInstance } from "../../lib/axiosInstance";
 import useAuthStore from "../useAuthStore";
 
 const useProfileStore = create(
@@ -19,8 +19,8 @@ const useProfileStore = create(
                    Authorization: `Bearer ${token}`,
                  },
                });
-                 set({ profile:response.data, isLoading: false });
-                //   console.log(response.data.profile);
+                 set({ profile:response.data.profile, isLoading: false });
+                  console.log(response.data.profile); 
                   
             } catch (error) {
                 set({ isLoading: false });

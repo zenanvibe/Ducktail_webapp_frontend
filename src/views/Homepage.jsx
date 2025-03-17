@@ -12,36 +12,45 @@ import {
   faInstagram,
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
+import {toast} from "react-hot-toast";
+import useAuthStore from "../store/useAuthStore";
+import useFindBuilderStore from "../store/useFindBuilderStore";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Homepage = () => {
   const [fontSize, setFontSize] = useState(
     window.innerWidth < 768 ? "30px" : "55px"
   );
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { token, userType } = useAuthStore();
+  const { states, districts, taluks, fetchLocationData } = useFindBuilderStore();
   const [isOpen, setIsOpen] = useState(false);
 
-  const states = [
-    "Karnataka",
-    "Tamil Nadu",
-    "Kerala",
-    "Andhra Pradesh",
-    "Maharashtra"
-  ];
+  useEffect(() => {
+    // Check if redirected from login/signup & auto-open the modal
+    if (location.state?.fromAuth && token && userType === "customer") {
+      setIsOpen(true);
+    }
+    if (userType === "customer") {
+      fetchLocationData();
+    }
+  }, [location, token, userType, fetchLocationData]);
 
-  const districts = [
-    "Bangalore Urban",
-    "Mysore",
-    "Hassan",
-    "Mangalore",
-    "Udupi"
-  ];
+  const handleFindBuilderClick = () => {
+    const user = useAuthStore.getState().user; // Check if user is logged in
+  
+    if (!user) {
+      localStorage.setItem("redirectAfterLogin", "/"); // Store correct path
+      toast.error("Please log in to continue with the builder selection process.");
+      navigate("/signup"); // Redirect to signup
+    } else {
+      setIsOpen(true); // Open builder selection modal
+    }
+  };
+  
 
-  const taluks = [
-    "Bangalore North",
-    "Bangalore South",
-    "Yelahanka",
-    "Electronic City",
-    "Whitefield"
-  ];
+
   const [selectedImage, setSelectedImage] = useState(null);
 
   const images = [
@@ -126,7 +135,7 @@ const Homepage = () => {
           <div className="flex items-center justify-center space-x-5">
           <button
         className="px-7 py-3 bg-blue-600 text-sm text-white font-bold rounded-full hover:bg-blue-700"
-        onClick={() => setIsOpen(true)}
+        onClick={handleFindBuilderClick}
       >
         FIND BUILDERS
       </button>
@@ -155,7 +164,7 @@ const Homepage = () => {
       {/* Close Button */}
       <button
         className="absolute top-3 right-3 text-black text-xl font-bold hover:text-gray-700 focus:outline-none"
-        onClick={() => setIsOpen(false)}
+        onClick={() => setIsOpen(false)}  
         aria-label="Close modal"
       >
         ×
@@ -192,7 +201,7 @@ const Homepage = () => {
                 ))}
               </select>
               {/* Dropdown Arrow Inside Input */}
-              <div className="absolute top-1/2 right-3 transform -translate-y-1/2 pointer-events-none">
+              <div className="absolute bottom-full top-1/2 right-3 transform -translate-y-1/2 pointer-events-none">
                 <svg
                   className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600"
                   fill="none"

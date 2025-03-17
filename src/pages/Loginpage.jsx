@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import useAuthStore from "../store/useAuthStore";
 import {  useLocation } from "react-router-dom";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const Loginpage = () => {
   const [credential, setCredential] = useState({
@@ -12,6 +13,17 @@ const Loginpage = () => {
   });
   const { loginBuilder, customerLogin } = useAuthStore();
   const [loading, setLoading] = useState(false);
+  const [redirectPath, setRedirectPath] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Get the saved path from localStorage (if any)
+    const savedPath = localStorage.getItem("redirectAfterLogin");
+    if (savedPath) {
+      setRedirectPath(savedPath);
+    }
+  }, []);
+  
 
   // const navigate = useNavigate();
   const location = useLocation();
@@ -25,27 +37,37 @@ const Loginpage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true); 
+    setLoading(true);
+  
     try {
       if (userType === "builder") {
         await loginBuilder(credential);
       } else {
         await customerLogin(credential);
       }
+  
       setCredential({ email: "", password: "" });
+  
+      // ✅ Redirect to the saved path after login
+      const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
+      localStorage.removeItem("redirectAfterLogin"); // Clear after use
+      navigate(redirectPath);
+  
     } catch (error) {
       console.error("Login failed:", error);
       toast.error(error.response?.data?.message || "Login failed");
     } finally {
-      setLoading(false); // Stop loading after API call completes
+      setLoading(false);
     }
   };
+  
 
   return (
     <div
       className="min-h-screen flex items-center justify-center p-4"
       style={{ background: "linear-gradient(310deg, #555555 4%, white 38%)" }}
     >
+      {/* {redirectPath && <p>You'll be redirected to: {redirectPath}</p>} */}
       <div className="flex flex-col lg:flex-row w-full max-w-4xl p-2 py-5 border border-gray-300 bg-white rounded-lg shadow-2xl overflow-hidden">
         <div className="flex flex-col justify-center w-full lg:w-2/3 p-8 lg:p-11">
           <div className="text-start">

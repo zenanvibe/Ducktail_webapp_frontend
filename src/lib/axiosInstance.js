@@ -4,4 +4,8 @@ const axiosInstance = axios.create({
   baseURL: "http://localhost:5000/api/v2",
 });
 
-export default axiosInstance;
+const axiosInstancev1 = axios.create({
+  baseURL: "http://localhost:5000/api/v1"
+}) 
+
+export {axiosInstance, axiosInstancev1};

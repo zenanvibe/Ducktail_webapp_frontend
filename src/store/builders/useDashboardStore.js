@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { toast } from "react-hot-toast";
-import axiosInstance from "../../lib/axiosInstance";
+import { axiosInstance } from "../../lib/axiosInstance";
 import useAuthStore from "../useAuthStore";
 
 const useDashboardStore = create(
@@ -16,6 +16,7 @@ const useDashboardStore = create(
         set({ isLoading: true });
 
         const { token, user: builderId } = useAuthStore.getState(); // Fetch builderId from useAuthStore
+        console.log(builderId);
 
         if (!token || !builderId) {
           toast.error("Unauthorized: Login required.");
@@ -67,6 +68,7 @@ const useDashboardStore = create(
           );
 
           set({ projectTile: response.data });
+
         } catch (error) {
           console.error("Project Tile Fetch Error:", error);
           toast.error(error.response?.data?.message || "Failed to load project data");

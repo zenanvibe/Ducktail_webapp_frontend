@@ -123,6 +123,18 @@ const CustomerSignup = () => {
               </button>
             </div>
           </form>
+
+          {/* Already have an account? Sign in */}
+          <div className="mt-6 text-sm text-gray-700">
+            <span>Already have an account?</span>
+            <button
+              onClick={() => navigate("/login?type=customer")}
+              className="ml-1 font-semibold text-gray-900 hover:underline"
+              style={{ color: "#555555" }}
+            >
+              Sign in
+            </button>
+          </div>
         </div>
       </div>
     </div>

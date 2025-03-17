@@ -68,9 +68,8 @@ const Footerlanding = () => {
       Copyright © 2024 Ducktail, All rights reserved.
     </p>
     <div class="flex space-x-6 justify-center md:justify-end md:mt-0">
-      <a href=" " class="text-black hover:text-gray-400">Facebook</a>
-      <a href=" " class="text-black hover:text-gray-400">Instagram</a>
-      {/* <a href=" " class="text-white hover:text-gray-400">Pinterest</a> */}
+      <a href="/termscondition " class="text-black ">Terms and Condition</a>
+      <a href="/privacypolicy " class="text-black">Privacy Policy</a>
     </div>
   </div>
 </div>

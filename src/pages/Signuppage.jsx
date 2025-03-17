@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import toast from "react-hot-toast";
 import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
@@ -8,13 +8,25 @@ const SignupPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     latitude: "",
-    longitude: ""
+    longitude: "",
+    agreementConfirmed: false,
+    privacyPolicyConfirmed: false,
+    warrantyConfirmed: false
   });
   const { signupBuilder, isSigningUp } = useAuthStore();
   const navigate = useNavigate();
   const mapRef = useRef(null);
   const googleMapRef = useRef(null);
   const markerRef = useRef(null);
+
+  // Define updateLocationFields using useCallback to avoid dependency issues
+  const updateLocationFields = useCallback((location) => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      latitude: location.lat().toFixed(6),
+      longitude: location.lng().toFixed(6)
+    }));
+  }, []);
 
   // Initialize Google Map
   useEffect(() => {
@@ -94,16 +106,7 @@ const SignupPage = () => {
         markerRef.current = null;
       }
     };
-  }, [currentStep, formData.latitude, formData.longitude]);
-
-  // Function to update lat/lng fields
-  const updateLocationFields = (location) => {
-    setFormData({
-      ...formData,
-      latitude: location.lat().toFixed(6),
-      longitude: location.lng().toFixed(6)
-    });
-  };
+  }, [currentStep, formData.latitude, formData.longitude, updateLocationFields]);
 
   // Function to get current location
   const getCurrentLocation = () => {
@@ -241,6 +244,13 @@ const SignupPage = () => {
     }
   };
 
+  const handleCheckboxChange = (id) => {
+    setFormData({
+      ...formData,
+      [id]: !formData[id]
+    });
+  };
+
   const validateStep = () => {
     const stepFields = steps[currentStep].fields;
     for (let field of stepFields) {
@@ -252,21 +262,28 @@ const SignupPage = () => {
         return false;
       }
     }
+
+    // Check for agreements on first step
+    if (currentStep === 0) {
+      if (!formData.agreementConfirmed) {
+        toast.error("Please confirm that you agree to the Terms and Conditions.");
+        return false;
+      }
+      if (!formData.privacyPolicyConfirmed) {
+        toast.error("Please confirm that you agree to the Privacy Policy.");
+        return false;
+      }
+      if (!formData.warrantyConfirmed) {
+        toast.error("Please confirm that you agree to provide the warranty service.");
+        return false;
+      }
+    }
+
     return true;
   };
 
   const handleNextStep = () => {
-    const stepFields = steps[currentStep].fields;
-
-    // Check for any empty required fields
-    const emptyFields = stepFields.some(
-      (field) =>
-        field.required &&
-        (!formData[field.id] || formData[field.id].toString().trim() === " ")
-    );
-
-    if (emptyFields) {
-      toast.error("Please fill out all required fields.");
+    if (!validateStep()) {
       return;
     }
 
@@ -421,7 +438,7 @@ const SignupPage = () => {
           {/* Profile Photo Upload */}
           <div className="flex justify-center mb-6 mt-6">
             <label htmlFor="profileImage" className="relative cursor-pointer">
-              <div className="w-24 h-24 rounded-full border-2 border-gray-300 flex items-center justify-center overflow-hidden">
+            <div className="w-24 h-24 rounded-full border-2 border-gray-300 flex items-center justify-center overflow-hidden">
                 {profileImage ? (
                   <img
                     src={profileImage}
@@ -440,6 +457,55 @@ const SignupPage = () => {
               />
             </label>
           </div>
+
+          {/* Agreement Checkboxes - only shown on first step and moved below profile photo */}
+          {currentStep === 0 && (
+            <div className="mt-6 space-y-4 border-t pt-4">
+              <div className="flex items-start space-x-2">
+                <input
+                  type="checkbox"
+                  id="warrantyConfirmed"
+                  className="mt-1"
+                  checked={formData.warrantyConfirmed || false}
+                  onChange={() => handleCheckboxChange("warrantyConfirmed")}
+                />
+                <label htmlFor="warrantyConfirmed" className="text-sm text-gray-700">
+                <strong>10 years warranty</strong><br />
+I agree to provide a 10-year warranty service, guaranteeing long-term quality and structural 
+                  integrity for all construction projects that I build.
+                </label>
+              </div>
+              
+              <div className="flex items-start space-x-2">
+                <input
+                  type="checkbox"
+                  id="agreementConfirmed"
+                  className="mt-1"
+                  checked={formData.agreementConfirmed || false}
+                  onChange={() => handleCheckboxChange("agreementConfirmed")}
+                />
+                <label htmlFor="agreementConfirmed" className="text-sm text-gray-700">
+                  <strong>Terms and conditions (Builders & customers)</strong><br />
+                  I read the above and hereby confirm that the above terms and conditions are agreed, 
+                  upon to the best of my knowledge and belief.
+                </label>
+              </div>
+              
+              <div className="flex items-start space-x-2">
+                <input
+                  type="checkbox"
+                  id="privacyPolicyConfirmed"
+                  className="mt-1"
+                  checked={formData.privacyPolicyConfirmed || false}
+                  onChange={() => handleCheckboxChange("privacyPolicyConfirmed")}
+                />
+                <label htmlFor="privacyPolicyConfirmed" className="text-sm text-gray-700">
+                  <strong>Privacy policy</strong><br />
+                  I hereby confirm that I have read and agree to the above Privacy Policy to the best of my knowledge and belief.
+                </label>
+              </div>
+            </div>
+          )}
 
           {/* Buttons */}
           <div className="flex justify-between mt-8">

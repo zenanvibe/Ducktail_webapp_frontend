@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import usePortfolioStore from "../../../store/builders/usePortfolioStore";
 
 const PortfolioTile = () => {
+  const { uploadPortfolioImage, isUploading } = usePortfolioStore();
   const [images, setImages] = useState([]);
   const maxFileSize = 5 * 1024 * 1024; // 5 MB
   const acceptedFormats = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
@@ -32,6 +34,7 @@ const PortfolioTile = () => {
     const newImages = validFiles.map((file) => ({
       url: URL.createObjectURL(file),
       file,
+      description: "", // Placeholder for description if needed
     }));
 
     setImages((prev) => [...prev, ...newImages]);
@@ -41,11 +44,11 @@ const PortfolioTile = () => {
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSave = () => {
-    // Submit the images (e.g., via API)
-    alert("Images submitted successfully!");
-    console.log(images); // Log the uploaded images
-    setImages([]); // Reset the uploader
+  const handleUpload = () => {
+    images.forEach((image) => {
+      uploadPortfolioImage(image.file, image.description);
+    });
+    setImages([]); // Clear after uploading
   };
 
   return (
@@ -60,7 +63,7 @@ const PortfolioTile = () => {
           <div className="text-blue-500 text-4xl mb-2">📄</div>
           <h3 className="text-lg font-medium mb-2">Upload your Image</h3>
           <p className="text-sm text-gray-500 mb-4">
-            Drag and Drop image here or{" "}
+            Drag and Drop image here or {" "}
             <label className="text-blue-500 underline cursor-pointer">
               <input
                 type="file"
@@ -104,13 +107,14 @@ const PortfolioTile = () => {
         </div>
       )}
 
-      {/* Save Button */}
+      {/* Upload Button */}
       {images.length > 0 && (
         <button
           className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-          onClick={handleSave}
+          onClick={handleUpload}
+          disabled={isUploading}
         >
-          Save
+          {isUploading ? "Uploading..." : "Upload"}
         </button>
       )}
     </div>

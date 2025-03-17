@@ -8,23 +8,25 @@ import Barchart from "../../layout/builders/Dashboard/Barchart";
 
 const Dashboard = () => {
   return (
-    <div style={{ backgroundColor: "#E0E0E0" }}>
+    <div className="bg-gray-200 min-h-screen">
       <Layout>
-        {/* <h2 className="text-2xl font-semibold mb-6">Welcome to the Dashboard</h2> */}
-        <div className="flex items-start justify-between">
-          <CardTile />
-          <div className="mt-7 ">
-            <ProfileProgress progress="80" />
-          </div>
+        {/* Card and Profile Section */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <CardTile className="w-full md:w-2/3" />
+          <ProfileProgress progress="80" className="w-full md:w-1/3" />
         </div>
+
+        {/* Project Tiles Section */}
         <div className="mt-5 py-5">
           <ProjectTiles />
         </div>
-        <div className="flex justify-between">
-          <div className="mt-3 py-5">
+
+        {/* Charts Section */}
+        <div className="flex flex-col lg:flex-row justify-between mt-6 gap-4">
+          <div className="w-full lg:w-2/3">
             <Barchart />
           </div>
-          <div className="mt-3 py-5">
+          <div className="w-full lg:w-1/3">
             <Piechart />
           </div>
         </div>

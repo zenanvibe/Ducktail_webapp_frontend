@@ -24,8 +24,20 @@ const Homepage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { token, userType } = useAuthStore();
-  const { states, districts, taluks, fetchLocationData } = useFindBuilderStore();
+  const { states, districts, taluks, fetchLocationData,setSelectedState, setSelectedDistrict, setSelectedTaluk } = useFindBuilderStore();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedState, setLocalState] = useState("");
+  const [selectedDistrict, setLocalDistrict] = useState("");
+  const [selectedTaluk, setLocalTaluk] = useState("");
+
+  const handleFind = () => {
+    setSelectedState(selectedState);
+    setSelectedDistrict(selectedDistrict);
+    setSelectedTaluk(selectedTaluk);
+    setIsOpen(false); 
+    navigate("/builderslist"); 
+  };
+
 
   useEffect(() => {
     // Check if redirected from login/signup & auto-open the modal
@@ -159,73 +171,67 @@ const Homepage = () => {
           </div>
         </div>
         {isOpen && (
-  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
-    <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg max-w-lg w-full relative overflow-y-auto max-h-[90vh]">
-      {/* Close Button */}
-      <button
-        className="absolute top-3 right-3 text-black text-xl font-bold hover:text-gray-700 focus:outline-none"
-        onClick={() => setIsOpen(false)}  
-        aria-label="Close modal"
-      >
-        ×
-      </button>
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg max-w-lg w-full relative overflow-y-auto max-h-[90vh]">
+          {/* Close Button */}
+          <button className="absolute top-3 right-3 text-black text-xl font-bold hover:text-gray-700" onClick={() => setIsOpen(false)}>
+            ×
+          </button>
 
-      {/* Modal Content */}
-      <h2 className="text-lg sm:text-xl font-bold text-center mb-1">
-        Simplifying Your Building Journey
-      </h2>
-      <p className="text-center text-gray-600 mb-4 text-xs sm:text-sm">
-        Connecting Dreams with Builders!
-      </p>
-      <hr className="border-gray-200 mb-4" />
+          {/* Modal Content */}
+          <h2 className="text-lg sm:text-xl font-bold text-center mb-1">Simplifying Your Building Journey</h2>
+          <p className="text-center text-gray-600 mb-4 text-xs sm:text-sm">Connecting Dreams with Builders!</p>
+          <hr className="border-gray-200 mb-4" />
 
-      <h3 className="text-sm sm:text-lg font-semibold text-center mb-4">
-        Find The Best Builders
-      </h3>
+          <h3 className="text-sm sm:text-lg font-semibold text-center mb-4">Find The Best Builders</h3>
 
-      {/* Input Fields with Labels Above */}
-      <div className="space-y-6">
-        {[
-          { label: "State", data: states },
-          { label: "District", data: districts },
-          { label: "Taluk", data: taluks },
-        ].map(({ label, data }) => (
-          <div key={label} className="flex flex-col items-center">
-            {/* Label Above Input */}
-          
-            <div className="relative w-3/4 sm:w-2/3">
-              <select className="w-full border border-gray-300 px-2 sm:px-3 py-2 sm:py-2.5 rounded-md appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm text-gray-900">
-                <option value="">{`Select ${label}`}</option>
-                {data.map((item) => (
-                  <option key={item} value={item}>{item}</option>
-                ))}
-              </select>
-              {/* Dropdown Arrow Inside Input */}
-              <div className="absolute bottom-full top-1/2 right-3 transform -translate-y-1/2 pointer-events-none">
-                <svg
-                  className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"></path>
-                </svg>
+          {/* Dropdowns */}
+          <div className="space-y-6">
+            <div className="flex flex-col items-center">
+              <div className="relative w-3/4 sm:w-2/3">
+                {/* <label className="text-xs sm:text-sm font-medium">State</label> */}
+                <select className="w-full border px-3 py-2 rounded-md" value={selectedState} onChange={(e) => setLocalState(e.target.value)}>
+                  <option value="">Select State</option>
+                  {states.map((state) => (
+                    <option key={state} value={state}>{state}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="relative w-3/4 sm:w-2/3">
+                {/* <label className="text-xs sm:text-sm font-medium">District</label> */}
+                <select className="w-full border px-3 py-2 rounded-md" value={selectedDistrict} onChange={(e) => setLocalDistrict(e.target.value)} disabled={!selectedState}>
+                  <option value="">Select District</option>
+                  {districts.map((district) => (
+                    <option key={district} value={district}>{district}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="relative w-3/4 sm:w-2/3">
+                {/* <label className="text-xs sm:text-sm font-medium">Taluk</label> */}
+                <select className="w-full border px-3 py-2 rounded-md" value={selectedTaluk} onChange={(e) => setLocalTaluk(e.target.value)} disabled={!selectedDistrict}>
+                  <option value="">Select Taluk</option>
+                  {taluks.map((taluk) => (
+                    <option key={taluk} value={taluk}>{taluk}</option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
-        ))}
-      </div>
 
-      <div className="mt-5 text-center">
-        <button className="px-4 sm:px-6 py-2 bg-blue-600 text-white text-xs sm:text-sm font-bold rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-          FIND
-        </button>
+          <div className="mt-5 text-center">
+            <button className="px-6 py-2 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700" onClick={handleFind}>
+              FIND
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-)}
+    )}
 
 
 

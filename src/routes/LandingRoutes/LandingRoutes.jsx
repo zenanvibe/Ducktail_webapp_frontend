@@ -27,7 +27,7 @@ const LandingRoutes = () => {
   <Route path="/premiumconstruction" element={<PremiumConstruction />} />
   <Route path="/login" element={<ProtectedLoginRoute />} />
   <Route path="/upload-doc/:id" element={<DocumentUploadReq />} />
-  <Route path="/buildersinfo" element={<BuildersInfo />} />
+  <Route path="/buildersinfo/:builderId" element={<BuildersInfo />} />
   <Route path="/builderslist" element={<BuildersList />} />
   <Route path="/termscondition" element={<TermsCondition/>} />
   <Route path="/privacypolicy" element={<PrivacyPolicy/>} />

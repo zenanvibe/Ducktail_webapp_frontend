@@ -16,6 +16,8 @@ const useFindBuilderStore = create(
       isLoading: false,
       builders: [],
       builder:null,
+      mappedDistricts: [],
+      mappedTaluks: [],
 
       setSelectedState: (state) => {
         set({ selectedState: state, selectedDistrict: "", selectedTaluk: "" });
@@ -66,7 +68,7 @@ const useFindBuilderStore = create(
         // Prevent fetching if no district is selected
         if (!selectedDistrict) {
           console.warn("No district selected. Skipping fetch.");
-          toast.error("Select District");
+          // toast.error("Select District");
           return;
         }
 
@@ -81,10 +83,10 @@ const useFindBuilderStore = create(
         set({ isLoading: true });
 
         try {
-          console.log("Fetching builders for:", {
-            selectedDistrict,
-            selectedTaluk,
-          });
+          // console.log("Fetching builders for:", {
+          //   selectedDistrict,
+          //   selectedTaluk,
+          // });
 
           const response = await axiosInstancev1.get(
             `/user/builders?${queryParams}`,
@@ -100,7 +102,7 @@ const useFindBuilderStore = create(
             set({ builders: [] });
           }
 
-          console.log("Fetched builders:", response.data.builders);
+          // console.log("Fetched builders:", response.data.builders);
         } catch (error) {
           console.error("Error fetching builders:", error);
           set({ builders: [] }); // Ensure list is cleared on failure
@@ -128,7 +130,7 @@ const useFindBuilderStore = create(
 
           if (response.data) {
             set({ builder: response.data });
-            console.log(response.data);
+            // console.log(response.data);
           } else {
             console.warn("Unexpected API response structure:", response.data);
             set({ builder: null });
@@ -141,6 +143,73 @@ const useFindBuilderStore = create(
           set({ isLoading: false });
         }
       },
+
+      fetchMappedDistricts: async () => {
+        const token = useAuthStore.getState().token;
+        if (!token) return;
+
+        set({ isLoading: true });
+        try {
+          const response = await axiosInstancev1.get("/address/mapped-districts", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          set({ mappedDistricts: response.data || [] });
+          // console.log("Districts",response.data);
+        } catch (error) {
+          console.error("Error fetching mapped districts:", error);
+          set({ mappedDistricts: [] });
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      fetchMappedTaluks: async (district) => {
+        const token = useAuthStore.getState().token;
+        if (!token || !district) return;
+
+        set({ isLoading: true });
+        try {
+          const response = await axiosInstancev1.get(
+            `/address/mapped-taluks?district=${encodeURIComponent(district)}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          set({ mappedTaluks: response.data || [] });
+          // console.log("Taluks",response.data);
+        } catch (error) {
+          console.error("Error fetching mapped taluks:", error);
+          set({ mappedTaluks: [] });
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      sendProjectInvite: async (inviteData) => {
+        console.log("Submitting project invite with data:", inviteData);
+      
+        const token = useAuthStore.getState().token;
+        if (!token) {
+          toast.error("Missing authentication.");
+          console.log("No token found");
+          return;
+        }
+      
+        try {
+          const response = await axiosInstancev1.post(
+            "/customer/invite/project-invite",
+            inviteData,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+      
+          console.log("Project Invite Response:", response.data);
+          toast.success("Project invite sent successfully!");
+        } catch (error) {
+          console.error("Error sending project invite:", error);
+          toast.error("Failed to send project invite.");
+        }
+      },
+      
     }),
     {
       name: "find-builder-storage",

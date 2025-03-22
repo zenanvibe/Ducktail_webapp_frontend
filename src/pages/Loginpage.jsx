@@ -47,6 +47,7 @@ const Loginpage = () => {
       }
   
       setCredential({ email: "", password: "" });
+      // console.log(credential);
   
       // ✅ Redirect to the saved path after login
       const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";

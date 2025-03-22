@@ -61,7 +61,11 @@
 
             localStorage.setItem("customerToken", response.data.token);
             set({
-              user: response.data.user,
+              user: {
+                name: response.data.name, 
+                email: response.data.email,
+                customerId: response.data.customerId, 
+              },
               userType: "customer",
               token: response.data.token,
             });
@@ -107,9 +111,13 @@
               credential
             );
             localStorage.setItem("customerToken", response.data.token);
-            console.log(response.data.customerId);
+            // console.log(response.data);
             set({
-              user: response.data.customerId,
+              user: {
+                name: response.data.name, 
+                email: response.data.email,
+                customerId: response.data.customerId, 
+              },
               userType: "customer",
               token: response.data.token,
             });

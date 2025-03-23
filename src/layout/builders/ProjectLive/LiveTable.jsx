@@ -1,48 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
+import useProjectStatus from "../../../store/builders/useProjectStatus";
 
 const LiveTable = () => {
   const navigate = useNavigate();
-  const projects = [
-    {
-      name: "Jane Cooper",
-      id: "Web & Mobile Design",
-      started: "Nov 18, 2024",
-      location: "Chennai",
-      status: "Active",
-      statusColor: "green",
-    },
-    {
-      name: "Albert Flores",
-      id: "Graphics Design",
-      started: "Dec 18, 2024",
-      location: "Chennai",
-      status: "Checking",
-      statusColor: "orange",
-    },
-    {
-      name: "Leslie Alexander",
-      id: "Figma",
-      started: "Feb 18, 2024",
-      location: "Chennai",
-      status: "Mark as Completed",
-      statusColor: "blue",
-    },
-  ];
+  const { projects, isLoading, fetchProjects } = useProjectStatus();
+
+  useEffect(() => {
+    fetchProjects("active"); // Fetch only active projects
+  }, [fetchProjects]);
 
   // Mapping for Tailwind classes
   const statusClasses = {
-    green: {
+    active: {
       bg: "bg-green-100",
       text: "text-green-700",
       dot: "bg-green-500",
     },
-    orange: {
+    pending: {
       bg: "bg-orange-100",
       text: "text-orange-700",
       dot: "bg-orange-500",
     },
-    blue: {
+    completed: {
       bg: "bg-blue-100",
       text: "text-blue-700",
       dot: "bg-blue-500",
@@ -51,6 +31,10 @@ const LiveTable = () => {
 
   const handlenav = (path) => {
     navigate(path);
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -66,54 +50,75 @@ const LiveTable = () => {
       </div>
 
       {/* Table Section */}
-      <table className="w-full table-auto border-collapse">
-        <thead>
-          <tr className="text-left text-sm font-medium text-gray-500 border-b">
-            <th className="py-2 px-4">Customer Name</th>
-            <th className="py-2 px-4">Customer ID</th>
-            <th className="py-2 px-4">Started</th>
-            <th className="py-2 px-4">Location</th>
-            <th className="py-2 px-4">Status</th>
-            <th className="py-2 px-4">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {projects.map((project, index) => (
-            <tr
-              key={index}
-              className="text-sm text-gray-700 border-b hover:bg-gray-50"
-              onClick={()=> handlenav("/builder/profilecard")}
-            >
-              <td className="py-3 px-4">{project.name}</td>
-              <td className="py-3 px-4">{project.id}</td>
-              <td className="py-3 px-4">{project.started}</td>
-              <td className="py-3 px-4">{project.location}</td>
-              <td className="py-3 px-4">
-                <span
-                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                    statusClasses[project.statusColor].bg
-                  } ${statusClasses[project.statusColor].text}`}
-                >
-                  <span
-                    className={`h-2 w-2 rounded-full ${
-                      statusClasses[project.statusColor].dot
-                    } mr-2`}
-                  ></span>
-                  {project.status}
-                </span>
-              </td>
-              <td className="py-3 px-4 flex space-x-2">
-                <button onClick={() => handlenav("/builder/chat")} className="text-blue-500 hover:text-blue-700">
-                  💬
-                </button>
-                <button onClick={() => handlenav("/builder/payment")} className="text-blue-500 hover:text-blue-700">
-                  📁
-                </button>
-              </td>
+      {projects && projects.length > 0 ? (
+        <table className="w-full table-auto border-collapse">
+          <thead>
+            <tr className="text-left text-sm font-medium text-gray-500 border-b">
+              <th className="py-2 px-4">Customer Name</th>
+              <th className="py-2 px-4">Customer ID</th>
+              <th className="py-2 px-4">Started</th>
+              <th className="py-2 px-4">Location</th>
+              <th className="py-2 px-4">Status</th>
+              <th className="py-2 px-4">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {projects.map((project) => (
+              <tr
+                key={project.id}
+                className="text-sm text-gray-700 border-b hover:bg-gray-50"
+                onClick={() => handlenav("/builder/profilecard")}
+              >
+                <td className="py-3 px-4">{project.customer_name}</td>
+                <td className="py-3 px-4">{project.customer_ducktail_id}</td>
+                <td className="py-3 px-4">
+                  {new Date(project.starting_date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </td>
+                <td className="py-3 px-4">{project.project_location}</td>
+                <td className="py-3 px-4">
+                  {project.status && statusClasses[project.status] && (
+                    <span
+                      className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                        statusClasses[project.status].bg
+                      } ${statusClasses[project.status].text}`}
+                    >
+                      <span
+                        className={`h-2 w-2 rounded-full ${
+                          statusClasses[project.status].dot
+                        } mr-2`}
+                      ></span>
+                      {project.status.charAt(0).toUpperCase() +
+                        project.status.slice(1)}
+                    </span>
+                  )}
+                </td>
+                <td className="py-3 px-4 flex space-x-2">
+                  <button
+                    onClick={() => handlenav("/builder/chat")}
+                    className="text-blue-500 hover:text-blue-700"
+                  >
+                    💬
+                  </button>
+                  <button
+                    onClick={() => handlenav("/builder/payment")}
+                    className="text-blue-500 hover:text-blue-700"
+                  >
+                    📁
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div className="text-center py-8 text-gray-500">
+          No live projects available
+        </div>
+      )}
     </div>
   );
 };

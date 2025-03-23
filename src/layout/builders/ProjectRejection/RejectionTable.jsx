@@ -1,106 +1,124 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router";
+import useProjectStatus from "../../../store/builders/useProjectStatus";
 
 const RejectionTable = () => {
-  const [rejectedProjects, setRejectedProjects] = useState([
-    {
-      name: "Theresa Webb",
-      id: "Graphic Design",
-      inviteDate: "Jan 5, 2025",
-      project: "Website Redesign",
-      location: "New York",
-      status: "Rejected",
-      statusColor: "red",
-    },
-    {
-      name: "Albert Flores",
-      id: "Frontend Development",
-      inviteDate: "Dec 1, 2024",
-      project: "App Development",
-      location: "California",
-      status: "Rejected",
-      statusColor: "red",
-    },
-  ]);
+  const navigate = useNavigate();
+  const { projects, isLoading, fetchProjects } = useProjectStatus();
 
+  useEffect(() => {
+    fetchProjects("rejected"); // Fetch only rejected projects
+  }, [fetchProjects]);
+
+  // Mapping for Tailwind classes
   const statusClasses = {
-    red: {
+    active: {
+      bg: "bg-green-100",
+      text: "text-green-700",
+      dot: "bg-green-500",
+    },
+    rejected: {
       bg: "bg-red-100",
       text: "text-red-700",
       dot: "bg-red-500",
     },
-    gray: {
-      bg: "bg-gray-100",
-      text: "text-gray-700",
-      dot: "bg-gray-500",
+    completed: {
+      bg: "bg-blue-100",
+      text: "text-blue-700",
+      dot: "bg-blue-500",
     },
   };
 
-  const handleStatusChange = (project, newStatus) => {
-    setRejectedProjects((prevProjects) =>
-      prevProjects.map((p) =>
-        p.id === project.id ? { ...p, status: newStatus } : p
-      )
-    );
-    console.log("Updated project status:", project.name, "to", newStatus);
+  const handlenav = (path) => {
+    navigate(path);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="bg-white shadow rounded-lg p-6">
+      {/* Header Section */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Rejection Table</h2>
+        <h2 className="text-lg font-semibold">Rejected Projects</h2>
         <input
           type="text"
           placeholder="Search..."
           className="border rounded-lg px-4 py-2 w-1/3 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
       </div>
-      <table className="w-full table-auto border-collapse">
-        <thead>
-          <tr className="text-left text-sm font-medium text-gray-500 border-b">
-            <th className="py-2 px-4">Customer Name</th>
-            <th className="py-2 px-4">Customer ID</th>
-            <th className="py-2 px-4">Invite Date</th>
-            <th className="py-2 px-4">Project</th>
-            <th className="py-2 px-4">Location</th>
-            <th className="py-2 px-4">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rejectedProjects.map((project, index) => (
-            <tr
-              key={index}
-              className="text-sm text-gray-700 border-b hover:bg-gray-50"
-            >
-              <td className="py-3 px-4">{project.name}</td>
-              <td className="py-3 px-4">{project.id}</td>
-              <td className="py-3 px-4">{project.inviteDate}</td>
-              <td className="py-3 px-4">{project.project}</td>
-              <td className="py-3 px-4">{project.location}</td>
-              <td className="py-3 px-4">
-                <div
-                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                    statusClasses[project.statusColor]?.bg || "bg-gray-100"
-                  } ${statusClasses[project.statusColor]?.text || "text-gray-700"}`}
-                >
-                  <span
-                    className={`h-2 w-2 rounded-full ${
-                      statusClasses[project.statusColor]?.dot || "bg-gray-500"
-                    } mr-2`}
-                  ></span>
-                  <select
-                    value={project.status}
-                    onChange={(e) => handleStatusChange(project, e.target.value)}
-                    className="bg-transparent focus:outline-none"
-                  >
-                    <option value="Rejected">Rejected</option>
-                    <option value="Revert">Revert</option>
-                  </select>
-                </div>
-              </td>
+
+      {/* Table Section */}
+      {projects && projects.length > 0 ? (
+        <table className="w-full table-auto border-collapse">
+          <thead>
+            <tr className="text-left text-sm font-medium text-gray-500 border-b">
+              <th className="py-2 px-4">Customer Name</th>
+              <th className="py-2 px-4">Customer ID</th>
+              <th className="py-2 px-4">Started</th>
+              <th className="py-2 px-4">Location</th>
+              <th className="py-2 px-4">Status</th>
+              <th className="py-2 px-4">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {projects.map((project) => (
+              <tr
+                key={project.id}
+                className="text-sm text-gray-700 border-b hover:bg-gray-50"
+                onClick={() => handlenav("/builder/profilecard")}
+              >
+                <td className="py-3 px-4">{project.customer_name}</td>
+                <td className="py-3 px-4">{project.customer_ducktail_id}</td>
+                <td className="py-3 px-4">
+                  {new Date(project.starting_date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </td>
+                <td className="py-3 px-4">{project.project_location}</td>
+                <td className="py-3 px-4">
+                  {project.status && statusClasses[project.status] && (
+                    <span
+                      className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                        statusClasses[project.status].bg
+                      } ${statusClasses[project.status].text}`}
+                    >
+                      <span
+                        className={`h-2 w-2 rounded-full ${
+                          statusClasses[project.status].dot
+                        } mr-2`}
+                      ></span>
+                      {project.status.charAt(0).toUpperCase() +
+                        project.status.slice(1)}
+                    </span>
+                  )}
+                </td>
+                <td className="py-3 px-4 flex space-x-2">
+                  <button
+                    onClick={() => handlenav("/builder/chat")}
+                    className="text-blue-500 hover:text-blue-700"
+                  >
+                    💬
+                  </button>
+                  <button
+                    onClick={() => handlenav("/builder/payment")}
+                    className="text-blue-500 hover:text-blue-700"
+                  >
+                    📁
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div className="text-center py-8 text-gray-500">
+          No rejected projects available
+        </div>
+      )}
     </div>
   );
 };

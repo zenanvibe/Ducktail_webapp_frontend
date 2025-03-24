@@ -130,7 +130,8 @@
         // ✅ Logout (For Builder Only)
         logoutBuilder: () => {
           if (get().userType === "builder") {
-            localStorage.removeItem("builderToken");
+            // localStorage.removeItem("builderToken");
+            localStorage.clear();
             set({ user: null, userType: null, token: null });
             console.log("Builder logged")
             toast.success("Builder logged out successfully");
@@ -140,7 +141,8 @@
         // ✅ Logout (For Customer Only)
         logoutCustomer: () => {
           if (get().userType === "customer") {
-            localStorage.removeItem("customerToken");
+            // localStorage.removeItem("customerToken");
+            localStorage.clear();
             set({ user: null, userType: null, token: null });
             toast.success("Customer logged out successfully");
           }

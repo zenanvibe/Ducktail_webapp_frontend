@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import useProjectStatus from "../../../store/builders/useProjectStatus";
 
 const RejectionTable = () => {
   const navigate = useNavigate();
-  const { projects, isLoading, fetchProjects } = useProjectStatus();
+  const { projects, isLoading, fetchProjects, updateProjectStatus } =
+    useProjectStatus();
+  const [openDropdownId, setOpenDropdownId] = useState(null);
 
   useEffect(() => {
     fetchProjects("rejected"); // Fetch only rejected projects
@@ -17,16 +19,39 @@ const RejectionTable = () => {
       text: "text-green-700",
       dot: "bg-green-500",
     },
-    rejected: {
-      bg: "bg-red-100",
-      text: "text-red-700",
-      dot: "bg-red-500",
+    hold: {
+      bg: "bg-orange-100",
+      text: "text-orange-700",
+      dot: "bg-orange-500",
     },
     completed: {
       bg: "bg-blue-100",
       text: "text-blue-700",
       dot: "bg-blue-500",
     },
+    approved: {
+      bg: "bg-purple-100",
+      text: "text-purple-700",
+      dot: "bg-purple-500",
+    },
+    rejected: {
+      bg: "bg-red-100",
+      text: "text-red-700",
+      dot: "bg-red-500",
+    },
+  };
+
+  const handleStatusChange = async (projectId, newStatus) => {
+    let holdComment = null;
+    if (newStatus === "hold") {
+      holdComment = prompt("Please enter a hold comment:");
+      if (!holdComment) return; // Cancel if no comment provided
+    }
+
+    await updateProjectStatus(projectId, newStatus, holdComment);
+    // Fetch only rejected projects again after status update
+    fetchProjects("rejected");
+    setOpenDropdownId(null); // Close dropdown after status change
   };
 
   const handlenav = (path) => {
@@ -79,21 +104,81 @@ const RejectionTable = () => {
                   })}
                 </td>
                 <td className="py-3 px-4">{project.project_location}</td>
-                <td className="py-3 px-4">
+                <td className="py-3 px-4 relative">
                   {project.status && statusClasses[project.status] && (
-                    <span
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                        statusClasses[project.status].bg
-                      } ${statusClasses[project.status].text}`}
-                    >
-                      <span
-                        className={`h-2 w-2 rounded-full ${
-                          statusClasses[project.status].dot
-                        } mr-2`}
-                      ></span>
-                      {project.status.charAt(0).toUpperCase() +
-                        project.status.slice(1)}
-                    </span>
+                    <div className="relative">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenDropdownId(
+                            openDropdownId === project.id ? null : project.id
+                          );
+                        }}
+                        className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                          statusClasses[project.status].bg
+                        } ${statusClasses[project.status].text} cursor-pointer`}
+                      >
+                        <span
+                          className={`h-2 w-2 rounded-full ${
+                            statusClasses[project.status].dot
+                          } mr-2`}
+                        ></span>
+                        {project.status.charAt(0).toUpperCase() +
+                          project.status.slice(1)}
+                      </button>
+
+                      {openDropdownId === project.id && (
+                        <div className="absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                          <div className="py-1" role="menu">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleStatusChange(project.id, "active");
+                              }}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                            >
+                              Live
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleStatusChange(project.id, "completed");
+                              }}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                            >
+                              Completed
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleStatusChange(project.id, "approved");
+                              }}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                            >
+                              Pending
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleStatusChange(project.id, "rejected");
+                              }}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                            >
+                              Rejection
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleStatusChange(project.id, "hold");
+                              }}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                            >
+                              Hold
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   )}
                 </td>
                 <td className="py-3 px-4 flex space-x-2">

@@ -1,125 +1,109 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import useProjectStatus from "../../../store/builders/useProjectStatus";
+import ProjectTable from "../ProjectTable";
 
 const PendingTable = () => {
   const navigate = useNavigate();
-  const { projects, isLoading, fetchProjects } = useProjectStatus();
+  const { projects, isLoading, fetchProjects, updateProjectStatus } = useProjectStatus();
+  const [showHoldModal, setShowHoldModal] = useState(false);
+  const [holdComment, setHoldComment] = useState("");
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
 
   useEffect(() => {
     fetchProjects("approved"); // Fetch only approved projects
   }, [fetchProjects]);
 
-  // Mapping for Tailwind classes
-  const statusClasses = {
-    active: {
-      bg: "bg-green-100",
-      text: "text-green-700",
-      dot: "bg-green-500",
-    },
-    approved: {
-      bg: "bg-orange-100",
-      text: "text-orange-700",
-      dot: "bg-orange-500",
-    },
-    completed: {
-      bg: "bg-blue-100",
-      text: "text-blue-700",
-      dot: "bg-blue-500",
-    },
+  const handleStatusChange = async (projectId, newStatus) => {
+    if (newStatus === 'hold') {
+      setSelectedProjectId(projectId);
+      setShowHoldModal(true);
+      return;
+    }
+    
+    await updateProjectStatus(projectId, newStatus);
+    // Navigate to respective pages based on status
+    switch(newStatus) {
+      case 'active':
+        navigate('/builder/liveproject');
+        break;
+      case 'hold':
+        navigate('/builder/holdproject');
+        break;
+      case 'completed':
+        navigate('/builder/completedproject');
+        break;
+      case 'approved':
+        navigate('/builder/pendingproject');
+        break;
+      case 'rejected':
+        navigate('/builder/rejectionproject');
+        break;
+      default:
+        fetchProjects("approved");
+    }
   };
 
-  const handlenav = (path) => {
-    navigate(path);
+  const handleHoldSubmit = async () => {
+    if (!holdComment.trim()) return;
+    
+    await updateProjectStatus(selectedProjectId, 'hold', holdComment);
+    setShowHoldModal(false);
+    setHoldComment("");
+    setSelectedProjectId(null);
+    navigate('/builder/holdproject');
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
   }
 
   return (
-    <div className="bg-white shadow rounded-lg p-6">
-      {/* Header Section */}
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Approved Projects</h2>
-        <input
-          type="text"
-          placeholder="Search..."
-          className="border rounded-lg px-4 py-2 w-1/3 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-      </div>
-
-      {/* Table Section */}
-      {projects && projects.length > 0 ? (
-        <table className="w-full table-auto border-collapse">
-          <thead>
-            <tr className="text-left text-sm font-medium text-gray-500 border-b">
-              <th className="py-2 px-4">Customer Name</th>
-              <th className="py-2 px-4">Customer ID</th>
-              <th className="py-2 px-4">Started</th>
-              <th className="py-2 px-4">Location</th>
-              <th className="py-2 px-4">Status</th>
-              <th className="py-2 px-4">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {projects.map((project) => (
-              <tr
-                key={project.id}
-                className="text-sm text-gray-700 border-b hover:bg-gray-50"
-                onClick={() => handlenav("/builder/profilecard")}
+    <>
+      {/* Hold Modal */}
+      {showHoldModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-96 shadow-xl transform transition-all">
+            <h3 className="text-lg font-semibold mb-4">Add Hold Comment</h3>
+            <textarea
+              value={holdComment}
+              onChange={(e) => setHoldComment(e.target.value)}
+              placeholder="Enter reason for holding the project..."
+              className="w-full h-32 p-3 border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => {
+                  setShowHoldModal(false);
+                  setHoldComment("");
+                  setSelectedProjectId(null);
+                }}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
               >
-                <td className="py-3 px-4">{project.customer_name}</td>
-                <td className="py-3 px-4">{project.customer_ducktail_id}</td>
-                <td className="py-3 px-4">
-                  {new Date(project.starting_date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </td>
-                <td className="py-3 px-4">{project.project_location}</td>
-                <td className="py-3 px-4">
-                  {project.status && statusClasses[project.status] && (
-                    <span
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                        statusClasses[project.status].bg
-                      } ${statusClasses[project.status].text}`}
-                    >
-                      <span
-                        className={`h-2 w-2 rounded-full ${
-                          statusClasses[project.status].dot
-                        } mr-2`}
-                      ></span>
-                      {project.status.charAt(0).toUpperCase() +
-                        project.status.slice(1)}
-                    </span>
-                  )}
-                </td>
-                <td className="py-3 px-4 flex space-x-2">
-                  <button
-                    onClick={() => handlenav("/builder/chat")}
-                    className="text-blue-500 hover:text-blue-700"
-                  >
-                    💬
-                  </button>
-                  <button
-                    onClick={() => handlenav("/builder/payment")}
-                    className="text-blue-500 hover:text-blue-700"
-                  >
-                    📁
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <div className="text-center py-8 text-gray-500">
-          No approved projects available
+                Cancel
+              </button>
+              <button
+                onClick={handleHoldSubmit}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
         </div>
       )}
-    </div>
+
+      <ProjectTable 
+        title="Approved Projects"
+        projects={projects}
+        handleStatusChange={handleStatusChange}
+        navigate={navigate}
+      />
+    </>
   );
 };
 

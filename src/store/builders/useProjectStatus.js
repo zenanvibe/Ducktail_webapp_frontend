@@ -22,6 +22,7 @@ const useProjectStatus = create(
       projects: [],
       isLoading: false,
       error: null,
+      selectedProject: null,
 
       fetchProjects: async (status = null, limit = 10, page = 1) => {
         set({ isLoading: true, error: null });
@@ -54,6 +55,33 @@ const useProjectStatus = create(
             error: error.response?.data?.message || "Failed to fetch projects",
           });
           toast.error(error.response?.data?.message || "Failed to fetch projects");
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      fetchProjectById: async (projectId) => {
+        set({ isLoading: true, error: null });
+
+        try {
+          const { token } = useAuthStore.getState();
+          if (!token) throw new Error("Authentication token missing!");
+
+          const response = await axiosInstancev1.get(
+            `/projects/${projectId}`,
+            {
+              headers: { Authorization: `Bearer ${token}` }
+            }
+          );
+
+          set({ selectedProject: response.data });
+          console.log("Fetched Project Details:", response.data);
+          return response.data;
+        } catch (error) {
+          console.error("Fetch Project Details Error:", error);
+          const errorMessage = error.response?.data?.message || "Failed to fetch project details";
+          set({ error: errorMessage });
+          toast.error(errorMessage);
         } finally {
           set({ isLoading: false });
         }

@@ -14,8 +14,6 @@ const ProjectLive = () => {
           />
         </div>
         <LiveTable />
-        <LiveTable />
-        <LiveTable />
       </Layout>
     </div>
   );

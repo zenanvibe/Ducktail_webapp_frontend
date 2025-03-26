@@ -111,12 +111,13 @@
               credential
             );
             localStorage.setItem("customerToken", response.data.token);
-            // console.log(response.data);
+            console.log(response.data);
             set({
               user: {
                 name: response.data.name, 
                 email: response.data.email,
                 customerId: response.data.customerId, 
+                userId: response.data.userId
               },
               userType: "customer",
               token: response.data.token,

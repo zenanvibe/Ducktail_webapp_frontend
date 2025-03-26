@@ -28,15 +28,21 @@ const useProjectStatus = create(
         set({ isLoading: true, error: null });
 
         try {
-          const { token, user } = useAuthStore.getState();
+          const { token, user, userType } = useAuthStore.getState();
           if (!token) throw new Error("Authentication token missing!");
-          if (!user) throw new Error("Builder ID missing in token!");
 
           const params = new URLSearchParams({
-            builderId: user,
             limit,
             page,
           });
+
+          // Set ID based on user type
+          if (userType === "builder") {
+            if (!user) throw new Error("Builder ID missing!");
+            params.append("builderId", user);
+          } else if (userType === "customer") {
+            params.append("customerId", "3"); // Hardcoded customer ID
+          }
 
           if (status) params.append("status", status);
 

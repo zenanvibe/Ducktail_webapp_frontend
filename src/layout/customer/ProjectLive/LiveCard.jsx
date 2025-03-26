@@ -14,14 +14,8 @@ const LiveCard = () => {
   useEffect(() => {
     // Fetch active projects for the logged-in customer
     if (userType === "customer" && user?.customerId) {
-      // Pass customer ID and status to fetch customer-specific projects
-      const params = {
-        customerId: user.customerId,
-        status: "active",
-        limit: 10,
-        page: 1
-      };
-      fetchProjects(params);
+      // Pass the actual customerId from user object instead of hardcoded value
+      fetchProjects("active", 10, 1); // Using default limit=10 and page=1
     }
   }, [user, userType, fetchProjects]);
 

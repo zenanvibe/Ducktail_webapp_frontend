@@ -83,6 +83,7 @@
           try {
             const response = await axiosInstance.post("/builders/auth/login", credential);
             localStorage.setItem("builderToken", response.data.token);
+            console.log("builderslogin",response.data);
         
             // Decode JWT to extract builderId
             const tokenPayload = JSON.parse(atob(response.data.token.split(".")[1])); // Decoding JWT
@@ -111,7 +112,7 @@
               credential
             );
             localStorage.setItem("customerToken", response.data.token);
-            console.log(response.data);
+            console.log("customerlogin",response.data);
             set({
               user: {
                 name: response.data.name, 

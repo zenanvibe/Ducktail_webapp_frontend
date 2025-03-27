@@ -55,6 +55,20 @@ const LiveCard = () => {
               </h2>
               <hr className="mb-3" />
               <div className="space-y-3 text-sm">
+              <div className="flex items-center space-x-2">
+                  <span className="text-gray-600">📋</span>
+                  <span className="font-medium">Company ID</span>
+                </div>
+                <p className="text-blue-600">{project.builder_ducktail_id || "N/A"}</p>
+                <div className="flex items-center space-x-2">
+                  <span className="text-gray-600">📋</span>
+                  <span className="font-medium">Email</span>
+                </div>
+                <p className="text-blue-600">{project.builder_email|| "N/A"}</p><div className="flex items-center space-x-2">
+                  <span className="text-gray-600">📋</span>
+                  <span className="font-medium">Phone Number</span>
+                </div>
+                <p className="text-blue-600">{project.builder_contact || "N/A"}</p>
                 <div className="flex items-center space-x-2">
                   <span className="text-gray-600">📋</span>
                   <span className="font-medium">Project Name</span>

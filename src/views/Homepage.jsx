@@ -12,7 +12,7 @@ import {
   faInstagram,
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import useAuthStore from "../store/useAuthStore";
 import useFindBuilderStore from "../store/useFindBuilderStore";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -24,7 +24,15 @@ const Homepage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { token, userType } = useAuthStore();
-  const { states, districts, taluks, fetchLocationData,setSelectedState, setSelectedDistrict, setSelectedTaluk } = useFindBuilderStore();
+  const {
+    states,
+    districts,
+    taluks,
+    fetchLocationData,
+    setSelectedState,
+    setSelectedDistrict,
+    setSelectedTaluk,
+  } = useFindBuilderStore();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedState, setLocalState] = useState("");
   const [selectedDistrict, setLocalDistrict] = useState("");
@@ -34,10 +42,9 @@ const Homepage = () => {
     setSelectedState(selectedState);
     setSelectedDistrict(selectedDistrict);
     setSelectedTaluk(selectedTaluk);
-    setIsOpen(false); 
-    navigate("/builderslist"); 
+    setIsOpen(false);
+    navigate("/builderslist");
   };
-
 
   useEffect(() => {
     // Check if redirected from login/signup & auto-open the modal
@@ -51,17 +58,17 @@ const Homepage = () => {
 
   const handleFindBuilderClick = () => {
     const user = useAuthStore.getState().user; // Check if user is logged in
-  
+
     if (!user) {
       localStorage.setItem("redirectAfterLogin", "/"); // Store correct path
-      toast.error("Please log in to continue with the builder selection process.");
+      toast.error(
+        "Please log in to continue with the builder selection process."
+      );
       navigate("/signup"); // Redirect to signup
     } else {
       setIsOpen(true); // Open builder selection modal
     }
   };
-  
-
 
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -145,12 +152,12 @@ const Homepage = () => {
             builders near you with Ducktail
           </p>
           <div className="flex items-center justify-center space-x-5">
-          <button
-        className="px-7 py-3 bg-blue-600 text-sm text-white font-bold rounded-full hover:bg-blue-700"
-        onClick={handleFindBuilderClick}
-      >
-        FIND BUILDERS
-      </button>
+            <button
+              className="px-7 py-3 bg-blue-600 text-sm text-white font-bold rounded-full hover:bg-blue-700"
+              onClick={handleFindBuilderClick}
+            >
+              FIND BUILDERS
+            </button>
             <button className="w-16 h-16 bg-black text-white rounded-full flex items-center justify-center relative z-10 shadow-lg">
               <div className="absolute inset-0 rounded-full bg-black animate-borderExplode"></div>
               <svg
@@ -171,72 +178,99 @@ const Homepage = () => {
           </div>
         </div>
         {isOpen && (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
-        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg max-w-lg w-full relative overflow-y-auto max-h-[90vh]">
-          {/* Close Button */}
-          <button className="absolute top-3 right-3 text-black text-xl font-bold hover:text-gray-700" onClick={() => setIsOpen(false)}>
-            ×
-          </button>
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg max-w-lg w-full relative overflow-y-auto max-h-[90vh]">
+              {/* Close Button */}
+              <button
+                className="absolute top-3 right-3 text-black text-xl font-bold hover:text-gray-700"
+                onClick={() => setIsOpen(false)}
+              >
+                ×
+              </button>
 
-          {/* Modal Content */}
-          <h2 className="text-lg sm:text-xl font-bold text-center mb-1">Simplifying Your Building Journey</h2>
-          <p className="text-center text-gray-600 mb-4 text-xs sm:text-sm">Connecting Dreams with Builders!</p>
-          <hr className="border-gray-200 mb-4" />
+              {/* Modal Content */}
+              <h2 className="text-lg sm:text-xl font-bold text-center mb-1">
+                Simplifying Your Building Journey
+              </h2>
+              <p className="text-center text-gray-600 mb-4 text-xs sm:text-sm">
+                Connecting Dreams with Builders!
+              </p>
+              <hr className="border-gray-200 mb-4" />
 
-          <h3 className="text-sm sm:text-lg font-semibold text-center mb-4">Find The Best Builders</h3>
+              <h3 className="text-sm sm:text-lg font-semibold text-center mb-4">
+                Find The Best Builders
+              </h3>
 
-          {/* Dropdowns */}
-          <div className="space-y-6">
-            <div className="flex flex-col items-center">
-              <div className="relative w-3/4 sm:w-2/3">
-                {/* <label className="text-xs sm:text-sm font-medium">State</label> */}
-                <select className="w-full border px-3 py-2 rounded-md" value={selectedState} onChange={(e) => setLocalState(e.target.value)}>
-                  <option value="">Select State</option>
-                  {states.map((state) => (
-                    <option key={state} value={state}>{state}</option>
-                  ))}
-                </select>
+              {/* Dropdowns */}
+              <div className="space-y-6">
+                <div className="flex flex-col items-center">
+                  <div className="relative w-3/4 sm:w-2/3">
+                    {/* <label className="text-xs sm:text-sm font-medium">State</label> */}
+                    <select
+                      className="w-full border px-3 py-2 rounded-md"
+                      value={selectedState}
+                      onChange={(e) => setLocalState(e.target.value)}
+                    >
+                      <option value="">Select State</option>
+                      {states.map((state) => (
+                        <option key={state} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <div className="relative w-3/4 sm:w-2/3">
+                    {/* <label className="text-xs sm:text-sm font-medium">District</label> */}
+                    <select
+                      className="w-full border px-3 py-2 rounded-md"
+                      value={selectedDistrict}
+                      onChange={(e) => setLocalDistrict(e.target.value)}
+                      disabled={!selectedState}
+                    >
+                      <option value="">Select District</option>
+                      {districts.map((district) => (
+                        <option key={district} value={district}>
+                          {district}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <div className="relative w-3/4 sm:w-2/3">
+                    {/* <label className="text-xs sm:text-sm font-medium">Taluk</label> */}
+                    <select
+                      className="w-full border px-3 py-2 rounded-md"
+                      value={selectedTaluk}
+                      onChange={(e) => setLocalTaluk(e.target.value)}
+                      disabled={!selectedDistrict}
+                    >
+                      <option value="">Select Taluk</option>
+                      {taluks.map((taluk) => (
+                        <option key={taluk} value={taluk}>
+                          {taluk}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            <div className="flex flex-col items-center">
-              <div className="relative w-3/4 sm:w-2/3">
-                {/* <label className="text-xs sm:text-sm font-medium">District</label> */}
-                <select className="w-full border px-3 py-2 rounded-md" value={selectedDistrict} onChange={(e) => setLocalDistrict(e.target.value)} disabled={!selectedState}>
-                  <option value="">Select District</option>
-                  {districts.map((district) => (
-                    <option key={district} value={district}>{district}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center">
-              <div className="relative w-3/4 sm:w-2/3">
-                {/* <label className="text-xs sm:text-sm font-medium">Taluk</label> */}
-                <select className="w-full border px-3 py-2 rounded-md" value={selectedTaluk} onChange={(e) => setLocalTaluk(e.target.value)} disabled={!selectedDistrict}>
-                  <option value="">Select Taluk</option>
-                  {taluks.map((taluk) => (
-                    <option key={taluk} value={taluk}>{taluk}</option>
-                  ))}
-                </select>
+              <div className="mt-5 text-center">
+                <button
+                  className="px-6 py-2 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700"
+                  onClick={handleFind}
+                >
+                  FIND
+                </button>
               </div>
             </div>
           </div>
-
-          <div className="mt-5 text-center">
-            <button className="px-6 py-2 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700" onClick={handleFind}>
-              FIND
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
-
-
-
-
-
+        )}
       </div>
 
       {/* Next Section */}
@@ -263,131 +297,131 @@ const Homepage = () => {
 
       {/* Social Icons */}
       <div className="fixed right-2 top-1/2 transform -translate-y-1/2 space-y-2 z-50">
-  {[
-    {
-      icon: faFacebookF,
-      href: "https://www.facebook.com",
-      color: "bg-blue-600",
-      name: "Facebook",
-    },
-    {
-      icon: faInstagram,
-      href: "https://www.instagram.com",
-      color: "bg-pink-600",
-      name: "Instagram",
-    },
-    {
-      icon: faLinkedin,
-      href: "https://www.linkedin.com",
-      color: "bg-blue-500",
-      name: "Linkedin",
-    },
-  ].map((item, index) => (
-    <div
-      key={index}
-      className="relative group flex items-center justify-end"
-    >
-      {/* Text (Appears on hover) */}
-      <span
-        className={`absolute right-14 top-0 h-full flex items-center px-3 rounded-md text-white ${item.color} 
+        {[
+          {
+            icon: faFacebookF,
+            href: "https://www.facebook.com",
+            color: "bg-blue-600",
+            name: "Facebook",
+          },
+          {
+            icon: faInstagram,
+            href: "https://www.instagram.com",
+            color: "bg-pink-600",
+            name: "Instagram",
+          },
+          {
+            icon: faLinkedin,
+            href: "https://www.linkedin.com",
+            color: "bg-blue-500",
+            name: "Linkedin",
+          },
+        ].map((item, index) => (
+          <div
+            key={index}
+            className="relative group flex items-center justify-end"
+          >
+            {/* Text (Appears on hover) */}
+            <span
+              className={`absolute right-14 top-0 h-full flex items-center px-3 rounded-md text-white ${item.color} 
       opacity-0 transform -translate-x-full group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 ease-in-out`}
-      >
-        {item.name}
-      </span>
+            >
+              {item.name}
+            </span>
 
-      {/* Icon */}
-      <a
-        href={item.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`${item.color} w-11 h-11 flex items-center justify-center text-white rounded-full shadow-lg transition`}
-      >
-        <FontAwesomeIcon icon={item.icon} className="w-6 h-6" />
-      </a>
-    </div>
-  ))}
-</div>
-
-
+            {/* Icon */}
+            <a
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${item.color} w-11 h-11 flex items-center justify-center text-white rounded-full shadow-lg transition`}
+            >
+              <FontAwesomeIcon icon={item.icon} className="w-6 h-6" />
+            </a>
+          </div>
+        ))}
+      </div>
 
       {/* service */}
       <section id="services" className="py-6">
-  <div className="container max-w-6xl mx-auto px-4">
-    <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
-      DUCKTAIL'S OTHER SERVICES
-    </h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-20 py-5">
-      {[
-        {
-          title: "Home Loan",
-          img: "/assets/Home-Loan.jpg",
-          link: "/homeloan",
-          comingSoon: false,
-        },
-        {
-          title: "Archi - Design",
-          img: "/assets/art-design.jpg",
-          link: "/archidesign",
-          comingSoon: false,
-        },
-        {
-          title: "Customer Support",
-          img: "/assets/Customer-Support.jpg",
-          link: "/support",
-          comingSoon: false,
-        },
-        {
-          title: "Real Estate",
-          img: "/assets/Untitled-design-36.jpg",
-          comingSoon: true,
-        },
-        {
-          title: "Construction Consultation",
-          img: "/assets/Consulting.png",
-          link: "/constructionconsultation",
-          comingSoon: false,
-        },
-        {
-          title: "Landscaping",
-          img: "/assets/450.jpg",
-          link: "/landscaping",
-          comingSoon: false,
-        },
-        {
-          title: "Premium Construction",
-          img: "/assets/2964.jpg",
-          link: "/premiumconstruction",
-          comingSoon: false,
-        },
-        {
-          title: "Interior Designers",
-          img: "/assets/Interior-Design.png",
-          comingSoon: true,
-        },
-      ].map((service, index) => (
-        <Link to={service.link || "#"} key={index} className="group h-full">
-          <div className="bg-white rounded-2xl hover:shadow-lg transition-shadow duration-300 overflow-hidden text-center cursor-pointer border flex flex-col h-full">
-            <div className="overflow-hidden">
-              <img
-                src={service.img}
-                alt={service.title}
-                className="w-full h-40 object-cover transform transition duration-300 group-hover:scale-110"
-              />
-            </div>
-            <div className="p-4 flex-grow flex flex-col items-center justify-center text-center">
-              <h3 className="font-medium text-lg">{service.title}</h3>
-              {service.comingSoon && (
-                <p className="text-gray-500 text-sm">(Coming Soon)</p>
-              )}
-            </div>
+        <div className="container max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
+            DUCKTAIL'S OTHER SERVICES
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-20 py-5">
+            {[
+              {
+                title: "Home Loan",
+                img: "/assets/Home-Loan.jpg",
+                link: "/homeloan",
+                comingSoon: false,
+              },
+              {
+                title: "Archi - Design",
+                img: "/assets/art-design.jpg",
+                link: "/archidesign",
+                comingSoon: false,
+              },
+              {
+                title: "Customer Support",
+                img: "/assets/Customer-Support.jpg",
+                link: "/support",
+                comingSoon: false,
+              },
+              {
+                title: "Real Estate",
+                img: "/assets/Untitled-design-36.jpg",
+                comingSoon: true,
+              },
+              {
+                title: "Construction Consultation",
+                img: "/assets/Consulting.png",
+                link: "/constructionconsultation",
+                comingSoon: false,
+              },
+              {
+                title: "Landscaping",
+                img: "/assets/450.jpg",
+                link: "/landscaping",
+                comingSoon: false,
+              },
+              {
+                title: "Premium Construction",
+                img: "/assets/2964.jpg",
+                link: "/premiumconstruction",
+                comingSoon: false,
+              },
+              {
+                title: "Interior Designers",
+                img: "/assets/Interior-Design.png",
+                comingSoon: true,
+              },
+            ].map((service, index) => (
+              <Link
+                to={service.link || "#"}
+                key={index}
+                className="group h-full"
+              >
+                <div className="bg-white rounded-2xl hover:shadow-lg transition-shadow duration-300 overflow-hidden text-center cursor-pointer border flex flex-col h-full">
+                  <div className="overflow-hidden">
+                    <img
+                      src={service.img}
+                      alt={service.title}
+                      className="w-full h-40 object-cover transform transition duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="p-4 flex-grow flex flex-col items-center justify-center text-center">
+                    <h3 className="font-medium text-lg">{service.title}</h3>
+                    {service.comingSoon && (
+                      <p className="text-gray-500 text-sm">(Coming Soon)</p>
+                    )}
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
-        </Link>
-      ))}
-    </div>
-  </div>
-</section>
-
-
+        </div>
+      </section>
 
       {/* tile 1 */}
       <section className="relative py-4 flex justify-center">
@@ -419,11 +453,10 @@ const Homepage = () => {
             <div className="flex flex-col lg:flex-row items-center justify-between py-12">
               {/* Text Content */}
               <div className="text-left max-w-[28rem] lg:max-w-[42rem]">
-  <h2 className="text-3xl sm:text-4xl font-bold text-black mb-4">
-    Turn Your Dream Home into Reality with Our Easy Home Loans!
-  </h2>
-</div>
-
+                <h2 className="text-3xl sm:text-4xl font-bold text-black mb-4">
+                  Turn Your Dream Home into Reality with Our Easy Home Loans!
+                </h2>
+              </div>
 
               {/* Button */}
               <div className="mt-6 lg:mt-0">
@@ -441,66 +474,65 @@ const Homepage = () => {
 
       {/* service 2 */}
       <section className="py-7">
-  <div className="container max-w-6xl mx-auto px-4">
-    <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">
-      WHY CHOOSE DUCKTAIL
-    </h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-14">
-      {[
-        {
-          title: "10 Years Warranty",
-          img: "/assets/Ducktail-10-years-warrenty-1 (1).png",
-        },
-        {
-          title: "Ducktail Verified Builders",
-          img: "/assets/Ducktail-verified-builders.png",
-        },
-        {
-          title: "Customer Support",
-          img: "/assets/Support-service.png",
-        },
-        {
-          title: "Organized System",
-          img: "/assets/organised-service.png",
-        },
-        {
-          title: "Easy Home Loan",
-          img: "/assets/Easy-home-loan.png",
-        },
-        {
-          title: "Customer Log-in Dashboard",
-          img: "/assets/Customer-login.png",
-          large: true, // Add a flag for large images
-        },
-        {
-          title: "One Stop Solution",
-          img: "/assets/One-stop-solution.png",
-        },
-        {
-          title: "Certified Builders",
-          img: "/assets/Certified-builders.png",
-        },
-      ].map((item, index) => (
-        <div
-          key={index}
-          className="bg-gray-100 rounded-xl shadow-xl md:p-6 p-10 text-center hover:shadow-lg transition-shadow duration-300"
-        >
-          <div className="overflow-hidden">
-            <img
-              src={item.img}
-              alt={item.title}
-              className={`mx-auto mb-1 transform transition-transform duration-300 hover:scale-110 ${
-                item.large ? "w-32 h-24" : "w-24 h-24"
-              }`}
-            />
+        <div className="container max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">
+            WHY CHOOSE DUCKTAIL
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-14">
+            {[
+              {
+                title: "10 Years Warranty",
+                img: "/assets/Ducktail-10-years-warrenty-1 (1).png",
+              },
+              {
+                title: "Ducktail Verified Builders",
+                img: "/assets/Ducktail-verified-builders.png",
+              },
+              {
+                title: "Customer Support",
+                img: "/assets/Support-service.png",
+              },
+              {
+                title: "Organized System",
+                img: "/assets/organised-service.png",
+              },
+              {
+                title: "Easy Home Loan",
+                img: "/assets/Easy-home-loan.png",
+              },
+              {
+                title: "Customer Log-in Dashboard",
+                img: "/assets/Customer-login.png",
+                large: true, // Add a flag for large images
+              },
+              {
+                title: "One Stop Solution",
+                img: "/assets/One-stop-solution.png",
+              },
+              {
+                title: "Certified Builders",
+                img: "/assets/Certified-builders.png",
+              },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="bg-gray-100 rounded-xl shadow-xl md:p-6 p-10 text-center hover:shadow-lg transition-shadow duration-300"
+              >
+                <div className="overflow-hidden">
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className={`mx-auto mb-1 transform transition-transform duration-300 hover:scale-110 ${
+                      item.large ? "w-32 h-24" : "w-24 h-24"
+                    }`}
+                  />
+                </div>
+                <h3 className="text-base font-semibold">{item.title}</h3>
+              </div>
+            ))}
           </div>
-          <h3 className="text-base font-semibold">{item.title}</h3>
         </div>
-      ))}
-    </div>
-  </div>
-</section>
-
+      </section>
 
       {/* tile 2 */}
       <section className="relative py-12 flex justify-center">

@@ -18,6 +18,8 @@ const CompletedCard = () => {
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
+
+    
   }
 
   if (isLoading) {

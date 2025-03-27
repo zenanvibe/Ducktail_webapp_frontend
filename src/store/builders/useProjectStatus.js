@@ -40,11 +40,12 @@ const useProjectStatus = create(
           if (userType === "builder") {
             if (!user) throw new Error("Builder ID missing!");
             params.append("builderId", user);
+            if (status) params.append("status", status);
           } else if (userType === "customer") {
-            params.append("customerId", "3"); // Hardcoded customer ID
+            if (!user?.customerId) throw new Error("Customer ID missing!");
+            params.append("customerId", user.customerId);
+            params.append("status", status || " "); // Default to completed if no status provided
           }
-
-          if (status) params.append("status", status);
 
           const response = await axiosInstancev1.get(
             `/projects?${params.toString()}`,

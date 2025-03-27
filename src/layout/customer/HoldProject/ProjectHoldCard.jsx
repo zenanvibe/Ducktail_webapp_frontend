@@ -10,7 +10,7 @@ const ProjectHoldCard = () => {
   const { user, userType } = useAuthStore();
 
   useEffect(() => {
-    if (userType === "customer" && user?.customerId && user?.hasHoldProject) {
+    if (userType === "customer" && user?.customerId ) {
       fetchProjects("hold", 10, 1);
     }
   }, [user, userType, fetchProjects]);
@@ -28,7 +28,7 @@ const ProjectHoldCard = () => {
     return <p className="text-center text-gray-500">Loading projects...</p>;
   }
 
-  if (!user?.hasHoldProject || projects.length === 0) {
+  if ( projects.length === 0) {
     return (
       <div className="text-center py-8">
         <p className="text-gray-600 text-lg">

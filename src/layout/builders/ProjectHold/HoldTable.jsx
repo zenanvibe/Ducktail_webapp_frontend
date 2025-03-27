@@ -8,8 +8,10 @@ const HoldTable = () => {
   const navigate = useNavigate();
   const { projects, isLoading, fetchProjects, updateProjectStatus } = useProjectStatus();
   const [showHoldModal, setShowHoldModal] = useState(false);
+  const [showCommentModal, setShowCommentModal] = useState(false);
   const [holdComment, setHoldComment] = useState("");
   const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [projectDetails, setProjectDetails] = useState(null);
 
   useEffect(() => {
     fetchProjects("hold"); // Fetch only hold projects
@@ -55,6 +57,22 @@ const HoldTable = () => {
     navigate('/builder/holdproject');
   };
 
+  const handleViewComment = async (projectId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/v1/projects/${projectId}`, {
+        headers: {
+          'accept': '*/*',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJjdXN0b21lcklkIjoiQ1VTVC04MzQ3NDQtNjMwOSIsImVtYWlsIjoiYWthc2hAZ21haWwuY29tIiwibmFtZSI6IlNpdGhpcmkgIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzQzMDU2NjM1LCJleHAiOjE3NDM2NjE0MzV9.23GlbDqhJ1lUrDxSPetEilYjP420l-8wRT4V_nD5m6I'
+        }
+      });
+      const data = await response.json();
+      setProjectDetails(data.project);
+      setShowCommentModal(true);
+    } catch (error) {
+      console.error("Error fetching project details:", error);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -98,11 +116,50 @@ const HoldTable = () => {
         </div>
       )}
 
+      {/* Comment History Modal */}
+      {showCommentModal && projectDetails && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-[600px] shadow-xl transform transition-all">
+            <h3 className="text-xl font-semibold mb-4">Hold Comments History</h3>
+            <div className="mb-4">
+              <p className="font-medium">Project: {projectDetails.project_name}</p>
+              <p className="text-gray-600">Location: {projectDetails.project_location}</p>
+            </div>
+            <div className="max-h-[400px] overflow-y-auto">
+              {projectDetails.holds.map((hold) => (
+                <div key={hold.id} className="border-b py-3">
+                  <p className="text-gray-800">{hold.comment}</p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {new Date(hold.created_at).toLocaleString()}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={() => setShowCommentModal(false)}
+                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <ProjectTable 
         title="Hold Projects"
         projects={projects}
         handleStatusChange={handleStatusChange}
         navigate={navigate}
+        extraActions={(project) => (
+          <button
+            onClick={() => handleViewComment(project.id)}
+            className="px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded hover:bg-blue-200 transition-colors duration-200"
+          >
+            View Comments
+          </button>
+        )}
       />
     </>
   );

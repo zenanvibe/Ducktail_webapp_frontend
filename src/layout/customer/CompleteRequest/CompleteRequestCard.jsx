@@ -1,9 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CalendarDays, MapPin, FileText } from "lucide-react";
+import useProjectStatus from "../../../store/builders/useProjectStatus";
+import useAuthStore from "../../../store/useAuthStore";
 
 const CompleteRequestCard = () => {
   const [showDocuments, setShowDocuments] = useState(false);
   const [showRejection, setShowRejection] = useState(false);
+  const { projects, fetchProjects, isLoading, error } = useProjectStatus();
+  const { user, userType } = useAuthStore();
+
+  useEffect(() => {
+    // Fetch completion_request projects for the logged-in customer
+    if (userType === "customer" && user?.customerId) {
+      fetchProjects("completion_request", 10, 1);
+    }
+  }, [user, userType, fetchProjects]);
+
+  if (error) {
+    return <p className="text-center text-red-500">{error}</p>;
+  }
+
+  if (isLoading) {
+    return <p className="text-center text-gray-500">Loading projects...</p>;
+  }
+
+  if (projects.length === 0) {
+    return <p className="text-center text-gray-500">No completion requests found.</p>;
+  }
 
   return (
     <div
@@ -28,7 +51,7 @@ const CompleteRequestCard = () => {
 
         {/* Centered Title with Line */}
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold mb-2">JK BUILDERS</h2>
+          <h2 className="text-2xl font-bold mb-2">{projects[0]?.builder_company || "Unknown Builder"}</h2>
           <div className="w-full h-px bg-black"></div>
         </div>
 
@@ -37,7 +60,7 @@ const CompleteRequestCard = () => {
           <FileText className="w-6 h-6 text-gray-600" />
           <div>
             <div className="font-semibold">Project Status</div>
-            <div className="text-gray-600">Completion_Request</div>
+            <div className="text-gray-600">{projects[0]?.status || "N/A"}</div>
           </div>
         </div>
 
@@ -46,7 +69,11 @@ const CompleteRequestCard = () => {
           <CalendarDays className="w-6 h-6 text-gray-600" />
           <div>
             <div className="font-semibold">Project Starting Date</div>
-            <div className="text-gray-600">05 Nov 2020</div>
+            <div className="text-gray-600">
+              {projects[0]?.starting_date
+                ? new Date(projects[0].starting_date).toLocaleDateString()
+                : "N/A"}
+            </div>
           </div>
         </div>
 
@@ -55,7 +82,7 @@ const CompleteRequestCard = () => {
           <MapPin className="w-6 h-6 text-gray-600" />
           <div>
             <div className="font-semibold">Project Location</div>
-            <div className="text-gray-600">Madurai</div>
+            <div className="text-gray-600">{projects[0]?.project_location || "N/A"}</div>
           </div>
         </div>
       </div>

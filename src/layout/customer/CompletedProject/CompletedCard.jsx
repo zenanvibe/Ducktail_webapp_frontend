@@ -1,9 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CalendarDays, MapPin, FileText, MessageCircle, IndianRupee } from "lucide-react";
+import useProjectStatus from "../../../store/builders/useProjectStatus";
+import useAuthStore from "../../../store/useAuthStore";
 
 const CompletedCard = () => {
   const [showDocuments, setShowDocuments] = useState(false);
   const [showRejection, setShowRejection] = useState(false);
+  const { projects, fetchProjects, isLoading, error } = useProjectStatus();
+  const { user, userType } = useAuthStore();
+
+  useEffect(() => {
+    // Fetch completed projects for the logged-in customer
+    if (userType === "customer" && user?.customerId) {
+      fetchProjects("completed", 10, 1);
+    }
+  }, [user, userType, fetchProjects]);
+
+  if (error) {
+    return <p className="text-center text-red-500">{error}</p>;
+  }
+
+  if (isLoading) {
+    return <p className="text-center text-gray-500">Loading projects...</p>;
+  }
+
+  if (projects.length === 0) {
+    return <p className="text-center text-gray-500">No completed projects found.</p>;
+  }
 
   return (
     <div
@@ -28,27 +51,29 @@ const CompletedCard = () => {
 
         {/* Centered Title with Line */}
         {/* Centered Title with Icons in Right Corner */}
-<div className="relative flex items-center justify-center mb-4 pb-2 border-b border-black">
-  <h2 className="text-2xl font-bold text-center flex-1">JK BUILDERS</h2>
-  <div className="absolute right-0 flex gap-2">
-    {/* Chat Icon */}
-    <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md">
-      <MessageCircle className="w-4 h-4 text-gray-700" />
-    </button>
-    
-    {/* Payment Icon */}
-    <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md">
-      <IndianRupee className="w-4 h-4 text-gray-700" />
-    </button>
-  </div>
-</div>
+        <div className="relative flex items-center justify-center mb-4 pb-2 border-b border-black">
+          <h2 className="text-2xl font-bold text-center flex-1">
+            {projects[0]?.builder_company || "Unknown Builder"}
+          </h2>
+          <div className="absolute right-0 flex gap-2">
+            {/* Chat Icon */}
+            <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md">
+              <MessageCircle className="w-4 h-4 text-gray-700" />
+            </button>
+            
+            {/* Payment Icon */}
+            <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md">
+              <IndianRupee className="w-4 h-4 text-gray-700" />
+            </button>
+          </div>
+        </div>
 
         {/* Project Status */}
         <div className="flex items-center gap-4 mb-4">
           <FileText className="w-6 h-6 text-gray-600" />
           <div>
             <div className="font-semibold">Project Status</div>
-            <div className="text-gray-600">Completion_Request</div>
+            <div className="text-gray-600">{projects[0]?.status || "N/A"}</div>
           </div>
         </div>
 
@@ -57,7 +82,11 @@ const CompletedCard = () => {
           <CalendarDays className="w-6 h-6 text-gray-600" />
           <div>
             <div className="font-semibold">Project Starting Date</div>
-            <div className="text-gray-600">05 Nov 2020</div>
+            <div className="text-gray-600">
+              {projects[0]?.starting_date 
+                ? new Date(projects[0].starting_date).toLocaleDateString()
+                : "N/A"}
+            </div>
           </div>
         </div>
 
@@ -66,7 +95,7 @@ const CompletedCard = () => {
           <MapPin className="w-6 h-6 text-gray-600" />
           <div>
             <div className="font-semibold">Project Location</div>
-            <div className="text-gray-600">Madurai</div>
+            <div className="text-gray-600">{projects[0]?.project_location || "N/A"}</div>
           </div>
         </div>
       </div>

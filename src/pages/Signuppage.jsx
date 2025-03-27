@@ -2,6 +2,23 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import toast from "react-hot-toast";
 import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import axios from "axios";
+
+// Map marker update component for Leaflet
+const MarkerPosition = ({ position }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (position) {
+      map.setView(position, 15);
+    }
+  }, [position, map]);
+
+  return null;
+};
 
 const SignupPage = () => {
   const [profileImage, setprofileImage] = useState(null);
@@ -11,102 +28,117 @@ const SignupPage = () => {
     longitude: "",
     agreementConfirmed: false,
     privacyPolicyConfirmed: false,
-    warrantyConfirmed: false
+    warrantyConfirmed: false,
+    aadhaarNumber: "",
+    aadhaarOtp: "",
+    aadhaarRefId: "",
+    aadhaarVerified: false,
+    gstVerified: false,
   });
+
   const { signupBuilder, isSigningUp } = useAuthStore();
   const navigate = useNavigate();
   const mapRef = useRef(null);
-  const googleMapRef = useRef(null);
-  const markerRef = useRef(null);
 
-  // Define updateLocationFields using useCallback to avoid dependency issues
-  const updateLocationFields = useCallback((location) => {
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      latitude: location.lat().toFixed(6),
-      longitude: location.lng().toFixed(6)
-    }));
-  }, []);
-
-  // Initialize Google Map
-  useEffect(() => {
-    const loadGoogleMapsScript = () => {
-      // Check if the script is already loaded
-      if (window.google && window.google.maps) {
-        initializeMap();
-        return;
-      }
-
-      // Create the script element
-      const googleMapScript = document.createElement('script');
-      googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places`;
-      googleMapScript.async = true;
-      googleMapScript.defer = true;
-      googleMapScript.onload = initializeMap;
-      document.body.appendChild(googleMapScript);
-    };
-
-    const initializeMap = () => {
-      if (currentStep === 1 && mapRef.current && !googleMapRef.current) {
-        // Default center (India)
-        const defaultLocation = { lat: 20.5937, lng: 78.9629 };
-        
-        // Create map
-        const map = new window.google.maps.Map(mapRef.current, {
-          zoom: 5,
-          center: defaultLocation,
-          mapTypeControl: false,
-        });
-        
-        // Create marker
-        const marker = new window.google.maps.Marker({
-          position: defaultLocation,
-          map: map,
-          draggable: true,
-        });
-        
-        // Add click listener to map
-        map.addListener('click', (e) => {
-          const clickedLocation = e.latLng;
-          marker.setPosition(clickedLocation);
-          updateLocationFields(clickedLocation);
-        });
-        
-        // Add dragend listener to marker
-        marker.addListener('dragend', () => {
-          const markerPosition = marker.getPosition();
-          updateLocationFields(markerPosition);
-        });
-        
-        // Store references
-        googleMapRef.current = map;
-        markerRef.current = marker;
-        
-        // If we already have lat/lng in the form, position the marker there
-        if (formData.latitude && formData.longitude) {
-          const position = {
-            lat: parseFloat(formData.latitude),
-            lng: parseFloat(formData.longitude)
-          };
-          marker.setPosition(position);
-          map.setCenter(position);
-          map.setZoom(15);
+  // Function to verify Aadhaar
+  const verifyAadhaar = async () => {
+    try {
+      const response = await axios.post(
+        "https://sandbox.cashfree.com/verification/offline-aadhaar/otp",
+        {
+          aadhaar_number: formData.aadhaarNumber,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-client-id": process.env.REACT_APP_CASHFREE_CLIENT_ID,
+            "x-client-secret": process.env.REACT_APP_CASHFREE_CLIENT_SECRET,
+          },
         }
+      );
+
+      if (response.data.status === "SUCCESS") {
+        setFormData({ ...formData, aadhaarRefId: response.data.ref_id });
+        toast.success("OTP sent successfully");
       }
-    };
-    
-    if (currentStep === 1) {
-      loadGoogleMapsScript();
+    } catch (error) {
+      toast.error("Failed to send Aadhaar OTP");
     }
-    
-    return () => {
-      // Clean up references when component unmounts or step changes
-      if (currentStep !== 1) {
-        googleMapRef.current = null;
-        markerRef.current = null;
+  };
+
+  // Function to verify Aadhaar OTP
+  const verifyAadhaarOTP = async () => {
+    try {
+      const response = await axios.post(
+        "https://sandbox.cashfree.com/verification/offline-aadhaar/verify",
+        {
+          otp: formData.aadhaarOtp,
+          ref_id: formData.aadhaarRefId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-client-id": process.env.REACT_APP_CASHFREE_CLIENT_ID,
+            "x-client-secret": process.env.REACT_APP_CASHFREE_CLIENT_SECRET,
+          },
+        }
+      );
+
+      if (response.data.status === "VALID") {
+        setFormData({
+          ...formData,
+          aadhaarVerified: true,
+          name: response.data.name,
+          gender: response.data.gender === "M" ? "Male" : "Female",
+          addressLine1: response.data.split_address.house,
+          addressLine2: response.data.split_address.street,
+          district: response.data.split_address.dist,
+          postcode: response.data.split_address.pincode,
+        });
+        toast.success("Aadhaar verified successfully");
       }
-    };
-  }, [currentStep, formData.latitude, formData.longitude, updateLocationFields]);
+    } catch (error) {
+      toast.error("Failed to verify Aadhaar OTP");
+    }
+  };
+
+  // Function to verify GST
+  const verifyGST = async () => {
+    try {
+      const response = await axios.post(
+        "https://sandbox.cashfree.com/verification/gstin",
+        {
+          GSTIN: formData.gst,
+          business_name: formData.companyName,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-client-id": process.env.REACT_APP_CASHFREE_CLIENT_ID,
+            "x-client-secret": process.env.REACT_APP_CASHFREE_CLIENT_SECRET,
+          },
+        }
+      );
+
+      if (response.data.valid) {
+        setFormData({
+          ...formData,
+          gstVerified: true,
+          companyName: response.data.legal_name_of_business,
+          addressLine1:
+            response.data.principal_place_split_address.building_name,
+          addressLine2: response.data.principal_place_split_address.street,
+          district: response.data.principal_place_split_address.district,
+          postcode: response.data.principal_place_split_address.pincode,
+          latitude: response.data.principal_place_split_address.latitude,
+          longitude: response.data.principal_place_split_address.longitude,
+        });
+        toast.success("GST verified successfully");
+      }
+    } catch (error) {
+      toast.error("Failed to verify GST");
+    }
+  };
 
   // Function to get current location
   const getCurrentLocation = () => {
@@ -115,22 +147,15 @@ const SignupPage = () => {
         (position) => {
           const currentLocation = {
             lat: position.coords.latitude,
-            lng: position.coords.longitude
+            lng: position.coords.longitude,
           };
-          
+
           setFormData({
             ...formData,
             latitude: currentLocation.lat.toFixed(6),
-            longitude: currentLocation.lng.toFixed(6)
+            longitude: currentLocation.lng.toFixed(6),
           });
-          
-          // Update map and marker if they exist
-          if (googleMapRef.current && markerRef.current) {
-            markerRef.current.setPosition(currentLocation);
-            googleMapRef.current.setCenter(currentLocation);
-            googleMapRef.current.setZoom(15);
-          }
-          
+
           toast.success("Location detected successfully!");
         },
         (error) => {
@@ -139,7 +164,9 @@ const SignupPage = () => {
         }
       );
     } else {
-      toast.error("Geolocation is not supported by your browser. Please select on the map.");
+      toast.error(
+        "Geolocation is not supported by your browser. Please select on the map."
+      );
     }
   };
 
@@ -174,7 +201,30 @@ const SignupPage = () => {
         },
         { label: "Email", type: "email", id: "email", required: true },
         { label: "Password", type: "password", id: "password", required: true },
-        { label: "GST", type: "text", id: "gst" },
+        {
+          label: "GST",
+          type: "text",
+          id: "gst",
+          verifyButton: true,
+          verifyFunction: verifyGST,
+        },
+        {
+          label: "Aadhaar Number",
+          type: "text",
+          id: "aadhaarNumber",
+          required: true,
+          verifyButton: true,
+          verifyFunction: verifyAadhaar,
+        },
+        {
+          label: "Aadhaar OTP",
+          type: "text",
+          id: "aadhaarOtp",
+          required: true,
+          verifyButton: true,
+          verifyFunction: verifyAadhaarOTP,
+          showWhenVerifying: true,
+        },
         {
           label: "Contact Number",
           type: "text",
@@ -228,7 +278,8 @@ const SignupPage = () => {
   ];
 
   const handleInputChange = (e, id) => {
-    setFormData({ ...formData, [id]: e.target.value });
+    const value = e.target.value;
+    setFormData({ ...formData, [id]: value });
   };
 
   const handleFileChange = (e, id) => {
@@ -247,7 +298,7 @@ const SignupPage = () => {
   const handleCheckboxChange = (id) => {
     setFormData({
       ...formData,
-      [id]: !formData[id]
+      [id]: !formData[id],
     });
   };
 
@@ -266,7 +317,9 @@ const SignupPage = () => {
     // Check for agreements on first step
     if (currentStep === 0) {
       if (!formData.agreementConfirmed) {
-        toast.error("Please confirm that you agree to the Terms and Conditions.");
+        toast.error(
+          "Please confirm that you agree to the Terms and Conditions."
+        );
         return false;
       }
       if (!formData.privacyPolicyConfirmed) {
@@ -274,7 +327,9 @@ const SignupPage = () => {
         return false;
       }
       if (!formData.warrantyConfirmed) {
-        toast.error("Please confirm that you agree to provide the warranty service.");
+        toast.error(
+          "Please confirm that you agree to provide the warranty service."
+        );
         return false;
       }
     }
@@ -358,6 +413,76 @@ const SignupPage = () => {
 
         {/* Form Fields */}
         <form onSubmit={handleSubmit} className="mt-6">
+          {/* Map for location selection - Moved before form fields */}
+          {isAddressStep && (
+            <div className="mb-6">
+              <label className="text-gray-700 text-sm font-medium mb-2 block">
+                Select Location on Map <span className="text-red-500">*</span>
+              </label>
+              <MapContainer
+                center={[20.5937, 78.9629]}
+                zoom={5}
+                style={{ height: "400px", width: "100%" }}
+                className="border rounded-md overflow-hidden mb-4"
+              >
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                {formData.latitude && formData.longitude && (
+                  <>
+                    <Marker
+                      position={[
+                        parseFloat(formData.latitude),
+                        parseFloat(formData.longitude),
+                      ]}
+                      draggable={true}
+                      eventHandlers={{
+                        dragend: (e) => {
+                          const marker = e.target;
+                          const position = marker.getLatLng();
+                          setFormData({
+                            ...formData,
+                            latitude: position.lat.toFixed(6),
+                            longitude: position.lng.toFixed(6),
+                          });
+                        },
+                      }}
+                    />
+                    <MarkerPosition
+                      position={[
+                        parseFloat(formData.latitude),
+                        parseFloat(formData.longitude),
+                      ]}
+                    />
+                  </>
+                )}
+              </MapContainer>
+              <p className="text-sm text-gray-500 mb-4">
+                Click on the map to select your location or use the button below
+                to get your current location.
+              </p>
+              <div className="flex justify-center mb-6">
+                <button
+                  type="button"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center"
+                  onClick={getCurrentLocation}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Get Current Location
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {steps[currentStep].fields.map((field, index) => (
               <div className="flex flex-col mb-4" key={index}>
@@ -368,77 +493,65 @@ const SignupPage = () => {
                   {field.label}{" "}
                   {field.required && <span className="text-red-500">*</span>}
                 </label>
-                {field.type === "select" ? (
-                  <select
-                    id={field.id}
-                    className="border rounded-md p-2 w-full"
-                    value={formData[field.id] || ""}
-                    onChange={(e) => handleInputChange(e, field.id)}
-                  >
-                    <option value="">Select {field.label}</option>
-                    {field.options.map((option, idx) => (
-                      <option key={idx} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                ) : field.type === "file" ? (
-                  <input
-                    id={field.id}
-                    type="file"
-                    className="border rounded-md p-2 w-full"
-                    onChange={(e) => handleFileChange(e, field.id)}
-                  />
-                ) : (
-                  <input
-                    id={field.id}
-                    type={field.type}
-                    className="border rounded-md p-2 w-full"
-                    value={formData[field.id] || ""}
-                    onChange={(e) => handleInputChange(e, field.id)}
-                  />
+                <div className="flex">
+                  {field.type === "select" ? (
+                    <select
+                      id={field.id}
+                      className="border rounded-md p-2 w-full"
+                      value={formData[field.id] || ""}
+                      onChange={(e) => handleInputChange(e, field.id)}
+                    >
+                      <option value="">Select {field.label}</option>
+                      {field.options.map((option, idx) => (
+                        <option key={idx} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  ) : field.type === "file" ? (
+                    <input
+                      id={field.id}
+                      type="file"
+                      className="border rounded-md p-2 w-full"
+                      onChange={(e) => handleFileChange(e, field.id)}
+                    />
+                  ) : (
+                    <>
+                      <input
+                        id={field.id}
+                        type={field.type}
+                        className={`border rounded-md p-2 ${
+                          field.verifyButton ? "w-3/4" : "w-full"
+                        }`}
+                        value={formData[field.id] || ""}
+                        onChange={(e) => handleInputChange(e, field.id)}
+                      />
+                      {field.verifyButton && (
+                        <button
+                          type="button"
+                          className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-md"
+                          onClick={field.verifyFunction}
+                        >
+                          Verify
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
+                {field.id === "aadhaarNumber" && formData.aadhaarVerified && (
+                  <span className="text-green-500 text-sm mt-1">Verified</span>
+                )}
+                {field.id === "gst" && formData.gstVerified && (
+                  <span className="text-green-500 text-sm mt-1">Verified</span>
                 )}
               </div>
             ))}
           </div>
 
-          {/* Map for location selection */}
-          {isAddressStep && (
-            <div className="mt-6">
-              <label className="text-gray-700 text-sm font-medium mb-2 block">
-                Select Location on Map <span className="text-red-500">*</span>
-              </label>
-              <div 
-                ref={mapRef} 
-                className="h-64 w-full border rounded-md overflow-hidden mb-4"
-              ></div>
-              <p className="text-sm text-gray-500 mb-4">
-                Click on the map to select your location or use the button below to get your current location.
-              </p>
-              <div className="flex justify-center mb-6">
-                <button
-                  type="button"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center"
-                  onClick={getCurrentLocation}
-                >
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    className="h-5 w-5 mr-2" 
-                    viewBox="0 0 20 20" 
-                    fill="currentColor"
-                  >
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                  Get Current Location
-                </button>
-              </div>
-            </div>
-          )}
-
           {/* Profile Photo Upload */}
           <div className="flex justify-center mb-6 mt-6">
             <label htmlFor="profileImage" className="relative cursor-pointer">
-            <div className="w-24 h-24 rounded-full border-2 border-gray-300 flex items-center justify-center overflow-hidden">
+              <div className="w-24 h-24 rounded-full border-2 border-gray-300 flex items-center justify-center overflow-hidden">
                 {profileImage ? (
                   <img
                     src={profileImage}
@@ -469,13 +582,17 @@ const SignupPage = () => {
                   checked={formData.warrantyConfirmed || false}
                   onChange={() => handleCheckboxChange("warrantyConfirmed")}
                 />
-                <label htmlFor="warrantyConfirmed" className="text-sm text-gray-700">
-                <strong>10 years warranty</strong><br />
-I agree to provide a 10-year warranty service, guaranteeing long-term quality and structural 
-                  integrity for all construction projects that I build.
+                <label
+                  htmlFor="warrantyConfirmed"
+                  className="text-sm text-gray-700"
+                >
+                  <strong>10 years warranty</strong>
+                  <br />I agree to provide a 10-year warranty service,
+                  guaranteeing long-term quality and structural integrity for
+                  all construction projects that I build.
                 </label>
               </div>
-              
+
               <div className="flex items-start space-x-2">
                 <input
                   type="checkbox"
@@ -484,24 +601,34 @@ I agree to provide a 10-year warranty service, guaranteeing long-term quality an
                   checked={formData.agreementConfirmed || false}
                   onChange={() => handleCheckboxChange("agreementConfirmed")}
                 />
-                <label htmlFor="agreementConfirmed" className="text-sm text-gray-700">
-                  <strong>Terms and conditions (Builders & customers)</strong><br />
-                  I read the above and hereby confirm that the above terms and conditions are agreed, 
-                  upon to the best of my knowledge and belief.
+                <label
+                  htmlFor="agreementConfirmed"
+                  className="text-sm text-gray-700"
+                >
+                  <strong>Terms and conditions (Builders & customers)</strong>
+                  <br />I read the above and hereby confirm that the above terms
+                  and conditions are agreed, upon to the best of my knowledge
+                  and belief.
                 </label>
               </div>
-              
+
               <div className="flex items-start space-x-2">
                 <input
                   type="checkbox"
                   id="privacyPolicyConfirmed"
                   className="mt-1"
                   checked={formData.privacyPolicyConfirmed || false}
-                  onChange={() => handleCheckboxChange("privacyPolicyConfirmed")}
+                  onChange={() =>
+                    handleCheckboxChange("privacyPolicyConfirmed")
+                  }
                 />
-                <label htmlFor="privacyPolicyConfirmed" className="text-sm text-gray-700">
-                  <strong>Privacy policy</strong><br />
-                  I hereby confirm that I have read and agree to the above Privacy Policy to the best of my knowledge and belief.
+                <label
+                  htmlFor="privacyPolicyConfirmed"
+                  className="text-sm text-gray-700"
+                >
+                  <strong>Privacy policy</strong>
+                  <br />I hereby confirm that I have read and agree to the above
+                  Privacy Policy to the best of my knowledge and belief.
                 </label>
               </div>
             </div>
@@ -534,7 +661,7 @@ I agree to provide a 10-year warranty service, guaranteeing long-term quality an
               >
                 {isSigningUp ? "Submitting..." : "Submit"}
               </button>
-            )}
+            )}  
           </div>
         </form>
       </div>

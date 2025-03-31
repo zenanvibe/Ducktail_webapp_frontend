@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
-import L from "leaflet";
+// import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
 
@@ -38,7 +38,7 @@ const SignupPage = () => {
 
   const { signupBuilder, isSigningUp } = useAuthStore();
   const navigate = useNavigate();
-  const mapRef = useRef(null);
+  // const mapRef = useRef(null);
 
   // Function to verify Aadhaar
   const verifyAadhaar = async () => {

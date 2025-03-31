@@ -1,9 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Phone, BadgeCheck } from "lucide-react";
+import useProjectEnqStore from "../../../store/customer/useProjectEnqStore";
 
 const ProjectInviteForm = () => {
   const navigate = useNavigate();
+  const { fetchCustomerEnquiries, enquiries, isLoading, updateProjectStatus } = useProjectEnqStore();
+  const [currentEnquiryIndex, setCurrentEnquiryIndex] = useState(0);
+
+  useEffect(() => {
+    fetchCustomerEnquiries();
+  }, [fetchCustomerEnquiries]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!enquiries || enquiries.length === 0) {
+    return <div className="text-center text-gray-600 p-4">No project invitations available at this time.</div>;
+  }
+
+  const enquiry = enquiries[currentEnquiryIndex];
+
+  const handleAccept = async () => {
+    await updateProjectStatus(enquiry.project_id, 'accept');
+    if (currentEnquiryIndex < enquiries.length - 1) {
+      setCurrentEnquiryIndex(currentEnquiryIndex + 1);
+    }
+    navigate("/livecard");
+  };
+
+  const handleDecline = async () => {
+    await updateProjectStatus(enquiry.project_id, 'decline');
+    if (currentEnquiryIndex < enquiries.length - 1) {
+      setCurrentEnquiryIndex(currentEnquiryIndex + 1);
+    }
+    navigate("/rejectcard");
+  };
 
   return (
     <div className="max-w-sm mx-auto bg-white rounded-2xl shadow-lg p-6 w-full">
@@ -19,11 +52,13 @@ const ProjectInviteForm = () => {
       </div>
 
       {/* Title */}
-      <h1 className="text-xl font-bold text-center mb-2">THE MADE MODEL</h1>
+      <h1 className="text-xl font-bold text-center mb-2">
+        {enquiry?.builder_name || "N/A"}
+      </h1>
 
       {/* Subtitle */}
       <p className="text-sm text-gray-600 text-center mb-4">
-        Join Us To Build An Innovative Project!
+      {enquiry?.comments || "N/A"}
       </p>
 
       {/* Info Grid */}
@@ -33,7 +68,9 @@ const ProjectInviteForm = () => {
           <BadgeCheck className="w-5 h-5 text-green-500" />
           <div>
             <div className="text-xs text-gray-500">Company Ducktail ID</div>
-            <div className="text-sm font-medium">12455248</div>
+            <div className="text-sm font-medium">
+              {enquiry?.builder_ducktail_id || "N/A"}
+            </div>
           </div>
         </div>
 
@@ -42,17 +79,25 @@ const ProjectInviteForm = () => {
           <Phone className="w-5 h-5 text-blue-500" />
           <div>
             <div className="text-xs text-gray-500">Phone Number</div>
-            <div className="text-sm font-medium">9662220001</div>
+            <div className="text-sm font-medium">
+              {enquiry?.builder_contact || "N/A"}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Buttons */}
       <div className="flex justify-center gap-12">
-        <button className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition">
+        <button 
+          onClick={handleDecline}
+          className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition"
+        >
           DECLINE
         </button>
-        <button className="px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600 transition">
+        <button 
+          onClick={handleAccept}
+          className="px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600 transition"
+        >
           ACCEPT
         </button>
       </div>

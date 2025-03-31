@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { AiOutlineFile } from "react-icons/ai"; // Importing document icon
+import { AiOutlineFile } from "react-icons/ai";
+import useProjectStatus from "../../store/builders/useProjectStatus";
+import { useParams } from "react-router-dom";
 
-const DocumentUpload = ({ onBack, onSubmit }) => {
+const DocumentUpload = ({ onBack }) => {
+  const { projectId } = useParams();
+  const { uploadCompletionDocuments } = useProjectStatus();
   const [documents, setDocuments] = useState({
     specificationReport: null,
     warrantyDocument: null,
@@ -16,6 +20,15 @@ const DocumentUpload = ({ onBack, onSubmit }) => {
     });
   };
 
+  const handleSubmit = async () => {
+    try {
+      await uploadCompletionDocuments(projectId, documents);
+      onBack(); // Navigate back on success
+    } catch (error) {
+      console.error("Error uploading documents:", error);
+    }
+  };
+
   const allFilesUploaded = Object.values(documents).every((file) => file !== null);
 
   return (
@@ -25,7 +38,7 @@ const DocumentUpload = ({ onBack, onSubmit }) => {
 
         <div className="grid grid-cols-2 gap-6">
           <div className="bg-gray-50 p-4 rounded-lg shadow-md text-center">
-            <AiOutlineFile className="text-blue-500 text-4xl mx-auto mb-2" /> {/* Document Icon */}
+            <AiOutlineFile className="text-blue-500 text-4xl mx-auto mb-2" />
             <h3 className="font-medium mb-2">Specification Report</h3>
             <p className="text-sm text-gray-600">Max Size: 5 MB</p>
             <p className="text-sm text-gray-600">Upload File: PDF, DOCX only</p>
@@ -38,7 +51,7 @@ const DocumentUpload = ({ onBack, onSubmit }) => {
           </div>
 
           <div className="bg-gray-50 p-4 rounded-lg shadow-md text-center">
-            <AiOutlineFile className="text-blue-500 text-4xl mx-auto mb-2" /> {/* Document Icon */}
+            <AiOutlineFile className="text-blue-500 text-4xl mx-auto mb-2" />
             <h3 className="font-medium mb-2">Warranty Document</h3>
             <p className="text-sm text-gray-600">Max Size: 5 MB</p>
             <p className="text-sm text-gray-600">Upload File: PDF, DOCX only</p>
@@ -51,7 +64,7 @@ const DocumentUpload = ({ onBack, onSubmit }) => {
           </div>
 
           <div className="bg-gray-50 p-4 rounded-lg shadow-md text-center">
-            <AiOutlineFile className="text-blue-500 text-4xl mx-auto mb-2" /> {/* Document Icon */}
+            <AiOutlineFile className="text-blue-500 text-4xl mx-auto mb-2" />
             <h3 className="font-medium mb-2">Completion Certificate</h3>
             <p className="text-sm text-gray-600">Max Size: 5 MB</p>
             <p className="text-sm text-gray-600">Upload File: PDF, DOCX only</p>
@@ -64,7 +77,7 @@ const DocumentUpload = ({ onBack, onSubmit }) => {
           </div>
 
           <div className="bg-gray-50 p-4 rounded-lg shadow-md text-center">
-            <AiOutlineFile className="text-blue-500 text-4xl mx-auto mb-2" /> {/* Document Icon */}
+            <AiOutlineFile className="text-blue-500 text-4xl mx-auto mb-2" />
             <h3 className="font-medium mb-2">Site Image</h3>
             <p className="text-sm text-gray-600">Max File Size: 5 MB</p>
             <p className="text-sm text-gray-600">Formats: JPG, JPEG, PNG, WEBP</p>
@@ -101,7 +114,7 @@ const DocumentUpload = ({ onBack, onSubmit }) => {
             className={`px-4 py-2 rounded-md text-white ${
               allFilesUploaded ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-300 cursor-not-allowed"
             }`}
-            onClick={onSubmit}
+            onClick={handleSubmit}
             disabled={!allFilesUploaded}
           >
             Upload

@@ -40,6 +40,9 @@ const LiveTable = () => {
       case 'rejected':
         navigate('/builder/rejectionproject');
         break;
+      case 'upload_document':
+        navigate('/builder/completionrequest');
+        break;
       default:
         fetchProjects("active");
     }

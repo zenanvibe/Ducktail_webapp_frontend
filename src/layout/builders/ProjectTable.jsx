@@ -20,9 +20,9 @@ const ProjectTable = ({ title, projects = [], handleStatusChange, navigate }) =>
   const filteredProjects = Array.isArray(projects) ? projects.filter((project) => {
     const searchTerm = searchQuery.toLowerCase();
     return (
-      project.customer_name.toLowerCase().includes(searchTerm) ||
-      project.customer_ducktail_id.toLowerCase().includes(searchTerm) ||
-      project.project_location.toLowerCase().includes(searchTerm) ||
+      project.customer_name?.toLowerCase().includes(searchTerm) ||
+      project.customer_ducktail_id?.toLowerCase().includes(searchTerm) ||
+      project.project_location?.toLowerCase().includes(searchTerm) ||
       new Date(project.starting_date)
         .toLocaleDateString("en-US", {
           year: "numeric",
@@ -31,7 +31,8 @@ const ProjectTable = ({ title, projects = [], handleStatusChange, navigate }) =>
         })
         .toLowerCase()
         .includes(searchTerm) ||
-      project.status.toLowerCase().includes(searchTerm)
+      project.status?.toLowerCase().includes(searchTerm) ||
+      'upload_document'.includes(searchTerm) // Add this to make upload_document searchable
     );
   }) : [];
 

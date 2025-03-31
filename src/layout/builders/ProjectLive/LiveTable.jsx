@@ -66,6 +66,15 @@ const LiveTable = () => {
     );
   }
 
+  const statusOptions = [
+    { value: 'active', label: 'Active' },
+    { value: 'hold', label: 'Hold' },
+    { value: 'completed', label: 'Completed' },
+    { value: 'upload_document', label: 'Upload Document' },
+    { value: 'approved', label: 'Approved' },
+    { value: 'rejected', label: 'Rejected' }
+  ];
+
   return (
     <>
       {/* Hold Modal */}
@@ -106,6 +115,7 @@ const LiveTable = () => {
         projects={projects}
         handleStatusChange={handleStatusChange}
         navigate={navigate}
+        statusOptions={statusOptions}
       />
     </>
   );

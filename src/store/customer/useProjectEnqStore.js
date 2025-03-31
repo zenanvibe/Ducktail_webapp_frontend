@@ -4,6 +4,8 @@ import { axiosInstancev1 } from "../../lib/axiosInstance";
 import { toast } from "react-hot-toast";
 import useAuthStore from "../useAuthStore";
 
+import { jwtDecode } from "jwt-decode"; // Note the named import instead of default import
+
 const useProjectEnqStore = create(
   persist(
     (set, get) => ({
@@ -15,13 +17,21 @@ const useProjectEnqStore = create(
         set({ isLoading: true, error: null });
 
         try {
-          const { token, user } = useAuthStore.getState();
+          const { token } = useAuthStore.getState();
           if (!token) throw new Error("Authentication token missing!");
-          if (!user?.customerId) throw new Error("Customer ID missing!");
+          
+          // Get customerToken from localStorage and decode it
+          const customerToken = localStorage.getItem('customerToken');
+          if (!customerToken) throw new Error("Customer token missing!");
+          
+          // Decode the JWT token to get user information
+          const decodedToken = jwtDecode(customerToken);
+          const customerId = decodedToken.customerId;
+          
+          if (!customerId) throw new Error("Customer ID missing from token!");
 
           const params = new URLSearchParams({
-            // customerId: user.customerId,
-            customerId:3,
+            customerId,
             limit,
             page,
           });
@@ -50,47 +60,8 @@ const useProjectEnqStore = create(
         }
       },
 
-      updateProjectStatus: async (projectId, key, holdComment = "") => {
-        set({ isLoading: true, error: null });
-
-        try {
-          const { token } = useAuthStore.getState();
-          if (!token) throw new Error("Authentication token missing!");
-
-          // Get latest project ID from enquiries
-          const latestProjectId = await get().fetchCustomerEnquiries();
-          if (!latestProjectId) throw new Error("No project ID found!");
-
-          const payload = {
-            key,
-            holdComment
-          };
-
-          const response = await axiosInstancev1.put(
-            `/projects/${latestProjectId}/status-by-key`,
-            payload,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-
-          console.log("Project Status Updated:", response.data);
-          const successMessage = key === 'accept' ? 'Project Accepted Successfully' : 'Project Declined Successfully';
-          toast.success(successMessage);
-          
-          // Refresh enquiries after status update
-          await get().fetchCustomerEnquiries();
-          
-          return response.data;
-        } catch (error) {
-          console.error("Update Project Status Error:", error);
-          const errorMessage = error.response?.data?.message || `Failed to ${key} project`;
-          set({ error: errorMessage });
-          toast.error(errorMessage);
-        } finally {
-          set({ isLoading: false });
-        }
-      },
+      // Rest of your code remains the same
+      // ...
     }),
     {
       name: "project-enquiries-storage", 

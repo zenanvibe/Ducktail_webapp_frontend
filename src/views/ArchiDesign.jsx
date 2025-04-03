@@ -63,8 +63,10 @@ const ArchiDesign = () => {
   return (
     <div>
       {/* First Section */}
-      <div className="relative w-full h-[66vh] md:h-[66vh] bg-cover bg-center flex items-center justify-center px-6 md:px-16" style={{ backgroundImage: "url('/assets/Ducktail-Banner.jpg')" }}>
-        <div className="absolute inset-0 bg-black opacity-55"></div>
+      <div
+        className="h-[66vh]  flex flex-col items-center justify-center text-center bg-cover  relative"
+        style={{ backgroundImage: "url('/assets/archi design.png')" }}
+      >        <div className="absolute inset-0 bg-black opacity-55"></div>
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/40"></div>
     
@@ -81,8 +83,9 @@ const ArchiDesign = () => {
       <div className="relative flex flex-col md:flex-row items-center justify-center px-6 md:px-16 py-12">
         {/* Image Section */}
         <div className="w-full md:w-1/2 relative">
+          
           <img
-            src="/assets/DUCKTAIL-HOMELOAN.avif"
+            src="/assets/archi sketch.png"
             alt="Interior Design"
             className="w-full h-auto"
           />

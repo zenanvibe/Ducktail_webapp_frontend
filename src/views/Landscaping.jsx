@@ -21,7 +21,7 @@ const Landscaping = () => {
           {/* Title Section */}
           <div className="text-white flex-1 px-6">
             <h1 className="text-4xl md:text-5xl font-bold mb-5">
-              <span className="text-yellow-400"> Support </span>
+              <span className="text-yellow-400"> Landscaping </span>
               
             </h1>
             <p className="text-base md:text-lg text-gray-200 max-w-xl">

@@ -310,8 +310,7 @@ const Homepage = () => {
 
 
 
-      {/* service */}
-      <section id="services" className="py-6">
+<section id="services" className="py-6">
   <div className="container max-w-6xl mx-auto px-4">
     <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
       DUCKTAIL'S OTHER SERVICES
@@ -366,7 +365,12 @@ const Homepage = () => {
         },
       ].map((service, index) => (
         <Link to={service.link || "#"} key={index} className="group h-full">
-          <div className="bg-white rounded-2xl hover:shadow-lg transition-shadow duration-300 overflow-hidden text-center cursor-pointer border flex flex-col h-full">
+          <div className="bg-white rounded-2xl hover:shadow-lg transition-shadow duration-300 overflow-hidden text-center cursor-pointer border flex flex-col h-full relative">
+            {service.comingSoon && (
+              <div className="absolute top-0 left-0 bg-blue-500 text-white px-2 py-1 text-sm z-10 rounded-tl-2xl">
+                Coming Soon
+              </div>
+            )}
             <div className="overflow-hidden">
               <img
                 src={service.img}
@@ -376,9 +380,6 @@ const Homepage = () => {
             </div>
             <div className="p-4 flex-grow flex flex-col items-center justify-center text-center">
               <h3 className="font-medium text-lg">{service.title}</h3>
-              {service.comingSoon && (
-                <p className="text-gray-500 text-sm">(Coming Soon)</p>
-              )}
             </div>
           </div>
         </Link>

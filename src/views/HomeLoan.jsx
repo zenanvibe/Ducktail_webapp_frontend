@@ -7,75 +7,72 @@ const HomeLoan = () => {
   }, []);
 
   return (
-    <div className="relative min-h-[80vh] w-full">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/assets/DUCKTAIL-HOMELOAN.aviF')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          width: '100%',
-          height: '100%',
-        }}
+    <div className="w-full ">
+      {/* Hero Section with Background Image */}
+      <div
+        className="h-[66vh]  flex flex-col items-center justify-center text-center bg-cover  relative"
+        style={{ backgroundImage: "url('/assets/Home Loan.png')" }}
       >
-        <div className="absolute inset-0 bg-black/50"></div>
-      </div>
+  <div className="absolute inset-0 bg-black/50"></div>
 
-      {/* Main Content */}
-      <div className="relative z-10 flex min-h-[66vh] items-center px-6 py-12">
-        <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Title Section */}
-          <div className="text-white flex-1 px-6">
-            <h1 className="text-4xl md:text-5xl font-bold mb-5">
-              <span className="text-yellow-400">Smart Loans for  </span>
-              Smart Homes
-            </h1>
-            <p className="text-lg md:text-xl text-gray-200 max-w-xl">
-              Apply effortlessly with Ducktail – Click, Apply, and Move In to your dream home today!
-            </p>
-          </div>
+  {/* Main Content Container */}
+  <div className="relative z-10 min-h-[80vh] flex items-centerpx-6 py-12">
+    <div className="container mx-auto px-4 py-16">
+      <div className="grid md:grid-cols-2 gap-8 items-center">
+        {/* Title Section */}
+        <div className="text-white flex-1 px-6">
+          <h1 className="text-4xl md:text-5xl font-bold mb-5">
+            <span className="text-yellow-400">Smart Loans for </span>
+            Smart House
+          </h1>
+          <p className="text-lg md:text-xl text-gray-200 max-w-xl">
+            Apply effortlessly with Ducktail – Click, Apply, and Move In to your dream home today!
+          </p>
+        </div>
 
-          {/* Form Section */}
-          <div className="bg-white rounded-lg p-6 shadow-lg w-full max-w-lg">
-            <div className="grid grid-cols-2 gap-4">
-              <input type="text" placeholder="Name" className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              <input type="email" placeholder="Email" className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              <input type="tel" placeholder="Phone Number" className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              <select className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option>Select State</option>
-              </select>
-              <select className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option>Select District</option>
-              </select>
-              <select className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option>Select Taluk</option>
-              </select>
-              <textarea placeholder="Your Query" rows="2" className="col-span-2 w-full p-2 h-20 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
-              <button className="col-span-2 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
-                Submit
-              </button>
-            </div>
+        {/* Form Section */}
+        <div className="bg-white rounded-lg p-6 shadow-lgw-full max-w-lg">
+          <div className="grid grid-cols-2 gap-4">
+            <input type="text" placeholder="Name" className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input type="email" placeholder="Email" className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input type="tel" placeholder="Phone Number" className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <select className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option>Select State</option>
+            </select>
+            <select className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option>Select District</option>
+            </select>
+            <select className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option>Select Taluk</option>
+            </select>
+            <textarea placeholder="Your Query" rows="2" className="col-span-2 w-full p-2 h-20 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+            <button className="col-span-2 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
+              Submit
+            </button>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
-      {/* Types of Home Loan Section */}
-      <div className="relative z-10 px-6 py-8 bg-white mt-6">
-        <h2 className="text-3xl font-bold text-center mb-6" style={{ fontSize: "32px" }}>Types of Home Loan</h2>
-        <div className={`space-y-8 ${showMore ? '' : 'max-h-[60vh] overflow-hidden'}`}>
-          <div>
-            <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>1. Home Purchase Loan</h3>
-            <ul className="list-disc pl-8 space-y-2">
-              <li style={{ fontSize: "16px" }}>A Home Purchase Loan is the most common type of home loan, designed for individuals looking to buy a new or resale residential property. 
-</li>
-              <li style={{ fontSize: "16px" }}>The loan amount generally covers 75% to 90% of the property's value, based on the borrower's income, credit score, and repayment capacity. 
-</li>
-              <li style={{ fontSize: "16px" }}>These loans come with fixed or floating interest rates and can be repaid through EMIs over a tenure of 10 to 30 years.</li>
-            </ul>
-          </div>
 
-          <div>
+      {/* Types of Home Loan and Key Documents Section */}
+      <div className="container mx-auto px-4 py-16 bg-white">
+        {/* Types of Home Loan Section */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-center mb-6">Types of Home Loan</h2>
+          <div className={`space-y-8 ${showMore ? '' : 'max-h-[60vh] overflow-hidden'}`}>
+            {/* Home Purchase Loan */}
+            <div>
+              <h3 className="text-2xl font-semibold mb-3" style={{ color: "#2563EB" }}>1. Home Purchase Loan</h3>
+              <ul className="list-disc pl-8 space-y-2">
+                <li>A Home Purchase Loan is the most common type of home loan, designed for individuals looking to buy a new or resale residential property.</li>
+                <li>The loan amount generally covers 75% to 90% of the property's value, based on the borrower's income, credit score, and repayment capacity.</li>
+                <li>These loans come with fixed or floating interest rates and can be repaid through EMIs over a tenure of 10 to 30 years.</li>
+              </ul>
+            </div>
+ <div>
             <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>2. Home Construction Loan</h3>
             <ul className="list-disc pl-8 space-y-2">
               <li style={{ fontSize: "16px" }}>This loan is ideal for individuals who already own a plot of land and want to construct a house. </li>
@@ -167,14 +164,29 @@ const HomeLoan = () => {
 </li>
             </ul>
           </div>
-        </div>
 
-        {/* Key Documents Section inside Show More */}
-        {showMore && (
-          <>
-            <h2 className="text-3xl font-bold text-center mb-6 mt-8" style={{ fontSize: "32px" }}>Key Documents for Home Loan</h2>
-            
-            <div className="space-y-8">
+            {/* Additional Loan Types (truncated for brevity) */}
+            {/* ... (previous loan type contents remain the same) ... */}
+          </div>
+
+          {/* Show More/Less Button Logic */}
+          {!showMore && (
+            <div className="text-center mt-6">
+              <button 
+                onClick={() => setShowMore(true)} 
+                className="text-orange-500 font-semibold"
+              >
+                Show More
+              </button>
+            </div>
+          )}
+
+          {/* Key Documents Section */}
+          {showMore && (
+            <>
+              <h2 className="text-3xl font-bold text-center mb-6 mt-8">Key Documents for Home Loan</h2>
+              
+              <div className="space-y-8">
               <div>
                 <h3 className="text-2xl font-semibold mb-3" style={{ fontSize: "24px", color: "#2563EB" }}>1. Identity & Address Proof</h3>
                 <h4 className="text-lg font-medium ml-4 mb-2" style={{ fontSize: "18px" }}>Applicants must provide valid identity and address proof, which can include:</h4>
@@ -231,31 +243,19 @@ const HomeLoan = () => {
               </div>
             </div>
 
-            {/* Show Less button below Key Documents */}
-            <div className="text-center mt-6">
-              <button 
-                onClick={() => setShowMore(false)} 
-                className="text-orange-500 font-semibold" 
-                style={{ fontSize: "18px" }}
-              >
-                Show Less
-              </button>
-            </div>
-          </>
-        )}
-
-        {/* Show More button for Types of Home Loan */}
-        {!showMore && (
-          <div className="text-center mt-6">
-            <button 
-              onClick={() => setShowMore(true)} 
-              className="text-orange-500 font-semibold" 
-              style={{ fontSize: "18px" }}
-            >
-              Show More
-            </button>
-          </div>
-        )}
+            
+              {/* Show Less Button */}
+              <div className="text-center mt-6">
+                <button 
+                  onClick={() => setShowMore(false)} 
+                  className="text-orange-500 font-semibold"
+                >
+                  Show Less
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

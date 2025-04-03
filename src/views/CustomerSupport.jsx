@@ -62,9 +62,9 @@ const CustomerSupport = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/assets/Ducktail-Banner.jpg"
+          src="/assets/Customer Support.png"
           alt="Interior Design" 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover bg-cover"
         />
         <div className="absolute inset-0 bg-black/40"></div>
       </div>

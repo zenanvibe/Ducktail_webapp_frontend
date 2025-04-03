@@ -47,16 +47,40 @@ const ArchiDesign = () => {
 
   // Services array
   const services = [
-    { title: "2D site and floor plan", icon: "🏠" },
-    { title: "2.5D Design", icon: "🍽", image: "/path-to-restaurant.jpg" },
-    { title: "3D Elevation Design", icon: "🏢" },
-    { title: "3D Walkthrough", icon: "🔧" },
-    { title: "Structural Plan", icon: "🏠" },
-    { title: "Plumbing & Drainage Plan", icon: "🏢" },
-    { title: "Interior 2D, 3D Drawings", icon: "💼" },
-    { title: "Electrical & Communication Plan", icon: "🔧" },
+    { 
+      title: "2D Site & Floor Plan", 
+      description: "Detailed layouts and space planning for seamless project execution."
+    },
+    { 
+      title: "2.5D Design", 
+      image: "/path-to-restaurant.jpg",
+      description: "Enhanced semi-3D views for better spatial understanding."
+    },
+    { 
+      title: "3D Elevation Design", 
+      description: "Realistic building facades with accurate textures and aesthetics."
+    },
+    { 
+      title: "3D Walkthrough", 
+      description: "Immersive real-time virtual exploration of your project."
+    },
+    { 
+      title: "Structural Plan", 
+      description: "Safe, durable frameworks with precise load-bearing details."
+    },
+    { 
+      title: "Plumbing & Drainage Plan", 
+      description: "Efficient water flow, waste management, and optimized piping layouts."
+    },
+    { 
+      title: "Interior 2D, 3D Drawings", 
+      description: "Comprehensive interior designs with detailed 2D and 3D visualizations."
+    },
+    { 
+      title: "Electrical & Communication Plan", 
+      description: "Optimized electrical layouts ensuring safety and efficiency."
+    },
   ];
-  
   // Display only first 6 services initially
   const visibleServices = showAllServices ? services : services.slice(0, 6);
 
@@ -72,7 +96,8 @@ const ArchiDesign = () => {
     
         {/* Content */}
         <div className="relative z-10 max-w-5xl text-white flex flex-col items-center justify-center h-full text-center p-4">
-          <h1 className="text-3xl md:text-5xl font-bold">ARCHITECTURAL DESIGNS</h1>
+          <h1 className="text-3xl md:text-5xl font-bold">  <span className="text-yellow-400">  Architectural  </span>
+            Design</h1>
           <p className="mt-4 text-sm md:text-base text-gray-300">
             Our expert architects create functional, beautiful spaces that reflect your vision and lifestyle. Let us bring your dream home to life with designs that perfectly blend style and practicality.
           </p>
@@ -95,64 +120,61 @@ const ArchiDesign = () => {
         <div className="w-full md:w-1/2 bg-white shadow-lg p-8 md:p-12 relative md:-ml-20 md:mt-0 mt-6 rounded-lg">
           <p className="text-gray-500 text-sm uppercase">Welcome to Archi</p>
           <h2 className="text-2xl md:text-4xl font-bold mt-2 leading-tight">
-            STYLISH DESIGNS, <br /> INNOVATIVE IDEAS
+          Designing Dreams,  <br /> Building Realities
           </h2>
           <p className="mt-4 text-gray-600 text-sm md:text-base">
-            Far far away, behind the word mountains, far from the countries Vokalia
-            and Consonantia, there live the blind texts. Separated they live in
-            Bookmarksgrove right at the coast of the Semantics, a large language
-            ocean.
+          At Archi Design, we turn visions into well-crafted spaces with innovative architectural solutions. From concept to execution, we deliver detailed and aesthetically refined designs. Our expertise in 2D planning, 3D elevations, walkthroughs, and structural planning ensures precision, functionality, and excellence in every project.
+
           </p>
         </div>
       </div>
 
       {/* Services Section - UPDATED */}
       <div className="px-6 md:px-16 py-12">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold min-w-[200px] mx-auto">SERVICES</h2>
-          <p className="text-gray-600 mt-2 max-w-lg mx-auto">
-            Far far away behind the word mountains far from the countries Vokalia and Consonantia there live the blind texts.
-          </p>
-        </div>
+  <div className="text-center mb-8">
+    <h2 className="text-3xl font-bold min-w-[200px] mx-auto">SERVICES</h2>
+    <p className="text-gray-600 mt-2 max-w-lg mx-auto">
+      We offer a full range of architectural design services, combining creativity and technical expertise to bring your vision to life.
+    </p>
+  </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          {visibleServices.map((service, index) => (
-            <div
-              key={index}
-              className="relative p-6 bg-white shadow-lg flex flex-col items-start transition hover:bg-black hover:text-white hover:cursor-pointer"
-              style={{
-                backgroundImage: service.image ? `url(${service.image})` : "none",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition"></div>
-              <div className="relative z-10">
-                <span className="text-xl">{service.icon}</span>
-                <h3 className="mt-2 text-lg font-bold">{service.title}</h3>
-                <p className="mt-1 text-sm">We bring the right people together to challenge established thinking and drive transform in 2020</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center mt-8">
-          <button 
-            className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition"
-            onClick={() => setShowAllServices(!showAllServices)}
-          >
-            {showAllServices ? "SHOW LESS" : "VIEW ALL"}
-          </button>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+    {visibleServices.map((service, index) => (
+      <div
+        key={index}
+        className="relative p-6 bg-white shadow-lg flex flex-col items-start transition hover:bg-black hover:text-white hover:cursor-pointer"
+        style={{
+          backgroundImage: service.image ? `url(${service.image})` : "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition"></div>
+        <div className="relative z-10">
+          <h3 className="mt-2 text-lg font-bold">{service.title}</h3>
+          <p className="mt-1 text-sm">{service.description}</p>
         </div>
       </div>
+    ))}
+  </div>
+
+  <div className="text-center mt-8">
+    <button 
+      className="px-6 py-2 bg-black text-white hover:bg-gray-800 transition"
+      onClick={() => setShowAllServices(!showAllServices)}
+    >
+      {showAllServices ? "SHOW LESS" : "VIEW ALL"}
+    </button>
+  </div>
+</div>
 
       {/* LATEST PROJECT*/}
       <div className="px-4 md:px-16 py-12">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold">LATEST PROJECTS</h2>
           <p className="text-gray-600 mt-2 max-w-lg mx-auto">
-            Far far away behind the word mountains far from the countries Vokalia
-            and Consonantia there live the blind texts.
+           Our latest projects reflect our commitment to precision, aesthetics, and functionality, turning visions into reality.
+
           </p>
         </div>
 
@@ -280,19 +302,16 @@ const ArchiDesign = () => {
       {/* Get In Touch Section */}
       <div className="px-6 md:px-16 py-12 bg-black text-white">
         <h2 className="text-3xl font-bold">GET IN TOUCH</h2>
-        <p className="text-gray-400 mt-2">Far far away behind the word mountains far from the countries Vokalia and Consonantia there live the blind texts.</p>
+        <p className="text-gray-400 mt-2"></p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
           <div>
             <h3 className="text-xl font-bold">Ducktail</h3>
-            <p className="mt-2">📞 (+62) 81 2345 1234</p>
-            <p>✉️ Contact@ducktail.com</p>
-            <p>📍 ductail builders website</p>
+            <p className="mt-2">📞 9942728804 </p>
+            <p>✉️ manothsingh1997@gmail.com</p>
+            <p>📍 Tamil Nadu </p>
 
-            <h3 className="text-xl font-bold mt-6">Ducktail</h3>
-            <p className="mt-2">📞 (+62) 81 2345 1234</p>
-            <p>✉️ Contact@ducktail.comm</p>
-            <p>📍 ductail builders website</p>
+            
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-lg text-black">

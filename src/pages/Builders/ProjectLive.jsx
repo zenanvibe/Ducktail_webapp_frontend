@@ -9,7 +9,7 @@ const ProjectLive = () => {
       <Layout>
         <div>
           <ProjectBanner
-            title="Live Projectssssssssss"
+            title="Live Projects"
             imageUrl="https://via.placeholder.com/1200x300"
           />
         </div>

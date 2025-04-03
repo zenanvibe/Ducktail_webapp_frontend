@@ -69,48 +69,48 @@ const ProjectEnquiryTile = () => {
 
         {/* Table Section */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-100">
-                <th className="p-2">Time</th>
-                <th className="p-2">Customer Name</th>
-                <th className="p-2">Customer ID</th>
-                <th className="p-2">Phone Number</th>
-                <th className="p-2">District</th>
-                <th className="p-2">Taluk</th>
-                <th className="p-2">Comments</th>
-                <th className="p-2">Postcode</th>
+                <th className="p-2 text-center">Time</th>
+                <th className="p-2 text-center">Customer Name</th>
+                <th className="p-2 text-center">Customer ID</th>
+                <th className="p-2 text-center">Phone Number</th>
+                <th className="p-2 text-center">District</th>
+                <th className="p-2 text-center">Taluk</th>
+                <th className="p-2 text-center">Comments</th>
+                <th className="p-2 text-center">Postcode</th>
               </tr>
             </thead>
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan="7" className="text-center py-4">Loading...</td>
+                  <td colSpan="8" className="text-center py-4">Loading...</td>
                 </tr>
               ) : enquiries.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="text-center py-4">No enquiries found</td>
+                  <td colSpan="8" className="text-center py-4">No enquiries found</td>
                 </tr>
               ) : (
-               Object.entries(groupedEnquiries).map(([date, entries], index) => (
+                Object.entries(groupedEnquiries).map(([date, entries], index) => (
                   <React.Fragment key={index}>
                     <tr>
-                      <td colSpan="7" className="px-2 py-4 text-gray-500 font-semibold">
+                      <td colSpan="8" className="px-2 py-4 text-left text-gray-500 font-semibold">
                         {date}
                       </td>
                     </tr>
                     {entries.map((entry, idx) => (
                       <tr key={idx} className="border-t relative">
-                        <td className="p-2">
+                        <td className="p-2 text-center">
                           {new Date(entry.created_at).toLocaleTimeString("en-US", {
                             hour: "2-digit",
                             minute: "2-digit",
                             hour12: true,
                           })}
                         </td>
-                        <td className="p-2">{entry.customer_name}</td>
-                        <td className="p-2">
-                          <div className="flex items-center gap-2 relative">
+                        <td className="p-2 text-center">{entry.customer_name}</td>
+                        <td className="p-2 text-center">
+                          <div className="flex items-center justify-center gap-2 relative">
                             {entry.customer_ducktail_id}
                             <ClipboardIcon
                               className="w-4 h-4 text-gray-500 cursor-pointer hover:text-black transition-colors duration-200"
@@ -163,11 +163,11 @@ const ProjectEnquiryTile = () => {
                             }
                           `}</style>
                         </td>
-                        <td className="p-2">{entry.phone_number}</td>
-                        <td className="p-2 ">{entry.district}</td>
-                        <td className="p-2">{entry.taluk}</td>
-                        <td className="p-2">{entry.comments}</td>
-                        <td className="p-2">{entry.postcode}</td>
+                        <td className="p-2 text-center">{entry.phone_number}</td>
+                        <td className="p-2 text-center">{entry.district}</td>
+                        <td className="p-2 text-center">{entry.taluk}</td>
+                        <td className="p-2 text-center">{entry.comments}</td>
+                        <td className="p-2 text-center">{entry.postcode}</td>
                       </tr>
                     ))}
                   </React.Fragment>

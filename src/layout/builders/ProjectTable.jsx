@@ -54,28 +54,28 @@ const ProjectTable = ({ title, projects = [], handleStatusChange, navigate }) =>
       {filteredProjects.length > 0 ? (
         <table className="w-full table-auto border-collapse">
           <thead>
-            <tr className="text-left text-sm font-medium text-gray-500 border-b">
-              <th className="py-2 px-4">Customer Name</th>
-              <th className="py-2 px-4">Customer ID</th>
-              <th className="py-2 px-4">Started</th>
-              <th className="py-2 px-4">Location</th>
-              <th className="py-2 px-4">Status</th>
-              <th className="py-2 px-4">Actions</th>
+            <tr className="text-center text-sm font-medium text-gray-500 border-b">
+              <th className="py-2 px-4 text-center">Customer Name</th>
+              <th className="py-2 px-4 text-center">Customer ID</th>
+              <th className="py-2 px-4 text-center">Started</th>
+              <th className="py-2 px-4 text-center">Location</th>
+              <th className="py-2 px-4 text-center">Status</th>
+              <th className="py-2 px-4 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredProjects.map((project) => (
               <tr
                 key={project.id}
-                className="text-sm text-gray-700 border-b hover:bg-gray-50"
+                className="text-sm text-gray-700 border-b hover:bg-gray-50 text-center"
               >
-                <td className="py-3 px-4">
+                <td className="py-3 px-4 text-center">
                   {highlightText(project.customer_name, searchQuery)}
                 </td>
-                <td className="py-3 px-4">
+                <td className="py-3 px-4 text-center">
                   {highlightText(project.customer_ducktail_id, searchQuery)}
                 </td>
-                <td className="py-3 px-4">
+                <td className="py-3 px-4 text-center">
                   {highlightText(
                     new Date(project.starting_date).toLocaleDateString("en-US", {
                       year: "numeric",
@@ -85,41 +85,40 @@ const ProjectTable = ({ title, projects = [], handleStatusChange, navigate }) =>
                     searchQuery
                   )}
                 </td>
-                <td className="py-3 px-4">
+                <td className="py-3 px-4 text-center">
                   {highlightText(project.project_location, searchQuery)}
                 </td>
-                <td className="py-3 px-4">
-                  <StatusBadge project={project} handleStatusChange={handleStatusChange} />
+                <td className="py-3 px-4 text-center">
+                  <div className="flex justify-center">
+                    <StatusBadge project={project} handleStatusChange={handleStatusChange} />
+                  </div>
                 </td>
-                <td className="py-3 px-4 flex space-x-2">
-                  <button
-                    onClick={() => navigate("/builder/chat")}
-                    className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
-                  >
-                    💬
-                  </button>
-                  <button
-                    onClick={() => navigate("/builder/payment")}
-                    className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
-                  >
-                    📁
-                  </button>
-                  {project.status === 'hold' && project.holds && project.holds.length > 0 && (
-                    <button
-                      onClick={() => setSelectedHoldProject(project)}
-                      className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
-                    >
-                      📝
+                <td className="py-3 px-4">
+                  <div className="flex justify-center space-x-2">
+                    {/* Chat Icon */}
+                    <button onClick={() => navigate("/builder/chat")}>
+                      <img src="/assets/chat.svg" alt="Chat" className="w-6 h-6" />
                     </button>
-                  )}
-                  {project.status === 'upload_document' && (
-                    <button
-                      onClick={() => navigate(`/upload-doc/${project.id}`)}
-                      className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
-                    >
-                      📄
+
+                    {/* Payment Icon */}
+                    <button onClick={() => navigate("/builder/payment")}>
+                      <img src="/assets/payment.svg" alt="Payment" className="w-6 h-6" />
                     </button>
-                  )}
+
+                    {/* Hold Icon */}
+                    {project.status === "hold" && project.holds && project.holds.length > 0 && (
+                      <button onClick={() => setSelectedHoldProject(project)}>
+                        <img src="/assets/hold.svg" alt="Hold" className="w-6 h-6" />
+                      </button>
+                    )}
+
+                    {/* Upload Document Icon */}
+                    {project.status === "upload_document" && (
+                      <button onClick={() => navigate(`/upload-doc/${project.id}`)}>
+                        <img src="/assets/document.svg" alt="Document" className="w-6 h-6" />
+                      </button>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

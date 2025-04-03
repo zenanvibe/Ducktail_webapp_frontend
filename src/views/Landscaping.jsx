@@ -8,7 +8,7 @@ const Landscaping = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/assets/Ducktail-Banner.jpg"
+          src="/assets/Landscaping.png"
           alt="Interior Design" 
           className="w-full h-full object-cover"
         />

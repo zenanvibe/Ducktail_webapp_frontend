@@ -22,8 +22,8 @@ const PremiumConstruction = () => {
               {/* Title Section */}
               <div className="text-white flex-1 px-6">
                 <h1 className="text-4xl md:text-5xl font-bold mb-5">
-                  <span className="text-yellow-400">PREMIUM </span>
-                  CONSTRUCTION
+                  <span className="text-yellow-400">  Premium </span>
+                 Construction
                 </h1>
                 <p className="text-lg md:text-xl text-gray-200 max-w-xl">
                   With Ducktail's premium construction services, we craft residential, commercial, and sustainable spaces that blend expert craftsmanship with innovative design to bring your vision to life.

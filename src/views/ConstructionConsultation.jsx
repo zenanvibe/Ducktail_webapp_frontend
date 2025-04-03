@@ -23,10 +23,10 @@ const ConstructionConsultation = () => {
           {/* Title Section */}
           <div className="text-white flex-1 px-6">
             <h1 className="text-4xl md:text-5xl font-bold mb-5">
-              <span className="text-yellow-400">CONSTRUCTION </span>
-              CONSULTATION
+              <span className="text-yellow-400"> </span>
+              Construction Consultation  
             </h1>
-            <p className="text-base md:text-lg text-gray-200 max-w-xl">
+            <p className="text-lg md:text-xl text-gray-200 max-w-xl">
             If you’re aiming for quality but not ready to use Ducktail-verified companies, our expert
 consultation team is here to guide you. We offer reliable advice and support throughout
 your project, ensuring you make informed decisions every step of the way in building your

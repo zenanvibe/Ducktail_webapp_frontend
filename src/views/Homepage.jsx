@@ -130,7 +130,7 @@ const Homepage = () => {
     <div>
       {/* Banner Section */}
       <div
-        className="h-[66vh]  flex flex-col items-center justify-center text-center bg-cover  relative"
+        className="h-[72vh]  flex flex-col items-center justify-center text-center bg-cover  relative"
         style={{ backgroundImage: "url('/assets/Ducktail-Banner.jpg')" }}
       >
         <div className="absolute inset-0 bg-black opacity-55"></div>
@@ -144,8 +144,8 @@ const Homepage = () => {
             DUCKTAIL – The Construction Platform
           </h1>
           <p className="text-lg md:text-xl">
-            Connecting you with Verified and Qualified Builders—Ensuring Trust,
-            Quality, and Seamless Construction Experience
+            Connecting you with Verified and Qualified Builders - Ensuring
+            Trust, Quality, and Seamless Construction Experience
           </p>
           <p className="text-lg md:text-xl mb-6">
             Now, it’s easier than ever to find qualified and trustworthy

@@ -9,7 +9,8 @@ const ProjectInviteForm = () => {
   const [currentEnquiryIndex, setCurrentEnquiryIndex] = useState(0);
 
   useEffect(() => {
-    fetchCustomerEnquiries();
+    // Pass pending_approval status to fetch only pending approval projects
+    fetchCustomerEnquiries("pending_approval");
   }, [fetchCustomerEnquiries]);
 
   if (isLoading) {
@@ -20,86 +21,104 @@ const ProjectInviteForm = () => {
     return <div className="text-center text-gray-600 p-4">No project invitations available at this time.</div>;
   }
 
-  const enquiry = enquiries[currentEnquiryIndex];
-
-  const handleAccept = async () => {
-    await updateProjectStatus(enquiry.project_id, 'accept');
-    if (currentEnquiryIndex < enquiries.length - 1) {
-      setCurrentEnquiryIndex(currentEnquiryIndex + 1);
+  const handleAccept = async (enquiry, index) => {
+    try {
+      const response = await updateProjectStatus(enquiry.id, 'accept');
+      if (response.success) {
+        await fetchCustomerEnquiries("pending_approval"); // Refresh with pending_approval status
+        if (index < enquiries.length - 1) {
+          setCurrentEnquiryIndex(index + 1);
+        }
+        navigate("/livecard");
+      }
+    } catch (error) {
+      console.error("Error accepting project:", error);
     }
-    navigate("/livecard");
   };
 
-  const handleDecline = async () => {
-    await updateProjectStatus(enquiry.project_id, 'decline');
-    if (currentEnquiryIndex < enquiries.length - 1) {
-      setCurrentEnquiryIndex(currentEnquiryIndex + 1);
+  const handleDecline = async (enquiry, index) => {
+    try {
+      const response = await updateProjectStatus(enquiry.id, 'decline');
+      if (response.success) {
+        await fetchCustomerEnquiries("pending_approval"); // Refresh with pending_approval status
+        if (index < enquiries.length - 1) {
+          setCurrentEnquiryIndex(index + 1);
+        }
+        navigate("/rejectcard");
+      }
+    } catch (error) {
+      console.error("Error declining project:", error);
     }
-    navigate("/rejectcard");
   };
 
   return (
-    <div className="max-w-sm mx-auto bg-white rounded-2xl shadow-lg p-6 w-full">
-      {/* Company Image */}
-      <div className="flex justify-center mb-4">
-        <div className="w-14 h-14 rounded-xl overflow-hidden">
-          <img
-            src="/assets/DUCKTAIL-HOMELOAN.aviF"
-            alt="Company Building"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
+    <div className="container mx-auto px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {enquiries.map((enq, index) => (
+          <div key={enq.id} className="bg-white rounded-2xl shadow-lg p-6">
+            {/* Company Image */}
+            <div className="flex justify-center mb-4">
+              <div className="w-14 h-14 rounded-xl overflow-hidden">
+                <img
+                  src="/assets/DUCKTAIL-HOMELOAN.aviF"
+                  alt="Company Building"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
 
-      {/* Title */}
-      <h1 className="text-xl font-bold text-center mb-2">
-        {enquiry?.builder_name || "N/A"}
-      </h1>
+            {/* Title */}
+            <h1 className="text-xl font-bold text-center mb-2">
+              {enq?.builder_name || "N/A"}
+            </h1>
 
-      {/* Subtitle */}
-      <p className="text-sm text-gray-600 text-center mb-4">
-      {enquiry?.comments || "N/A"}
-      </p>
+            {/* Subtitle */}
+            <p className="text-sm text-gray-600 text-center mb-4">
+              Project Name : {enq?.project_name || "N/A"}
+            </p>
 
-      {/* Info Grid */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        {/* Company ID */}
-        <div className="flex items-center justify-center gap-2">
-          <BadgeCheck className="w-5 h-5 text-green-500" />
-          <div>
-            <div className="text-xs text-gray-500">Company Ducktail ID</div>
-            <div className="text-sm font-medium">
-              {enquiry?.builder_ducktail_id || "N/A"}
+            {/* Info Grid */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              {/* Company ID */}
+              <div className="flex items-center justify-center gap-2">
+                <BadgeCheck className="w-5 h-5 text-green-500" />
+                <div>
+                  <div className="text-xs text-gray-500">Company Ducktail ID</div>
+                  <div className="text-sm font-medium">
+                    {enq?.builder_ducktail_id || "N/A"}
+                  </div>
+                </div>
+              </div>
+
+              {/* Phone Number */}
+              <div className="flex items-center justify-center gap-2">
+                <Phone className="w-5 h-5 text-blue-500" />
+                <div>
+                  <div className="text-xs text-gray-500">Phone Number</div>
+                  <div className="text-sm font-medium">
+                    {enq?.builder_contact || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex justify-center gap-12">
+              <button 
+                onClick={() => handleDecline(enq, index)}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition"
+              >
+                DECLINE
+              </button>
+              <button 
+                onClick={() => handleAccept(enq, index)}
+                className="px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600 transition"
+              >
+                ACCEPT
+              </button>
             </div>
           </div>
-        </div>
-
-        {/* Phone Number */}
-        <div className="flex items-center justify-center gap-2">
-          <Phone className="w-5 h-5 text-blue-500" />
-          <div>
-            <div className="text-xs text-gray-500">Phone Number</div>
-            <div className="text-sm font-medium">
-              {enquiry?.builder_contact || "N/A"}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Buttons */}
-      <div className="flex justify-center gap-12">
-        <button 
-          onClick={handleDecline}
-          className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition"
-        >
-          DECLINE
-        </button>
-        <button 
-          onClick={handleAccept}
-          className="px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600 transition"
-        >
-          ACCEPT
-        </button>
+        ))}
       </div>
 
       {/* Floating Support Button */}

@@ -3,7 +3,7 @@ import useServiceStore from "../../../store/builders/useServiceStore";
 
 const ServicesTile = () => {
   const { fetchServices, fetchBuilderService, allServices, builderServices, fetchCreateService, deleteService, isLoading } =
-  useServiceStore();
+    useServiceStore();
   const [services, setServices] = useState([]); 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isCreatePopupOpen, setIsCreatePopupOpen] = useState(false);
@@ -24,16 +24,11 @@ const ServicesTile = () => {
     }
   };
 
-  
-
   const createNewService = async () => {
     if (newServiceName.trim()) {
       try {
         await fetchCreateService({ name: newServiceName.trim() });
-  
-        // Wait for the creation API call to finish, then re-fetch all services
         await fetchBuilderService();  
-        // await fetchServices();
         setNewServiceName("");
         setIsCreatePopupOpen(false);
       } catch (error) {
@@ -50,11 +45,9 @@ const ServicesTile = () => {
       console.error("Failed to delete service", error);
     }
   };
-  
 
   return (
     <div className="flex flex-col items-center justify-center px-4 py-3">
-      {/* Action Buttons */}
       <div className="w-full max-w-4xl bg-white p-4 rounded-lg shadow-md mb-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap gap-4 items-center">
@@ -74,7 +67,6 @@ const ServicesTile = () => {
         </div>
       </div>
 
-      {/* Services */}
       <div className="w-full max-w-4xl bg-white rounded-lg shadow-md overflow-hidden">
         <table className="w-full border-collapse">
           <thead className="bg-gray-200">
@@ -106,75 +98,6 @@ const ServicesTile = () => {
           </tbody>
         </table>
       </div>
-
-      {isPopupOpen && (
-  <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50 overflow-auto">
-    <div className="bg-white rounded-lg p-6 shadow-lg w-80 max-h-[90vh] overflow-y-auto">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-medium text-gray-800">Add Services</h2>
-        <button className="text-gray-600 hover:text-gray-800" onClick={() => setIsPopupOpen(false)}>
-          ×
-        </button>
-      </div>
-      <div className="mb-4">
-        <select
-          value={selectedService}
-          onChange={(e) => setSelectedService(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        >
-          <option value="">Select a Service</option>
-          {isLoading ? (
-            <option>Loading...</option>
-          ) : (
-            allServices.map((srv, index) => (
-              <option key={index} value={srv.name}>{srv.name}</option>
-            ))
-          )}
-        </select>
-      </div>
-      <button
-        className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-        onClick={addServiceToTable}
-      >
-        Add Service
-      </button>
-    </div>
-  </div>
-)}
-
-      {/* Popup for Creating Services */}
-      {isCreatePopupOpen && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 shadow-lg w-80">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-medium text-gray-800">
-                Create Service
-              </h2>
-              <button
-                className="text-gray-600 hover:text-gray-800"
-                onClick={() => setIsCreatePopupOpen(false)}
-              >
-                ×
-              </button>
-            </div>
-            <div className="mb-4">
-              <input
-                type="text"
-                value={newServiceName}
-                onChange={(e) => setNewServiceName(e.target.value)}
-                placeholder="Enter Service Name"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              />
-            </div>
-            <button
-              className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-              onClick={createNewService}
-            >
-              Create Service
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

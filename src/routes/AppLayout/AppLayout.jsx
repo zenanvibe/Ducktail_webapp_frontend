@@ -4,7 +4,7 @@ import Navbarlanding from "../../components/Navbarlanding";
 import Footerlanding from "../../components/Footerlanding";
 
 const noNavbarFooterPaths = [
-  "/login", "/builder/signup", "/profile",  "/upload-doc/:id",
+  "/login", "/builder/signup", "/profile",
   // Builder Paths
   "/builder/dashboard", "/builder/liveproject", "/builder/projectinvite",
   "/builder/projectservices", "/builder/portfolio", "/builder/pendingproject",
@@ -19,7 +19,8 @@ const noNavbarFooterPaths = [
 
 const AppLayout = ({ children }) => {
   const location = useLocation();
-  const showNavbarFooter = !noNavbarFooterPaths.includes(location.pathname);
+  const showNavbarFooter = !noNavbarFooterPaths.includes(location.pathname) && 
+                          !location.pathname.startsWith('/upload-doc/');
 
   return (
     <div>

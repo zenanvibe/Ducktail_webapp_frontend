@@ -21,9 +21,9 @@ const CustomerBanner = ({
           className="h-48 bg-cover bg-center relative"
           style={{ backgroundImage: `url('${coverImageUrl}')` }}
         >
-          <button className="absolute top-2 right-2 px-3 py-1 bg-gray-800 text-white text-sm rounded-md">
+          {/* <button className="absolute top-2 right-2 px-3 py-1 bg-gray-800 text-white text-sm rounded-md">
             Edit Cover
-          </button>
+          </button> */}
         </div>
 
         {/* Profile Details Section */}
@@ -42,7 +42,7 @@ const CustomerBanner = ({
             <h2 className="text-xl font-semibold">{name}</h2>
             <p className="text-gray-600 flex items-center space-x-2">
               <span>{role}</span>
-              <span>•</span>
+              {/* <span>•</span> */}
               <span>{location}</span>
             </p>
 
@@ -60,7 +60,7 @@ const CustomerBanner = ({
         </div>
 
         {/* Navigation Links */}
-        <div className="relative bg-white">
+        <div className="relative bg-white pt-4">
           <ul className="flex justify-start gap-10 text-gray-600 w-full px-8">
             <li
               className={`cursor-pointer px-4 py-2 h-full ${

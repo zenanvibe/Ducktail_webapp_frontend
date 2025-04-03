@@ -52,7 +52,7 @@ const Navbarlanding = () => {
             <img
               src="/assets/white background.jpg"
               alt="Ducktail"
-              className="h-8 sm:h-12"
+              className="h-8 sm:h-14"
             />
           </div>
 

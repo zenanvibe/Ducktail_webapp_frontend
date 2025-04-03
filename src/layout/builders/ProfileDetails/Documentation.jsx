@@ -1,46 +1,72 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
-import useProfileStore from "../../../store/builders/useProfileStore"; 
+import useProfileStore from "../../../store/builders/useProfileStore";
 
 const Documentation = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const { profile, fetchProfile, isLoading } = useProfileStore();
-  const [selectedDoc, setSelectedDoc] = useState(null); // ✅ Store the selected document
-  const [isModalOpen, setIsModalOpen] = useState(false); // ✅ Track modal state
+  const [formData, setFormData] = useState({});
+  const { profile, fetchProfile, updateProfile, isLoading } = useProfileStore();
+  const [selectedDoc, setSelectedDoc] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const loadProfile = async () => {
+    await fetchProfile();
+  };
 
   useEffect(() => {
-    fetchProfile();
+    loadProfile();
   }, [fetchProfile]);
 
-  const [docs, setDocs] = useState({
-    qualification: profile?.qualification || "",
-    aadhar_number: profile?.aadhar_number || "",
-    company_gst: profile?.gst_number || "",
-    government_license: profile?.government_license || "View",
-    graduation_certificate: profile?.graduation_certificate || "View",
-  });
-
   useEffect(() => {
-    if (profile) {
-      setDocs({
-        qualification: profile.qualification || "",
-        aadhar_number: profile.aadhar_number || "",
-        company_gst: profile.gst_number || "",
-        government_license: profile.government_license || "View",
-        graduation_certificate: profile.graduation_certificate || "View",
+    if (profile?.builder) {
+      setFormData({
+        qualification: profile.builder.qualification || "",
+        gst_number: profile.builder.gst_number || "",
+        government_license: profile.builder.government_license || "View",
+        graduation_certificate: profile.builder.graduation_certificate || "View"
       });
     }
   }, [profile]);
 
-  const toggleEdit = () => setIsEditing(!isEditing);
+  if (isLoading) {
+    return <p>Loading profile...</p>;
+  }
 
-  // ✅ Handle opening the modal
+  const toggleEdit = () => {
+    if (isEditing) {
+      // Reset form data to profile data when canceling
+      setFormData({
+        qualification: profile.builder.qualification || "",
+        gst_number: profile.builder.gst_number || "",
+        government_license: profile.builder.government_license || "View",
+        graduation_certificate: profile.builder.graduation_certificate || "View"
+      });
+    }
+    setIsEditing(!isEditing);
+  };
+
+  const handleInputChange = (key, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [key]: value
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await updateProfile(formData);
+      loadProfile(); // Fetch updated profile data after successful update
+      toggleEdit();
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
   const handleViewDocument = (docKey) => {
-    setSelectedDoc(profile?.[docKey]); // Get document URL from profile
+    setSelectedDoc(profile?.builder?.[docKey]);
     setIsModalOpen(true);
   };
 
-  // ✅ Close modal
   const closeModal = () => setIsModalOpen(false);
 
   return (
@@ -52,63 +78,54 @@ const Documentation = () => {
         </div>
       </div>
 
-      {isLoading ? (
-        <div className="flex justify-center items-center py-4">
-          <div className="w-10 h-10 border-4 border-blue-500 border-solid border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {Object.entries(docs).map(([key, value], index) => (
-            <div key={index}>
-              <label className="block text-sm font-medium text-gray-600">
-                {formatLabel(key)}
-              </label>
-              {value === "View" ? (
-                <button
-                  className="mt-1 px-4 py-2 bg-blue-500 text-white rounded-md"
-                  onClick={() => handleViewDocument(key)}
-                >
-                  {value}
-                </button>
-              ) : (
-                <input
-                  type="text"
-                  value={value}
-                  disabled={!isEditing}
-                  className={`w-full p-2 mt-1 rounded-md ${
-                    isEditing ? "border border-gray-300" : "border-none"
-                  }`}
-                  onChange={(e) =>
-                    setDocs((prev) => ({ ...prev, [key]: e.target.value }))
-                  }
-                />
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {Object.entries(formData).map(([key, value], index) => (
+          <div key={index}>
+            <label className="block text-sm font-medium text-gray-600">
+              {formatLabel(key)}
+            </label>
+            {key === 'government_license' || key === 'graduation_certificate' ? (
+              <button
+                className="mt-1 px-4 py-2 bg-blue-500 text-white rounded-md"
+                onClick={() => handleViewDocument(key)}
+              >
+                View
+              </button>
+            ) : (
+              <input
+                type="text"
+                value={value}
+                onChange={(e) => handleInputChange(key, e.target.value)}
+                disabled={!isEditing}
+                className={`w-full p-2 mt-1 rounded-md ${
+                  isEditing ? "border border-gray-300" : "border-none bg-gray-50"
+                }`}
+              />
+            )}
+          </div>
+        ))}
+      </div>
 
       {isEditing && (
         <div className="flex justify-end mt-4">
-          <button className="px-4 py-2 bg-gray-500 text-white rounded-md mr-2" onClick={toggleEdit}>
+          <button className="px-4 py-2 bg-gray-500 text-white rounded-md mr-2 hover:bg-gray-600" onClick={toggleEdit}>
             Cancel
           </button>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-md">
+          <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" onClick={handleSubmit}>
             Save Changes
           </button>
         </div>
       )}
 
-      {/* ✅ Modal for showing document preview */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg">
             <h3 className="text-xl font-semibold mb-4">Document Preview</h3>
             {selectedDoc ? (
-              <img
+              <iframe
                 src={selectedDoc}
-                alt="Document"
-                className="w-full h-auto max-h-96 object-cover rounded-lg border"
+                className="w-full h-96"
+                title="Document Preview"
               />
             ) : (
               <p className="text-gray-600">No document available</p>
@@ -126,11 +143,10 @@ const Documentation = () => {
   );
 };
 
-// ✅ Helper function to format labels from keys
 const formatLabel = (key) => {
   return key
-    .replace(/_/g, " ") // Replace underscores with spaces
-    .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
 export default Documentation;

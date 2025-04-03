@@ -3,15 +3,19 @@ import ProfileDetails from "./ProfileDetails/ProfileDetails";
 import AddressDetails from "./ProfileDetails/AddressDetails";
 import SocialMedia from "./ProfileDetails/SocialMedia";
 import Documentation from "./ProfileDetails/Documentation";
-import useProfileStore from "../../store/builders/useProfileStore"; 
+import useProfileStore from "../../store/builders/useProfileStore";
 
 const ProfileBanner = ({ coverImageUrl, name, role, location, progress }) => {
   const [activeTab, setActiveTab] = useState("profile");
   const { profile, fetchProfile, isLoading } = useProfileStore();
 
   useEffect(() => {
-    fetchProfile(); // ✅ Fetch profile data on mount
-  }, [fetchProfile]);
+    // Fetch profile data on component mount
+    const loadProfile = async () => {
+      await fetchProfile();
+    };
+    loadProfile();
+  }, [fetchProfile]); // Remove fetchProfile from deps array since it's stable
 
   return (
     <>
@@ -19,11 +23,11 @@ const ProfileBanner = ({ coverImageUrl, name, role, location, progress }) => {
         {/* Cover Section */}
         <div
           className="h-48 bg-cover bg-center relative"
-          style={{ backgroundImage: `url('${coverImageUrl}')` }}
+          style={{ backgroundImage: `url('${profile?.cover_image || coverImageUrl}')` }}
         >
-          <button className="absolute top-2 right-2 px-3 py-1 bg-gray-800 text-white text-sm rounded-md">
+          {/* <button className="absolute top-2 right-2 px-3 py-1 bg-gray-800 text-white text-sm rounded-md">
             Edit Cover
-          </button>
+          </button> */}
         </div>
 
         {/* Profile Details Section */}
@@ -36,20 +40,20 @@ const ProfileBanner = ({ coverImageUrl, name, role, location, progress }) => {
               </div>
             ) : (
               <img
-                src={profile?.profile_image} // ✅ Use fetched profile image
-                alt="Profile"
-                className="w-32 h-32 rounded-full border-4 border-white shadow-lg"
+                src={profile?.profile_image || "/default-profile.png"} 
+                alt={profile?.name || "Profile"}
+                className="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
               />
             )}
           </div>
 
           {/* User Info */}
           <div className="ml-32 pt-0">
-            <h2 className="text-xl font-semibold">{name}</h2>
+            <h2 className="text-xl font-semibold">{profile?.name || name}</h2>
             <p className="text-gray-600 flex items-center space-x-2">
-              <span>{role}</span>
+              <span>{profile?.role || role}</span>
               <span>•</span>
-              <span>{location}</span>
+              <span>{profile?.location || location}</span>
             </p>
 
             {/* Progress Bar */}
@@ -57,10 +61,10 @@ const ProfileBanner = ({ coverImageUrl, name, role, location, progress }) => {
               <div className="h-2 bg-gray-200 rounded-full w-40">
                 <div
                   className="h-full bg-blue-500 rounded-full"
-                  style={{ width: `${progress}%` }}
+                  style={{ width: `${profile?.profile_completion || progress}%` }}
                 ></div>
               </div>
-              <p className="text-sm text-gray-500 mt-1">{progress}%</p>
+              <p className="text-sm text-gray-500 mt-1">{profile?.profile_completion || progress}%</p>
             </div>
           </div>
         </div>
@@ -110,10 +114,10 @@ const ProfileBanner = ({ coverImageUrl, name, role, location, progress }) => {
 
       {/* Dynamic Section - Placed Outside with Gap */}
       <div className="mt-6 p-6 bg-white shadow-md rounded-2xl">
-        {activeTab === "profile" && <ProfileDetails />}
-        {activeTab === "address" && <AddressDetails />}
-        {activeTab === "documentation" && <Documentation />}
-        {activeTab === "social" && <SocialMedia />}
+        {activeTab === "profile" && <ProfileDetails profile={profile} />}
+        {activeTab === "address" && <AddressDetails profile={profile} />}
+        {activeTab === "documentation" && <Documentation profile={profile} />}
+        {activeTab === "social" && <SocialMedia profile={profile} />}
       </div>
     </>
   );

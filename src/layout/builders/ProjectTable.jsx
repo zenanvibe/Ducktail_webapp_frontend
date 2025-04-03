@@ -112,6 +112,14 @@ const ProjectTable = ({ title, projects = [], handleStatusChange, navigate }) =>
                       📝
                     </button>
                   )}
+                  {project.status === 'upload_document' && (
+                    <button
+                      onClick={() => navigate(`/upload-doc/${project.id}`)}
+                      className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
+                    >
+                      📄
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

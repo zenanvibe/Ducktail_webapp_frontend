@@ -267,12 +267,12 @@ const SignupPage = () => {
           id: "governmentLicense",
           required: true,
         },
-        {
-          label: "Graduation Certificate",
-          type: "file",
-          id: "graduationCertificate",
-          required: true,
-        },
+          {
+            label: "Graduation Certificate",
+            type: "file",
+            id: "graduationCertificate",
+            required: true,
+          },
       ],
     },
   ];

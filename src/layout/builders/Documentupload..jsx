@@ -4,13 +4,13 @@ import useProjectStatus from "../../store/builders/useProjectStatus";
 import { useParams } from "react-router-dom";
 
 const DocumentUpload = ({ onBack }) => {
-  const { projectId } = useParams();
+  const { id } = useParams();
   const { uploadCompletionDocuments } = useProjectStatus();
   const [documents, setDocuments] = useState({
-    specificationReport: null,
-    warrantyDocument: null,
-    completionCertificate: null,
-    siteImage: null,
+    specificationReport: "",
+    warrantyDocument: "",
+    completionCertificate: "",
+    siteImage: "",
   });
 
   const handleFileChange = (e, docType) => {
@@ -22,14 +22,21 @@ const DocumentUpload = ({ onBack }) => {
 
   const handleSubmit = async () => {
     try {
-      await uploadCompletionDocuments(projectId, documents);
+      await uploadCompletionDocuments(id, documents);
+      // Reset all document fields after successful upload
+      setDocuments({
+        specificationReport: "",
+        warrantyDocument: "",
+        completionCertificate: "",
+        siteImage: "",
+      });
       onBack(); // Navigate back on success
     } catch (error) {
       console.error("Error uploading documents:", error);
     }
   };
 
-  const allFilesUploaded = Object.values(documents).every((file) => file !== null);
+  const allFilesUploaded = Object.values(documents).every((file) => file !== "");
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
@@ -47,6 +54,7 @@ const DocumentUpload = ({ onBack }) => {
               accept=".pdf,.docx"
               onChange={(e) => handleFileChange(e, "specificationReport")}
               className="mt-4"
+              value=""
             />
           </div>
 
@@ -60,6 +68,7 @@ const DocumentUpload = ({ onBack }) => {
               accept=".pdf,.docx"
               onChange={(e) => handleFileChange(e, "warrantyDocument")}
               className="mt-4"
+              value=""
             />
           </div>
 
@@ -73,6 +82,7 @@ const DocumentUpload = ({ onBack }) => {
               accept=".pdf,.docx"
               onChange={(e) => handleFileChange(e, "completionCertificate")}
               className="mt-4"
+              value=""
             />
           </div>
 
@@ -86,6 +96,7 @@ const DocumentUpload = ({ onBack }) => {
               accept=".jpg,.jpeg,.png,.webp"
               onChange={(e) => handleFileChange(e, "siteImage")}
               className="mt-4"
+              value=""
             />
           </div>
         </div>

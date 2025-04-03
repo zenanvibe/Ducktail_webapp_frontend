@@ -73,7 +73,7 @@ const useServiceStore = create(
           }
         );
         set((state) => ({
-          createServices: [...state.allServices, response.data],
+          allServices: [...state.allServices, response.data],
           isLoading: false,
         }));
         console.log(response.data);
@@ -105,6 +105,29 @@ const useServiceStore = create(
       } catch (error) {
         set({ isLoading: false });
         toast.error(error.response?.data?.message || "Failed to add service");
+      }
+    },
+    
+    // Delete a service
+    deleteService: async (serviceId) => {
+      set({ isLoading: true });
+      const { token } = useAuthStore.getState();
+      try {
+        await axiosInstancev1.delete(`builder/service/${serviceId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        set((state) => ({
+          allServices: state.allServices.filter(service => service.id !== serviceId),
+          isLoading: false,
+        }));
+        toast.success("Service deleted successfully");
+      } catch (error) {
+        set({ isLoading: false });
+        toast.error(
+          error.response?.data?.message || "Failed to delete service"
+        );
       }
     },
   }))

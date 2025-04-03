@@ -67,6 +67,8 @@ const useProjectEnqStore = create(
             ...projectData, // Other project details (name, location, etc.)
           };
 
+          console.log(payload); 
+
           const response = await axiosInstancev1.post("/projects", payload, {
             headers: { Authorization: `Bearer ${token}` },
           });

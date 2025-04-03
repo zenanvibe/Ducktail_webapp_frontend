@@ -4,25 +4,58 @@ import useProfileStore from "../../../store/customer/useProfileStore";
 
 const CustomerDetails = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const { profile, fetchProfile, isLoading } = useProfileStore();
+  const [formData, setFormData] = useState({});
+  const { profile, fetchProfile, updateProfile, isLoading, isUpdating } = useProfileStore();
+
+  const loadProfile = async () => {
+    await fetchProfile();
+  };
 
   useEffect(() => {
-    fetchProfile();
+    loadProfile();
   }, [fetchProfile]);
 
+  useEffect(() => {
+    if (profile) {
+      setFormData(profile);
+    }
+  }, [profile]);
+
   const toggleEdit = () => {
+    if (isEditing) {
+      // Reset form data to profile data when canceling
+      setFormData(profile);
+    }
     setIsEditing(!isEditing);
   };
 
+  const handleInputChange = (key, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [key]: value
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const success = await updateProfile(formData);
+      if (success) {
+        loadProfile(); // Fetch updated profile data after successful update
+        toggleEdit();
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
   const fields = [
-    { label: "Customer ID", value: profile?.customer_id || "" },
-    { label: "Customer Name", value: profile?.name || "" },
-    { label: "Email", value: profile?.email || "" },
-    { label: "Password", value: "" },
-    { label: "Phone Number", value: "" },
-    { label: "WhatsApp Number", value: "" },
-    { label: "Age", value: "" },
-    { label: "Gender", value: "" },
+    { key: "customer_id", label: "Customer ID", editable: false },
+    { key: "name", label: "Customer Name", editable: true },
+    { key: "email", label: "Email", editable: true },
+    { key: "phone_number", label: "Phone Number", editable: true },
+    { key: "whatsapp_number", label: "WhatsApp Number", editable: true },
+    { key: "age", label: "Age", editable: true },
+    { key: "gender", label: "Gender", editable: true },
   ];
 
   return (
@@ -38,17 +71,18 @@ const CustomerDetails = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {fields.map(({ label, value }, index) => (
+          {fields.map(({ key, label, editable = true }, index) => (
             <div key={index}>
               <label className="block text-sm font-medium text-gray-600">{label}</label>
               <input
                 type="text"
-                value={value}
-                disabled={!isEditing}
+                value={formData[key] || ""}
+                onChange={(e) => handleInputChange(key, e.target.value)}
+                disabled={!editable || !isEditing}
                 className={`w-full p-2 mt-1 rounded-md ${
-                  isEditing ? "border border-gray-300" : "border-none"
+                  !editable ? "bg-gray-100" : 
+                  isEditing ? "border border-gray-300" : "border-none bg-gray-50"
                 }`}
-                readOnly
               />
             </div>
           ))}
@@ -57,10 +91,20 @@ const CustomerDetails = () => {
 
       {isEditing && (
         <div className="flex justify-end mt-4">
-          <button className="px-4 py-2 bg-gray-500 text-white rounded-md mr-2" onClick={toggleEdit}>
+          <button 
+            className="px-4 py-2 bg-gray-500 text-white rounded-md mr-2 hover:bg-gray-600" 
+            onClick={toggleEdit}
+            disabled={isUpdating}
+          >
             Cancel
           </button>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-md">Save Changes</button>
+          <button 
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            onClick={handleSubmit}
+            disabled={isUpdating}
+          >
+            {isUpdating ? 'Saving...' : 'Save Changes'}
+          </button>
         </div>
       )}
     </div>

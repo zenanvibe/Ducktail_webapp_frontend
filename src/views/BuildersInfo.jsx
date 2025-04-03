@@ -81,6 +81,7 @@ const BuildersInfo = () => {
     return <div className="text-center p-8">No builder data available.</div>;
   }
 
+  console.log(builder);
   return (
     <div className=" relative p-4">
       <div className="max-w-6xl mx-auto rounded-3xl overflow-hidden bg-[#ffffff] shadow-lg relative">
@@ -123,9 +124,10 @@ const BuildersInfo = () => {
               About The Company
             </h2>
             <p className="text-lg max-w-4xl mx-auto">
-              {builder.engineer_name} is a skilled professional specializing in
+              {/* {builder.engineer_name} is a skilled professional specializing in
               various construction services. Established in{" "}
-              {builder.establishment_year} years.
+              {builder.establishment_year} years. */}
+              {builder.about}
             </p>
           </div>
 

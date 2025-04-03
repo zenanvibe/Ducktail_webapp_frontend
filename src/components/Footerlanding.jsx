@@ -3,18 +3,18 @@ import React from 'react'
 const Footerlanding = () => {
   return (
     <div className='pt-10'>
-       <footer className=" text-black py-8 " style={{backgroundColor:"#b0acac"}}>
+       <footer className=" text-white py-8 " style={{backgroundColor:"black"}}>
   <div className="container max-w-6xl mx-auto px-4">
     {/* <!-- Top Section --> */}
     <div className="flex flex-wrap md:flex-nowrap justify-between items-start">
       {/* <!-- Logo and About Section --> */}
       <div className="w-full md:w-1/2 mb-6 md:mb-0 text-center md:text-left">
         <img
-          src="/assets/black logo.png"
+          src="/assets/Transparent background.png"
           alt="Ducktail Logo"
           className="mx-auto md:mx-0 w-64 mb-4"
         />
-        <p className=" text-gray-800">
+        <p className=" text-white">
           Ducktail – The Construction Platform, is your trusted partner in
           construction, connecting companies with skilled professionals.
         </p>
@@ -62,14 +62,14 @@ const Footerlanding = () => {
  
 
 </footer>
-<div class="mt-0  p-3" style={{backgroundColor:"#b0acac"}}>
+<div class="mt-0  p-3" style={{backgroundColor:"black"}}>
   <div class="container max-w-6xl mx-auto px-4  flex flex-wrap justify-between items-center">
-    <p class="text-sm text-center md:text-left w-full md:w-auto text-black">
+    <p class="text-sm text-center md:text-left w-full md:w-auto text-white">
       Copyright © 2024 Ducktail, All rights reserved.
     </p>
     <div class="flex space-x-6 justify-center md:justify-end md:mt-0">
-      <a href="/termscondition " class="text-black ">Terms and Condition</a>
-      <a href="/privacypolicy " class="text-black">Privacy Policy</a>
+      <a href="/termscondition " class="text-white ">Terms and Condition</a>
+      <a href="/privacypolicy " class="text-white">Privacy Policy</a>
     </div>
   </div>
 </div>

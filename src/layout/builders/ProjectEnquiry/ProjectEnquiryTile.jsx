@@ -100,7 +100,7 @@ const ProjectEnquiryTile = () => {
                       </td>
                     </tr>
                     {entries.map((entry, idx) => (
-                      <tr key={idx} className="border-t">
+                      <tr key={idx} className="border-t relative">
                         <td className="p-2">
                           {new Date(entry.created_at).toLocaleTimeString("en-US", {
                             hour: "2-digit",
@@ -109,15 +109,59 @@ const ProjectEnquiryTile = () => {
                           })}
                         </td>
                         <td className="p-2">{entry.customer_name}</td>
-                        <td className="p-2 flex items-center gap-2">{entry.customer_ducktail_id}
-                        <ClipboardIcon
-                        className="w-4 h-4 text-gray-500 cursor-pointer hover:text-black"
-                        onClick={() => handleCopy(entry.customer_ducktail_id)}
-                      />
-                      {copiedId === entry.customer_ducktail_id && (
-                        <span className="text-green-600 text-sm">Copied!</span>
-                      )}
-
+                        <td className="p-2">
+                          <div className="flex items-center gap-2 relative">
+                            {entry.customer_ducktail_id}
+                            <ClipboardIcon
+                              className="w-4 h-4 text-gray-500 cursor-pointer hover:text-black transition-colors duration-200"
+                              onClick={() => handleCopy(entry.customer_ducktail_id)}
+                            />
+                            {copiedId === entry.customer_ducktail_id && (
+                              <div 
+                                className="absolute left-0 -bottom-8 animate-fade-up"
+                                style={{
+                                  animation: "fadeUpAndOut 2s ease-out forwards"
+                                }}
+                              >
+                                <div className="bg-green-600 text-white text-xs px-2 py-1 rounded-md shadow-lg flex items-center gap-1">
+                                  <svg 
+                                    className="w-3 h-3" 
+                                    fill="none" 
+                                    stroke="currentColor" 
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path 
+                                      strokeLinecap="round" 
+                                      strokeLinejoin="round" 
+                                      strokeWidth={2} 
+                                      d="M5 13l4 4L19 7" 
+                                    />
+                                  </svg>
+                                  Copied!
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          <style jsx>{`
+                            @keyframes fadeUpAndOut {
+                              0% {
+                                opacity: 0;
+                                transform: translateY(10px);
+                              }
+                              20% {
+                                opacity: 1;
+                                transform: translateY(0);
+                              }
+                              80% {
+                                opacity: 1;
+                                transform: translateY(0);
+                              }
+                              100% {
+                                opacity: 0;
+                                transform: translateY(-10px);
+                              }
+                            }
+                          `}</style>
                         </td>
                         <td className="p-2">{entry.phone_number}</td>
                         <td className="p-2 ">{entry.district}</td>

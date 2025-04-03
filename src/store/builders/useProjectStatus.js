@@ -40,11 +40,14 @@ const useProjectStatus = create(
           if (userType === "builder") {
             if (!user) throw new Error("Builder ID missing!");
             params.append("builderId", user);
+            if (status) params.append("status", status);
           } else if (userType === "customer") {
-            params.append("customerId", "3"); // Hardcoded customer ID
+            if (!user?.customerId) throw new Error("Customer ID missing!");
+            params.append("customerId", user.customerId);
+            console.log(user.customerId);
+            params.append("status", status || " ");
+            console.log(status);
           }
-
-          if (status) params.append("status", status);
 
           const response = await axiosInstancev1.get(
             `/projects?${params.toString()}`,
@@ -53,8 +56,19 @@ const useProjectStatus = create(
             }
           );
 
-          set({ projects: response.data.projects || [] });
-          console.log("Fetched Projects:", response.data);
+          // Get project details for each project with holds
+          const projectsWithDetails = await Promise.all(
+            response.data.projects.map(async (project) => {
+              if (project.status === 'hold') {
+                const details = await get().fetchProjectById(project.id);
+                return details.project;
+              }
+              return project;
+            })
+          );
+
+          set({ projects: projectsWithDetails || [] });
+          console.log("Fetched Projects:", projectsWithDetails);
         } catch (error) {
           console.error("Fetch Projects Error:", error);
           set({
@@ -129,6 +143,46 @@ const useProjectStatus = create(
         } catch (error) {
           console.error("Update Project Status Error:", error);
           const errorMessage = error.response?.data?.message || error.message || "Failed to update project status";
+          set({ error: errorMessage });
+          toast.error(errorMessage);
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      uploadCompletionDocuments: async (projectId, documents) => {
+        set({ isLoading: true, error: null });
+
+        try {
+          const { token } = useAuthStore.getState();
+          if (!token) throw new Error("Authentication token missing!");
+
+          const formData = new FormData();
+          formData.append('specificationReport', documents.specificationReport);
+          formData.append('warrantyDocument', documents.warrantyDocument);
+          formData.append('completionCertificate', documents.completionCertificate);
+          formData.append('siteImage', documents.siteImage);
+
+          const response = await axiosInstancev1.post(
+            `/projects/${projectId}/completion-documents`,
+            formData,
+            {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+          );
+
+          if (response.data.success) {
+            toast.success("Completion documents uploaded successfully");
+            await get().fetchProjects();
+          }
+
+          return response.data;
+        } catch (error) {
+          console.error("Upload Completion Documents Error:", error);
+          const errorMessage = error.response?.data?.message || "Failed to upload completion documents";
           set({ error: errorMessage });
           toast.error(errorMessage);
         } finally {

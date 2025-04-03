@@ -4,6 +4,7 @@ import StatusBadge from "./status/StatusBadge";
 
 const ProjectTable = ({ title, projects = [], handleStatusChange, navigate }) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedHoldProject, setSelectedHoldProject] = useState(null);
 
   // Helper function to highlight matched text
   const highlightText = (text, searchTerm) => {
@@ -19,9 +20,9 @@ const ProjectTable = ({ title, projects = [], handleStatusChange, navigate }) =>
   const filteredProjects = Array.isArray(projects) ? projects.filter((project) => {
     const searchTerm = searchQuery.toLowerCase();
     return (
-      project.customer_name.toLowerCase().includes(searchTerm) ||
-      project.customer_ducktail_id.toLowerCase().includes(searchTerm) ||
-      project.project_location.toLowerCase().includes(searchTerm) ||
+      project.customer_name?.toLowerCase().includes(searchTerm) ||
+      project.customer_ducktail_id?.toLowerCase().includes(searchTerm) ||
+      project.project_location?.toLowerCase().includes(searchTerm) ||
       new Date(project.starting_date)
         .toLocaleDateString("en-US", {
           year: "numeric",
@@ -30,12 +31,13 @@ const ProjectTable = ({ title, projects = [], handleStatusChange, navigate }) =>
         })
         .toLowerCase()
         .includes(searchTerm) ||
-      project.status.toLowerCase().includes(searchTerm)
+      project.status?.toLowerCase().includes(searchTerm) ||
+      'upload_document'.includes(searchTerm) // Add this to make upload_document searchable
     );
   }) : [];
 
   return (
-    <div className="bg-white shadow rounded-lg p-6">
+    <div className="bg-white shadow rounded-lg p-6 relative">
       {/* Header Section */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold">{title}</h2>
@@ -102,6 +104,22 @@ const ProjectTable = ({ title, projects = [], handleStatusChange, navigate }) =>
                   >
                     📁
                   </button>
+                  {project.status === 'hold' && project.holds && project.holds.length > 0 && (
+                    <button
+                      onClick={() => setSelectedHoldProject(project)}
+                      className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
+                    >
+                      📝
+                    </button>
+                  )}
+                  {project.status === 'upload_document' && (
+                    <button
+                      onClick={() => navigate(`/upload-doc/${project.id}`)}
+                      className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
+                    >
+                      📄
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
@@ -110,6 +128,31 @@ const ProjectTable = ({ title, projects = [], handleStatusChange, navigate }) =>
       ) : (
         <div className="text-center py-8 text-gray-500">
           No projects found
+        </div>
+      )}
+
+      {/* Centered Modal for Hold Comments */}
+      {selectedHoldProject && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-[500px] max-h-[80vh] relative">
+            <button
+              onClick={() => setSelectedHoldProject(null)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            >
+              ✕
+            </button>
+            <h3 className="text-xl font-semibold mb-4">Hold Comments History</h3>
+            <div className="overflow-y-auto max-h-[60vh]">
+              {selectedHoldProject.holds.map((hold, index) => (
+                <div key={index} className="border-b border-gray-200 py-3">
+                  <p className="text-gray-700">{hold.comment}</p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {new Date(hold.created_at).toLocaleString()}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>

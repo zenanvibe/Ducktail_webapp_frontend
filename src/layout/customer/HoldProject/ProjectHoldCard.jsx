@@ -10,7 +10,7 @@ const ProjectHoldCard = () => {
   const { user, userType } = useAuthStore();
 
   useEffect(() => {
-    if (userType === "customer" && user?.customerId && user?.hasHoldProject) {
+    if (userType === "customer" && user?.customerId ) {
       fetchProjects("hold", 10, 1);
     }
   }, [user, userType, fetchProjects]);
@@ -28,7 +28,7 @@ const ProjectHoldCard = () => {
     return <p className="text-center text-gray-500">Loading projects...</p>;
   }
 
-  if (!user?.hasHoldProject || projects.length === 0) {
+  if (projects.length === 0) {
     return (
       <div className="text-center py-8">
         <p className="text-gray-600 text-lg">
@@ -72,9 +72,19 @@ const ProjectHoldCard = () => {
             </div>
           </div>
 
-          {/* Hold Comment */}
-          <div className="mt-6 mb-16">
-            <h3 className="text-xl text-gray-700">{project.holdComment || "No hold reason provided"}</h3>
+          {/* Hold Comments History */}
+          <div className="mt-6 mb-16 bg-gray-50 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold mb-3">Hold Comments History</h3>
+            <div className="space-y-3">
+              {project.holds?.map((hold, index) => (
+                <div key={index} className="border-b border-gray-200 pb-2">
+                  <p className="text-gray-800">{hold.comment}</p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {new Date(hold.created_at).toLocaleString()}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Buttons */}

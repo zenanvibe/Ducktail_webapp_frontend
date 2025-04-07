@@ -8,6 +8,7 @@ const Documentation = () => {
   const { profile, fetchProfile, updateProfile, isLoading } = useProfileStore();
   const [selectedDoc, setSelectedDoc] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDocName, setSelectedDocName] = useState("");
 
   const loadProfile = async () => {
     await fetchProfile();
@@ -22,8 +23,8 @@ const Documentation = () => {
       setFormData({
         qualification: profile.builder.qualification || "",
         gst_number: profile.builder.gst_number || "",
-        government_license: profile.builder.government_license || "View",
-        graduation_certificate: profile.builder.graduation_certificate || "View"
+        government_license: profile.builder.government_license || null,
+        graduation_certificate: profile.builder.graduation_certificate || null
       });
     }
   }, [profile]);
@@ -38,8 +39,8 @@ const Documentation = () => {
       setFormData({
         qualification: profile.builder.qualification || "",
         gst_number: profile.builder.gst_number || "",
-        government_license: profile.builder.government_license || "View",
-        graduation_certificate: profile.builder.graduation_certificate || "View"
+        government_license: profile.builder.government_license || null,
+        graduation_certificate: profile.builder.graduation_certificate || null
       });
     }
     setIsEditing(!isEditing);
@@ -63,11 +64,21 @@ const Documentation = () => {
   };
 
   const handleViewDocument = (docKey) => {
-    setSelectedDoc(profile?.builder?.[docKey]);
+    setSelectedDoc(profile?.builder?.[docKey] || null);
+    setSelectedDocName(formatLabel(docKey));
     setIsModalOpen(true);
   };
 
   const closeModal = () => setIsModalOpen(false);
+
+  const getDocumentFields = () => {
+    const regularFields = ['qualification', 'gst_number'];
+    const documentFields = ['government_license', 'graduation_certificate'];
+    
+    return { regularFields, documentFields };
+  };
+
+  const { regularFields, documentFields } = getDocumentFields();
 
   return (
     <div className="">
@@ -79,29 +90,36 @@ const Documentation = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {Object.entries(formData).map(([key, value], index) => (
-          <div key={index}>
+        {/* Regular text fields */}
+        {regularFields.map((key) => (
+          <div key={key}>
             <label className="block text-sm font-medium text-gray-600">
               {formatLabel(key)}
             </label>
-            {key === 'government_license' || key === 'graduation_certificate' ? (
-              <button
-                className="mt-1 px-4 py-2 bg-blue-500 text-white rounded-md"
-                onClick={() => handleViewDocument(key)}
-              >
-                View
-              </button>
-            ) : (
-              <input
-                type="text"
-                value={value}
-                onChange={(e) => handleInputChange(key, e.target.value)}
-                disabled={!isEditing}
-                className={`w-full p-2 mt-1 rounded-md ${
-                  isEditing ? "border border-gray-300" : "border-none bg-gray-50"
-                }`}
-              />
-            )}
+            <input
+              type="text"
+              value={formData[key] || ''}
+              onChange={(e) => handleInputChange(key, e.target.value)}
+              disabled={!isEditing}
+              className={`w-full p-2 mt-1 rounded-md ${
+                isEditing ? "border border-gray-300" : "border-none bg-gray-50"
+              }`}
+            />
+          </div>
+        ))}
+
+        {/* Document fields with View buttons */}
+        {documentFields.map((key) => (
+          <div key={key}>
+            <label className="block text-sm font-medium text-gray-600">
+              {formatLabel(key)}
+            </label>
+            <button
+              className="mt-1 px-4 py-2 bg-blue-500 text-white rounded-md"
+              onClick={() => handleViewDocument(key)}
+            >
+              View
+            </button>
           </div>
         ))}
       </div>
@@ -120,18 +138,20 @@ const Documentation = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg">
-            <h3 className="text-xl font-semibold mb-4">Document Preview</h3>
+            <h3 className="text-xl font-semibold mb-4">{selectedDocName}</h3>
             {selectedDoc ? (
               <iframe
                 src={selectedDoc}
                 className="w-full h-96"
-                title="Document Preview"
+                title={`${selectedDocName} Preview`}
               />
             ) : (
-              <p className="text-gray-600">No document available</p>
+              <div className="flex items-center justify-center h-96 bg-gray-100 rounded-md">
+                <p className="text-gray-600 text-lg">No document available</p>
+              </div>
             )}
             <button
-              className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md w-full"
+              className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md w-full hover:bg-red-600"
               onClick={closeModal}
             >
               Close

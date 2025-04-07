@@ -9,6 +9,7 @@ const useDashboardStore = create(
     (set, get) => ({
       cardTile: null,
       projectTile: null,
+      chartData: null,
       isLoading: false,
 
       // Fetch License Card Data
@@ -59,7 +60,7 @@ const useDashboardStore = create(
 
         try {
           const response = await axiosInstance.get(
-            `/builders/dashboard/${builderId}/statistics`,
+            `/api/v2/builders/dashboard/${builderId}/statistics`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -68,10 +69,44 @@ const useDashboardStore = create(
           );
 
           set({ projectTile: response.data });
+          console.log("Project Statistics:", response.data);
 
         } catch (error) {
           console.error("Project Tile Fetch Error:", error);
           toast.error(error.response?.data?.message || "Failed to load project data");
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      // Fetch Chart Data
+      getChartData: async () => {
+        set({ isLoading: true });
+
+        const { token, user: builderId } = useAuthStore.getState(); // Fetch builderId from useAuthStore
+
+        if (!token || !builderId) {
+          toast.error("Unauthorized: Please log in.");
+          set({ isLoading: false });
+          return;
+        }
+
+        try {
+          const response = await axiosInstance.get(
+            `/builders/dashboard/${builderId}/charts`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          set({ chartData: response.data });
+          console.log("Chart Data:", response.data);
+
+        } catch (error) {
+          console.error("Chart Data Fetch Error:", error);
+          toast.error(error.response?.data?.message || "Failed to load chart data");
         } finally {
           set({ isLoading: false });
         }

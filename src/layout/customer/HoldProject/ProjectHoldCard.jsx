@@ -96,7 +96,9 @@ const ProjectHoldCard = () => {
               <span className="text-xl">💬</span> Chat
             </button>
 
-            <button className="w-24 px-3 py-2 bg-white border-2 border-gray-900 rounded-lg text-gray-900 font-medium hover:bg-gray-50 flex items-center justify-center gap-2">
+            <button className="w-24 px-3 py-2 bg-white border-2 border-gray-900 rounded-lg text-gray-900 font-medium hover:bg-gray-50 flex items-center justify-center gap-2"
+                          onClick={() => handlenavigate("payment", "/paymenthistory")}
+                          >
               <span className="text-xl">₹</span> Payment
             </button>
           </div>

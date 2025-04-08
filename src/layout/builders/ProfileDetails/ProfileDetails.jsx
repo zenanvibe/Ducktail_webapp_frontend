@@ -34,10 +34,21 @@ const ProfileDetails = () => {
   };
 
   const handleInputChange = (key, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [key]: value
-    }));
+    // Only allow numeric values and limit to 10 digits for phone and whatsapp number
+    if (["contact_number", "whatsapp_number"].includes(key)) {
+      const numericValue = value.replace(/\D/g, ""); // Remove non-numeric characters
+      if (numericValue.length <= 10) {
+        setFormData(prev => ({
+          ...prev,
+          [key]: numericValue
+        }));
+      }
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [key]: value
+      }));
+    }
   };
 
   const handleSubmit = async () => {
@@ -65,6 +76,8 @@ const ProfileDetails = () => {
             <label className="block text-sm font-medium text-gray-600">{label}</label>
             <input
               type="text"
+              inputMode={["contact_number", "whatsapp_number"].includes(key) ? "numeric" : "text"}
+              pattern={["contact_number", "whatsapp_number"].includes(key) ? "\\d*" : undefined}
               value={formData[key] || ""}
               onChange={(e) => handleInputChange(key, e.target.value)}
               disabled={!editable || !isEditing}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { CalendarDays, MapPin, FileText, MessageCircle, IndianRupee } from "lucide-react";
 import useProjectStatus from "../../../store/builders/useProjectStatus";
 import useAuthStore from "../../../store/useAuthStore";
@@ -8,6 +9,7 @@ const CompletedCard = () => {
   const [showRejection, setShowRejection] = useState(false);
   const { projects, fetchProjects, isLoading, error } = useProjectStatus();
   const { user, userType } = useAuthStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch completed projects for the logged-in customer
@@ -15,6 +17,11 @@ const CompletedCard = () => {
       fetchProjects("completed", 10, 1);
     }
   }, [user, userType, fetchProjects]);
+
+  const handlenavigate = (name, path) => {
+    console.log(`Navigating to ${name} at ${path}`);
+    navigate(path);
+  };
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
@@ -59,12 +66,15 @@ const CompletedCard = () => {
           </h2>
           <div className="absolute right-0 flex gap-2">
             {/* Chat Icon */}
-            <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md">
+            <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md"
+            onClick={() => handlenavigate("chat", "/chatbox")}>
               <MessageCircle className="w-4 h-4 text-gray-700" />
             </button>
             
             {/* Payment Icon */}
-            <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md">
+            <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md"
+             onClick={() => handlenavigate("payment", "/paymenthistory")}
+             >
               <IndianRupee className="w-4 h-4 text-gray-700" />
             </button>
           </div>

@@ -6,10 +6,12 @@ import "swiper/css/navigation";
 import { EffectCoverflow, Navigation } from "swiper/modules";
 import useProjectStatus from "../../../store/builders/useProjectStatus";
 import useAuthStore from "../../../store/useAuthStore";
+import { useNavigate } from 'react-router-dom';
 
 const LiveCard = () => {
   const { projects, fetchProjects, isLoading, error } = useProjectStatus();
   const { user, userType } = useAuthStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch active projects for the logged-in customer
@@ -18,6 +20,11 @@ const LiveCard = () => {
       fetchProjects("active", 10, 1); // Using default limit=10 and page=1
     }
   }, [user, userType, fetchProjects]);
+
+  const handlenavigate = (name, path) => {
+    console.log(`Navigating to ${name} at ${path}`);
+    navigate(path);
+  };
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
@@ -106,11 +113,13 @@ const LiveCard = () => {
                 )}
               </div>
               <div className="flex justify-between mt-4">
-                <button className="flex-1 py-2 border border-gray-400 rounded-lg text-gray-800 font-medium flex items-center justify-center space-x-2">
+                <button className="flex-1 py-2 border border-gray-400 rounded-lg text-gray-800 font-medium flex items-center justify-center space-x-2"
+                 onClick={() => handlenavigate("chat", "/chatbox")}>
                   <span>💬</span>
                   <span>Chat Us</span>
                 </button>
-                <button className="flex-1 py-2 border border-gray-400 rounded-lg text-gray-800 font-medium flex items-center justify-center space-x-2 ml-2">
+                <button className="flex-1 py-2 border border-gray-400 rounded-lg text-gray-800 font-medium flex items-center justify-center space-x-2 ml-2"
+                 onClick={() => handlenavigate("payment", "/paymenthistory")}>
                   <span>💰</span>
                   <span>Payment</span>
                 </button>

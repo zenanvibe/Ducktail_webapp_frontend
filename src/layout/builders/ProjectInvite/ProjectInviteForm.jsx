@@ -23,6 +23,7 @@ const ProjectInviteForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!customerDucktailId) {
       toast.error("Please enter a Customer Ducktail ID.");
       return;
@@ -37,10 +38,19 @@ const ProjectInviteForm = () => {
       return;
     }
 
+    if (
+      projectData.deadlineDate &&
+      projectData.startingDate &&
+      projectData.deadlineDate < projectData.startingDate
+    ) {
+      toast.error("Deadline must be after the project starting date.");
+      return;
+    }
+
     await sendProjectInvite(customerDucktailId, projectData);
     toast.success("Project invite sent successfully!");
 
-    // Reset all fields after success
+    // Reset fields after success
     setCustomerDucktailId("");
     setProjectData({
       projectName: "",
@@ -51,6 +61,9 @@ const ProjectInviteForm = () => {
     });
   };
 
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <div className="flex items-center justify-center p-6">
       <div className="w-full max-w-3xl bg-white rounded-lg shadow-md p-6">
@@ -58,7 +71,7 @@ const ProjectInviteForm = () => {
           Project Invitation
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Customer Ducktail ID - Full Width */}
+          {/* Customer Ducktail ID */}
           <div>
             <label htmlFor="customerId" className="block text-sm font-medium text-gray-600 mb-1">
               Customer Ducktail's ID
@@ -73,7 +86,7 @@ const ProjectInviteForm = () => {
             />
           </div>
 
-          {/* Grid Layout for Other Inputs */}
+          {/* Inputs Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Project Name */}
             <div>
@@ -120,7 +133,7 @@ const ProjectInviteForm = () => {
               />
             </div>
 
-            {/* Project Starting Date */}
+            {/* Starting Date */}
             <div>
               <label htmlFor="startingDate" className="block text-sm font-medium text-gray-600 mb-1">
                 Project Starting Date
@@ -130,11 +143,12 @@ const ProjectInviteForm = () => {
                 id="startingDate"
                 value={projectData.startingDate}
                 onChange={handleChange}
+                min={today}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
 
-            {/* Project Deadline Date */}
+            {/* Deadline Date */}
             <div>
               <label htmlFor="deadlineDate" className="block text-sm font-medium text-gray-600 mb-1">
                 Deadline Date
@@ -144,6 +158,7 @@ const ProjectInviteForm = () => {
                 id="deadlineDate"
                 value={projectData.deadlineDate}
                 onChange={handleChange}
+                min={projectData.startingDate || today}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
@@ -151,7 +166,20 @@ const ProjectInviteForm = () => {
 
           {/* Buttons */}
           <div className="flex justify-between mt-4">
-            <button type="button" className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
+            <button
+              type="button"
+              onClick={() => {
+                setCustomerDucktailId("");
+                setProjectData({
+                  projectName: "",
+                  projectLocation: "",
+                  projectBudget: "",
+                  startingDate: "",
+                  deadlineDate: "",
+                });
+              }}
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+            >
               Cancel
             </button>
             <button

@@ -60,7 +60,7 @@ const useDashboardStore = create(
 
         try {
           const response = await axiosInstance.get(
-            `/api/v2/builders/dashboard/${builderId}/statistics`,
+            `/builders/dashboard/${builderId}/statistics`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

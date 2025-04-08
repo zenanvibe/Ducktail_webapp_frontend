@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import useServiceStore from "../../../store/builders/useServiceStore";
-
+  
 const ServicesTile = () => {
-  const { fetchServices, fetchBuilderService, allServices, builderServices, fetchCreateService, deleteService, isLoading } =
-  useServiceStore();
+  const { 
+    fetchServices, 
+    fetchBuilderService, 
+    allServices, 
+    builderServices, 
+    fetchCreateService, 
+    deleteService,
+    addServiceToBuilder,
+    isLoading 
+  } = useServiceStore();
   const [services, setServices] = useState([]); 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isCreatePopupOpen, setIsCreatePopupOpen] = useState(false);
@@ -16,14 +24,24 @@ const ServicesTile = () => {
   }, [fetchServices, fetchBuilderService]);
 
   // Add selected service to the table
-  const addServiceToTable = () => {
+  // Modified addServiceToTable function
+  const addServiceToTable = async () => {
     if (selectedService) {
-      setServices((prev) => [...prev, selectedService]);
-      setSelectedService("");
-      setIsPopupOpen(false);
+      try {
+        // Find the selected service object from allServices
+        const serviceToAdd = allServices.find(service => service.name === selectedService);
+        if (serviceToAdd) {
+          await addServiceToBuilder(serviceToAdd.id);
+          await fetchBuilderService(); // Refresh the builder services list
+          setSelectedService("");
+          setIsPopupOpen(false);
+        }
+      } catch (error) {
+        console.error("Failed to add service", error);
+      }
     }
   };
-
+  
   
 
   const createNewService = async () => {
@@ -180,3 +198,4 @@ const ServicesTile = () => {
 };
 
 export default ServicesTile;
+

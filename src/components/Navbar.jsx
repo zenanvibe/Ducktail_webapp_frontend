@@ -45,12 +45,12 @@ const Navbar = ({ isOpen, setIsOpen }) => {
       <div className="text-lg font-semibold"></div>
 
       <div className="flex items-center space-x-4">
-        <button
+        {/* <button
           onClick={() => handleNav("/builder/notification")}
           className="w-8 h-8 bg-red-400 rounded-full flex justify-center items-center"
         >
           <Bell color="#ffffff" />
-        </button>
+        </button> */}
 
         <button
           onClick={() => handleNav("/builder/profile")}

@@ -6,6 +6,44 @@ const ProjectEnquiryTile = () => {
   const { enquiries, isLoading, fetchEnquiries } = useProjectEnqStore();
   const [filter, setFilter] = useState("All");
   const [copiedId, setCopiedId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Add highlight text function
+  const highlightText = (text, searchTerm) => {
+    if (!searchTerm) return text;
+    const parts = text?.toString().split(new RegExp(`(${searchTerm})`, 'gi'));
+    return parts?.map((part, index) => 
+      part.toLowerCase() === searchTerm.toLowerCase() ? 
+        <span key={index} className="bg-yellow-200 font-medium">{part}</span> : part
+    );
+  };
+
+  // Filter enquiries based on search
+  const filteredEnquiries = enquiries.filter((enquiry) => {
+    const searchTerm = searchQuery.toLowerCase();
+    return (
+      enquiry.customer_name?.toLowerCase().includes(searchTerm) ||
+      enquiry.customer_ducktail_id?.toLowerCase().includes(searchTerm) ||
+      enquiry.phone_number?.toLowerCase().includes(searchTerm) ||
+      enquiry.district?.toLowerCase().includes(searchTerm) ||
+      enquiry.taluk?.toLowerCase().includes(searchTerm) ||
+      enquiry.comments?.toLowerCase().includes(searchTerm) ||
+      enquiry.postcode?.toLowerCase().includes(searchTerm)
+    );
+  });
+
+  // Update groupedEnquiries to use filtered results
+  const groupedEnquiries = filteredEnquiries.reduce((acc, enquiry) => {
+    const dateKey = new Date(enquiry.created_at).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
+
+    if (!acc[dateKey]) acc[dateKey] = [];
+    acc[dateKey].push(enquiry);
+    return acc;
+  }, {});
 
   const handleCopy = (id) => {
     navigator.clipboard.writeText(id);
@@ -17,18 +55,6 @@ const ProjectEnquiryTile = () => {
     const status = filter === "All" ? null : filter === "Action taken" ? "action_taken" : "action_not_taken";
     fetchEnquiries(status);
   }, [filter, fetchEnquiries]);
-
-  const groupedEnquiries = enquiries.reduce((acc, enquiry) => {
-    const dateKey = new Date(enquiry.created_at).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "2-digit",
-    });
-
-    if (!acc[dateKey]) acc[dateKey] = [];
-    acc[dateKey].push(enquiry);
-    return acc;
-  }, {});
 
   return (
     <div className="py-2 min-h-screen">
@@ -62,12 +88,14 @@ const ProjectEnquiryTile = () => {
           </div>
           <input
             type="text"
-            placeholder="Search..."
-            className="px-4 py-2 border rounded-full w-full md:w-64 bg-gray-100"
+            placeholder="Search by name, ID, phone, district..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="px-4 py-2 border rounded-full w-full md:w-64 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
-        {/* Table Section */}
+        {/* Update table body to use highlighting */}
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
@@ -87,7 +115,7 @@ const ProjectEnquiryTile = () => {
                 <tr>
                   <td colSpan="8" className="text-center py-4">Loading...</td>
                 </tr>
-              ) : enquiries.length === 0 ? (
+              ) : filteredEnquiries.length === 0 ? (
                 <tr>
                   <td colSpan="8" className="text-center py-4">No enquiries found</td>
                 </tr>
@@ -108,10 +136,10 @@ const ProjectEnquiryTile = () => {
                             hour12: true,
                           })}
                         </td>
-                        <td className="p-2 text-center">{entry.customer_name}</td>
+                        <td className="p-2 text-center">{highlightText(entry.customer_name, searchQuery)}</td>
                         <td className="p-2 text-center">
                           <div className="flex items-center justify-center gap-2 relative">
-                            {entry.customer_ducktail_id}
+                            {highlightText(entry.customer_ducktail_id, searchQuery)}
                             <ClipboardIcon
                               className="w-4 h-4 text-gray-500 cursor-pointer hover:text-black transition-colors duration-200"
                               onClick={() => handleCopy(entry.customer_ducktail_id)}

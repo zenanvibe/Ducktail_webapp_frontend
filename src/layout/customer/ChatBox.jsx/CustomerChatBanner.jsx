@@ -12,14 +12,14 @@ const CustomerChatBanner = ({ coverImageUrl,name }) => {
   return (
     <div className="bg-gray-100 overflow-hidden shadow " style={{ borderRadius: "12px" }}>
       {/* Cover Section */}
-      <div
+      {/* <div
         className="h-48 bg-cover bg-center relative"
         style={{ backgroundImage: `url('${coverImageUrl}')` }}
       >
         <button className="absolute top-2 right-2 px-3 py-1 bg-gray-800 text-white text-sm rounded-md">
           Edit Cover
         </button>
-      </div>
+      </div> */}
 
       {/* Heading Section */}
       <div className="px-5 py-3 bg-white">

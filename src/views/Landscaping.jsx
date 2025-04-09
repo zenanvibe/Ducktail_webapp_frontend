@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Landscaping = () => {
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="relative min-h-[80vh] w-full">
@@ -21,21 +23,31 @@ const Landscaping = () => {
           {/* Title Section */}
           <div className="text-white flex-1 px-6">
             <h1 className="text-4xl md:text-5xl font-bold mb-5">
-              <span className="text-yellow-400"> Landscaping </span>
-              
+              <span className="text-yellow-400">Landscaping</span>
             </h1>
             <p className="text-base md:text-lg text-gray-200 max-w-xl">
-            At Ducktail Construction, we create serene outdoor spaces with elegant pools, fountains, and regional flora, blending artistry and nature to craft your perfect haven.
-
+              At Ducktail Construction, we create serene outdoor spaces with elegant pools, fountains, and regional flora, blending artistry and nature to craft your perfect haven.
             </p>
           </div>
 
           {/* Form Section */}
           <div className="bg-white rounded-lg p-6 shadow-lg w-full max-w-lg">
             <div className="grid grid-cols-2 gap-4">
-              <input type="text" placeholder="Name" className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              <input type="email" placeholder="Email" className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              <input type="tel" placeholder="Phone Number" className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <input
+                type="text"
+                placeholder="Name"
+                className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
               <select className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option>Select State</option>
               </select>
@@ -45,7 +57,11 @@ const Landscaping = () => {
               <select className="w-full p-2 h-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option>Select Taluk</option>
               </select>
-              <textarea placeholder="Your Query" rows="2" className="col-span-2 w-full p-2 h-20 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+              <textarea
+                placeholder="Your Query"
+                rows="2"
+                className="col-span-2 w-full p-2 h-20 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              ></textarea>
               <button className="col-span-2 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">
                 Submit
               </button>

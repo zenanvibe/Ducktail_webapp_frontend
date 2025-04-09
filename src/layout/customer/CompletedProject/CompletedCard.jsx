@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { CalendarDays, MapPin, FileText, MessageCircle, IndianRupee } from "lucide-react";
 import useProjectStatus from "../../../store/builders/useProjectStatus";
 import useAuthStore from "../../../store/useAuthStore";
@@ -9,6 +10,7 @@ const CompletedCard = () => {
   const [showRejection, setShowRejection] = useState(false);
   const { projects, fetchProjects, isLoading, error } = useProjectStatus();
   const { user, userType } = useAuthStore();
+  const navigate = useNavigate();
 
   // Toggle documents for specific project
   const toggleDocuments = (projectId) => {
@@ -24,6 +26,11 @@ const CompletedCard = () => {
       fetchProjects("completed", 10, 1);
     }
   }, [user, userType, fetchProjects]);
+
+  const handlenavigate = (name, path) => {
+    console.log(`Navigating to ${name} at ${path}`);
+    navigate(path);
+  };
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;

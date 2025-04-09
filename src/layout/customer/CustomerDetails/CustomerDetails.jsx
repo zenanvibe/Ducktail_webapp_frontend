@@ -23,7 +23,6 @@ const CustomerDetails = () => {
 
   const toggleEdit = () => {
     if (isEditing) {
-      // Reset form data to profile data when canceling
       setFormData(profile);
     }
     setIsEditing(!isEditing);
@@ -40,7 +39,7 @@ const CustomerDetails = () => {
     try {
       const success = await updateProfile(formData);
       if (success) {
-        loadProfile(); // Fetch updated profile data after successful update
+        loadProfile();
         toggleEdit();
       }
     } catch (error) {
@@ -61,8 +60,13 @@ const CustomerDetails = () => {
   return (
     <div className="p-4">
       <div className="flex items-center justify-between mb-4 border-b border-gray-400 pb-2">
-        <h2 className="text-xl font-semibold">My Details</h2>
-        <FaEdit className="cursor-pointer text-gray-500" onClick={toggleEdit} />
+        <div className="flex items-center gap-2">
+          <h2 className="text-xl font-semibold">My Details</h2>
+          <FaEdit 
+            className="cursor-pointer text-gray-500 hover:text-blue-500" 
+            onClick={toggleEdit} 
+          />
+        </div>
       </div>
 
       {isLoading ? (

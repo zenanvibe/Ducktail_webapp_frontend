@@ -10,6 +10,7 @@ const CompletedCard = () => {
   const [showRejection, setShowRejection] = useState(false);
   const { projects, fetchProjects, isLoading, error } = useProjectStatus();
   const { user, userType } = useAuthStore();
+  const navigate = useNavigate();
 
   // Toggle documents for specific project
   const toggleDocuments = (projectId) => {

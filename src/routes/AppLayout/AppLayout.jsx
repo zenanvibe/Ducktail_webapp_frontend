@@ -4,7 +4,7 @@ import Navbarlanding from "../../components/Navbarlanding";
 import Footerlanding from "../../components/Footerlanding";
 
 const noNavbarFooterPaths = [
-  "/login", "/builder/signup", "/profile",
+  "/login", "/builder/signup", "/customer/profile",
   // Builder Paths
   "/builder/dashboard", "/builder/liveproject", "/builder/projectinvite",
   "/builder/projectservices", "/builder/portfolio", "/builder/pendingproject",
@@ -12,9 +12,11 @@ const noNavbarFooterPaths = [
   "/builder/completedproject", "/builder/notification", "/builder/projectenquiry",
   "/builder/chat", "/builder/payment","/builder/subscriptionhistory","/builder/subscription",
   "/builder/profile","/builder/support","/builder/profilecard",
-  // Customer Paths
-  "/projectinvite", "/livecard", "/holdcard", "/requestcard",
-   "/completedcard", "/rejectcard" ,"/chatbox" ,"/paymenthistory" ,"/help","/signup"
+  // Customer Paths (update these with /customer prefix)
+  "/customer/projectinvite", "/customer/livecard", "/customer/holdcard", 
+  "/customer/requestcard", "/customer/completedcard", "/customer/rejectcard",
+  "/customer/chatbox", "/customer/paymenthistory", "/customer/help", 
+  "/customer/signup"
 ];
 
 const AppLayout = ({ children }) => {

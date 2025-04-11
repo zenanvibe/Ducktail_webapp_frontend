@@ -15,23 +15,20 @@ import CustomerSignup from "../../pages/Customer/CustomerSignup";
 
 
 const CustomerRoutes = () => {
-  
   return(
     <Routes>
-    <Route path="/projectinvite" element={<ProjectInvite />} />
-    <Route path="/livecard" element={<ProjectLiveCard />} />
-    <Route path="/holdcard" element={<HoldCard />} />
-    <Route path="/requestcard" element={<RequestCard />} />
-    <Route path="/profile" element={<CustomerProfile />} />
-    <Route path="/completedcard" element={<ProjectComplete />} />
-    <Route path="/rejectcard" element={<ProjectReject />} />
-    <Route path="/chatbox" element ={<CustomerChatBox />} />
-    <Route path="/paymenthistory" element ={<CustomerPayment />} />
-    <Route path="/help" element ={<CustomerHelp />} />
-    <Route path="/signup"  element={<CustomerSignup />} />
-
-
-  </Routes>
+      <Route path="/projectinvite" element={<ProjectInvite />} />
+      <Route path="/livecard" element={<ProjectLiveCard />} />
+      <Route path="/holdcard" element={<HoldCard />} />
+      <Route path="/requestcard" element={<RequestCard />} />
+      <Route path="/profile" element={<CustomerProfile />} />
+      <Route path="/completedcard" element={<ProjectComplete />} />
+      <Route path="/rejectcard" element={<ProjectReject />} />
+      <Route path="/chatbox" element={<CustomerChatBox />} />
+      <Route path="/paymenthistory" element={<CustomerPayment />} />
+      <Route path="/help" element={<CustomerHelp />} />
+      <Route path="/signup" element={<CustomerSignup />} />
+    </Routes>
   )
 }
 

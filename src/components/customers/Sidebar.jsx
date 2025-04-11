@@ -20,7 +20,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     invite: false
   });
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => location.pathname === `/customer${path}`;
 
   // Fetch data periodically
   useEffect(() => {
@@ -96,18 +96,14 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           </span>
           {notifications.invite && <NotificationDot />}
           <button
-            onClick={() => handleNavigation("/projectinvite")}
+            onClick={() => handleNavigation("/customer/projectinvite")}
             className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
           >
             Project Invite
           </button>
         </div>
 
-        <div
-          className={`relative ${
-            isActive("/livecard" ) ? "bg-[#616161]" : ""
-          }`}
-        >
+        <div className={`relative ${isActive("/livecard") ? "bg-[#616161]" : ""}`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
           <img
               src="/sidebaricons/Job list3.png"
@@ -118,17 +114,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           {notifications.live && <NotificationDot />}
           <button
             className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
-            onClick={() => handleNavigation("/livecard" )}
+            onClick={() => handleNavigation("/customer/livecard")}
           >
             Live Project
           </button>
         </div>
 
-        <div
-          className={`relative ${
-            isActive("/holdcard") ? "bg-[#616161]" : ""
-          }`}
-        >
+        <div className={`relative ${isActive("/holdcard") ? "bg-[#616161]" : ""}`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img
               src="/sidebaricons/live1.png"
@@ -139,15 +131,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           {notifications.hold && <NotificationDot />}
           <button
             className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
-            onClick={() => handleNavigation("/holdcard")}
+            onClick={() => handleNavigation("/customer/holdcard")}
           >
             Hold Project
           </button>
         </div>
 
-        <div className={`relative ${
-            isActive("/rejectcard" ) ? "bg-[#616161]" : ""
-          }`}>
+        <div className={`relative ${isActive("/rejectcard") ? "bg-[#616161]" : ""}`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img
               src="/sidebaricons/rejected1.png"
@@ -156,14 +146,12 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             />
           </span>
           {notifications.rejected && <NotificationDot />}
-          <a href=" " onClick={() => handleNavigation("/rejectcard" )} className="block px-16 py-4 hover:bg-[#616161]">
+          <a href=" " onClick={() => handleNavigation("/customer/rejectcard" )} className="block px-16 py-4 hover:bg-[#616161]">
             Rejection Projects
           </a>
         </div>
 
-        <div className={`relative ${
-            isActive("/requestcard") ? "bg-[#616161]" : ""
-          }`}>
+        <div className={`relative ${isActive("/requestcard") ? "bg-[#616161]" : ""}`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img
               src="/sidebaricons/faq_1761715511.png"
@@ -172,14 +160,12 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             />
           </span>
           {notifications.completion && <NotificationDot />}
-          <a href=" " onClick={() => handleNavigation("/requestcard")} className="block px-16 py-4 hover:bg-[#616161]">
+          <a href=" " onClick={() => handleNavigation("/customer/requestcard")} className="block px-16 py-4 hover:bg-[#616161]">
             Completion Request
           </a>
         </div>
 
-        <div className={`relative ${
-            isActive("/completedcard") ? "bg-[#616161]" : ""
-          }`}>
+        <div className={`relative ${isActive("/completedcard") ? "bg-[#616161]" : ""}`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img
               src="/sidebaricons/Profile 2.png"
@@ -188,14 +174,12 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             />
           </span>
           {notifications.completed && <NotificationDot />}
-          <a href=" " onClick={() => handleNavigation("/completedcard")} className="block px-16 py-4 hover:bg-[#616161]">
+          <a href=" " onClick={() => handleNavigation("/customer/completedcard")} className="block px-16 py-4 hover:bg-[#616161]">
             Completed Projects
           </a>
         </div>
 
-        <div className={`relative ${
-            isActive("/customer") ? "bg-[#616161]" : ""
-          }`}>
+        <div className={`relative ${isActive("/customer") ? "bg-[#616161]" : ""}`}>
           <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
             <img
               src="/sidebaricons/Profile1.png"
@@ -203,7 +187,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               className="h-6"
             />
           </span>
-          <a href=" " onClick={() => handleNavigation("/profile")} className="block px-16 py-4 hover:bg-[#616161]">
+          <a href=" " onClick={() => handleNavigation("/customer/profile")} className="block px-16 py-4 hover:bg-[#616161]">
             Profile
           </a>
         </div>

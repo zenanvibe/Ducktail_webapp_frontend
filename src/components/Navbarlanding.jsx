@@ -35,7 +35,7 @@ const Navbarlanding = () => {
       if (userType === "builder") {
         navigate("/builder/dashboard");
       } else {
-        navigate("/projectinvite");
+        navigate("/customer/projectinvite");
       }
     } else {
       // If not logged in, proceed to login page

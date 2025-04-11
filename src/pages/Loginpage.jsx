@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import useAuthStore from "../store/useAuthStore";
@@ -13,27 +13,9 @@ const Loginpage = () => {
   });
   const { loginBuilder, customerLogin } = useAuthStore();
   const [loading, setLoading] = useState(false);
-  const [redirectPath, setRedirectPath] = useState("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Get the saved path from localStorage (if any)
-    const savedPath = localStorage.getItem("redirectAfterLogin");
-    if (savedPath) {
-      setRedirectPath(savedPath);
-    }
-  }, []);
-  
-
-  // const navigate = useNavigate();
   const location = useLocation();
-  
   const userType = new URLSearchParams(location.search).get("type") || "builder";
-  
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCredential({ ...credential, [name]: value });
-  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -42,18 +24,13 @@ const Loginpage = () => {
     try {
       if (userType === "builder") {
         await loginBuilder(credential);
+        navigate("/builder/dashboard");
       } else {
         await customerLogin(credential);
+        navigate("/");
       }
-  
+      
       setCredential({ email: "", password: "" });
-      // console.log(credential);
-  
-      // ✅ Redirect to the saved path after login
-      const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
-      localStorage.removeItem("redirectAfterLogin"); // Clear after use
-      navigate(redirectPath);
-  
     } catch (error) {
       console.error("Login failed:", error);
       toast.error(error.response?.data?.message || "Login failed");
@@ -62,6 +39,10 @@ const Loginpage = () => {
     }
   };
   
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCredential({ ...credential, [name]: value });
+  };
 
   return (
     <div

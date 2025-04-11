@@ -7,25 +7,26 @@ const ProjectInviteForm = () => {
   const navigate = useNavigate();
   const { fetchCustomerEnquiries, enquiries, isLoading, updateProjectStatus } = useProjectEnqStore();
   const [currentEnquiryIndex, setCurrentEnquiryIndex] = useState(0);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+  // Separate useEffect for initial load and refresh
   useEffect(() => {
-    // Pass pending_approval status to fetch only pending approval projects
-    fetchCustomerEnquiries("pending_approval");
-  }, [fetchCustomerEnquiries]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!enquiries || enquiries.length === 0) {
-    return <div className="text-center text-gray-600 p-4">No project invitations available at this time.</div>;
-  }
+    const loadEnquiries = async () => {
+      try {
+        await fetchCustomerEnquiries("pending_approval");
+      } catch (error) {
+        console.error("Error fetching enquiries:", error);
+      }
+    };
+    
+    loadEnquiries();
+  }, [fetchCustomerEnquiries, refreshTrigger]);
 
   const handleAccept = async (enquiry, index) => {
     try {
       const response = await updateProjectStatus(enquiry.id, 'accept');
       if (response.success) {
-        await fetchCustomerEnquiries("pending_approval"); // Refresh with pending_approval status
+        setRefreshTrigger(prev => prev + 1); // Trigger refresh
         if (index < enquiries.length - 1) {
           setCurrentEnquiryIndex(index + 1);
         }
@@ -40,7 +41,7 @@ const ProjectInviteForm = () => {
     try {
       const response = await updateProjectStatus(enquiry.id, 'decline');
       if (response.success) {
-        await fetchCustomerEnquiries("pending_approval"); // Refresh with pending_approval status
+        setRefreshTrigger(prev => prev + 1); // Trigger refresh
         if (index < enquiries.length - 1) {
           setCurrentEnquiryIndex(index + 1);
         }
@@ -50,6 +51,14 @@ const ProjectInviteForm = () => {
       console.error("Error declining project:", error);
     }
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!enquiries || enquiries.length === 0) {
+    return <div className="text-center text-gray-600 p-4">No project invitations available at this time.</div>;
+  }
 
   return (
     <div className="container mx-auto px-4">

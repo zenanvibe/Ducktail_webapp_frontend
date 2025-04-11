@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "../css/Navbarlanding.css";
 import { useNavigate, useLocation } from "react-router-dom";
+import useAuthStore from "../store/useAuthStore";
+import { toast } from "react-toastify";
 
 const Navbarlanding = () => {
   const [activeLink, setActiveLink] = useState("HOME");
@@ -10,6 +12,7 @@ const Navbarlanding = () => {
   const [isClosing, setIsClosing] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { token, userType } = useAuthStore(); // Add this line
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -19,12 +22,31 @@ const Navbarlanding = () => {
     setloginDropdownOpen((prev) => !prev);
   };
 
-  const handleLoginRedirect = (userType) => {
-    localStorage.setItem("redirectAfterLogin", location.pathname); // Store current page
-    navigate(`/login?type=${userType}`);
+  const handleLoginRedirect = (selectedUserType) => {
+    // Check if user is already logged in
+    if (token && userType) {
+      // If logged in user tries to access different user type, show warning
+      if (userType !== selectedUserType) {
+        toast.error(`You are already logged in as a ${userType}`);
+        return;
+      }
+      
+      // Redirect to appropriate dashboard
+      if (userType === "builder") {
+        navigate("/builder/dashboard");
+      } else {
+        navigate("/projectinvite");
+      }
+    } else {
+      // If not logged in, proceed to login page
+      navigate(`/login?type=${selectedUserType}`);
+    }
+    
+    // Close dropdowns
     setIsDropdownOpen(false);
+    setloginDropdownOpen(false);
   };
-  
+
 
   const toggleMenu = () => {
     if (isMobileMenuOpen) {
@@ -135,7 +157,7 @@ const Navbarlanding = () => {
               onClick={loginToggle}
               className="bg-blue-600 text-white font-bold px-6 py-2 rounded-full hover:bg-blue-700"
             >
-              LOGIN
+              Dashboard 
             </button>
             {loginDropdownOpen && (
               <div className="absolute mt-36 bg-gray-100 rounded shadow-lg">

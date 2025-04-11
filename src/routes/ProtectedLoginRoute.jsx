@@ -1,25 +1,20 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Loginpage from "../pages/Loginpage";
 import useAuthStore from "../store/useAuthStore";
 
 const ProtectedLoginRoute = () => {
-  const { user, userType } = useAuthStore();
-  const location = useLocation(); // Get current route
+  const { user, userType, token } = useAuthStore();
 
-  if (user) {
-    //  Ensure builders 
+  // Check both user and token existence
+  if (user && token) {
+    // Redirect based on userType
     if (userType === "builder") {
       return <Navigate to="/builder/dashboard" replace />;
     }
-
-    // Redirect non-builders to their stored route or default
-    const redirectPath = localStorage.getItem("redirectAfterLogin") || "/projectinvite";
-    localStorage.removeItem("redirectAfterLogin"); // Clear after use
-    return <Navigate to={redirectPath} replace />;
+    if (userType === "customer") {
+      return <Navigate to="/" replace />;
+    }
   }
-
-  // Save attempted route for redirection after login
-  localStorage.setItem("redirectAfterLogin", location.pathname);
 
   return <Loginpage />;
 };

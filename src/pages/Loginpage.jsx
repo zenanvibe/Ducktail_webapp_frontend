@@ -24,10 +24,10 @@ const Loginpage = () => {
     try {
       if (userType === "builder") {
         await loginBuilder(credential);
-        navigate("/builder/dashboard");
+        // navigate("/builder/dashboard");
       } else {
         await customerLogin(credential);
-        navigate("/");
+        // navigate("/");
       }
       
       setCredential({ email: "", password: "" });

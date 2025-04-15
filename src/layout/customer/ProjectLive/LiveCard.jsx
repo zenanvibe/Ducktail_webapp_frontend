@@ -14,11 +14,16 @@ const LiveCard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch active projects for the logged-in customer
-    if (userType === "customer" && user?.customerId) {
-      // Pass the actual customerId from user object instead of hardcoded value
-      fetchProjects("active", 10, 1); // Using default limit=10 and page=1
-    }
+    const loadActiveProjects = async () => {
+      try {
+        if (userType === "customer" && user?.customerId) {
+          await fetchProjects("active", 10, 1);
+        }
+      } catch (error) {
+        console.error("Error fetching active projects:", error);
+      }
+    };
+    loadActiveProjects();
   }, [user, userType, fetchProjects]);
 
   const handlenavigate = (name, path) => {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import { CalendarDays, MapPin, FileText, MessageCircle, IndianRupee } from "lucide-react";
 import useProjectStatus from "../../../store/builders/useProjectStatus";
 import useAuthStore from "../../../store/useAuthStore";
@@ -10,7 +9,6 @@ const CompletedCard = () => {
   const [showRejection, setShowRejection] = useState(false);
   const { projects, fetchProjects, isLoading, error } = useProjectStatus();
   const { user, userType } = useAuthStore();
-  const navigate = useNavigate();
 
   // Toggle documents for specific project
   const toggleDocuments = (projectId) => {
@@ -21,16 +19,17 @@ const CompletedCard = () => {
   };
 
   useEffect(() => {
-    // Fetch completed projects for the logged-in customer
-    if (userType === "customer" && user?.customerId) {
-      fetchProjects("completed", 10, 1);
-    }
+    const loadCompletedProjects = async () => {
+      try {
+        if (userType === "customer" && user?.customerId) {
+          await fetchProjects("completed", 10, 1);
+        }
+      } catch (error) {
+        console.error("Error fetching completed projects:", error);
+      }
+    };
+    loadCompletedProjects();
   }, [user, userType, fetchProjects]);
-
-  const handlenavigate = (name, path) => {
-    console.log(`Navigating to ${name} at ${path}`);
-    navigate(path);
-  };
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
@@ -78,14 +77,14 @@ const CompletedCard = () => {
               </h2>
               <div className="absolute right-0 flex gap-2">
                 {/* Chat Icon */}
-                <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md">
+                {/* <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md">
                   <MessageCircle className="w-4 h-4 text-gray-700" />
-                </button>
+                </button> */}
                 
                 {/* Payment Icon */}
-                <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md">
+                {/* <button className="h-8 w-8 flex items-center justify-center rounded-full border border-gray-400 shadow-md">
                   <IndianRupee className="w-4 h-4 text-gray-700" />
-                </button>
+                </button> */}
               </div>
             </div>
 

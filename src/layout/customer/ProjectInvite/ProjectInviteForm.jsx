@@ -1,51 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Phone, BadgeCheck } from "lucide-react";
+import { Phone, BadgeCheck, Loader2 } from "lucide-react";
 import useProjectEnqStore from "../../../store/customer/useProjectEnqStore";
 
 const ProjectInviteForm = () => {
   const navigate = useNavigate();
   const { fetchCustomerEnquiries, enquiries, isLoading, updateProjectStatus } = useProjectEnqStore();
-  const [currentEnquiryIndex, setCurrentEnquiryIndex] = useState(0);
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [pendingProjects, setPendingProjects] = useState([]);
+  
+  // Remove currentEnquiryIndex and refreshTrigger states as they're not needed
 
-  // Separate useEffect for initial load and refresh
   useEffect(() => {
-    const loadEnquiries = async () => {
+    const loadPendingEnquiries = async () => {
       try {
         await fetchCustomerEnquiries("pending_approval");
       } catch (error) {
-        console.error("Error fetching enquiries:", error);
+        console.error("Error fetching pending enquiries:", error);
       }
     };
-    
-    loadEnquiries();
-  }, [fetchCustomerEnquiries, refreshTrigger]);
+    loadPendingEnquiries();
+  }, []); // Remove all dependencies to run only once on mount
 
-  const handleAccept = async (enquiry, index) => {
+  // Update pendingProjects when enquiries change
+  useEffect(() => {
+    const pendingOnly = enquiries.filter(project => project.status === "pending_approval");
+    setPendingProjects(pendingOnly);
+  }, [enquiries]);
+
+  const handleAccept = async (enquiry) => {
     try {
       const response = await updateProjectStatus(enquiry.id, 'accept');
       if (response.success) {
-        setRefreshTrigger(prev => prev + 1); // Trigger refresh
-        if (index < enquiries.length - 1) {
-          setCurrentEnquiryIndex(index + 1);
-        }
-        navigate("/livecard");
+        navigate("/customer/livecard");
       }
     } catch (error) {
       console.error("Error accepting project:", error);
     }
   };
 
-  const handleDecline = async (enquiry, index) => {
+  const handleDecline = async (enquiry) => {
     try {
       const response = await updateProjectStatus(enquiry.id, 'decline');
       if (response.success) {
-        setRefreshTrigger(prev => prev + 1); // Trigger refresh
-        if (index < enquiries.length - 1) {
-          setCurrentEnquiryIndex(index + 1);
-        }
-        navigate("/rejectcard");
+        navigate("/customer/rejectcard");
       }
     } catch (error) {
       console.error("Error declining project:", error);
@@ -53,17 +50,21 @@ const ProjectInviteForm = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+      </div>
+    );
   }
 
-  if (!enquiries || enquiries.length === 0) {
-    return <div className="text-center text-gray-600 p-4">No project invitations available at this time.</div>;
+  if (!pendingProjects || pendingProjects.length === 0) {
+    return <div className="text-center text-gray-600 p-4">No pending project invitations available at this time.</div>;
   }
 
   return (
     <div className="container mx-auto px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {enquiries.map((enq, index) => (
+        {pendingProjects.map((enq, index) => (
           <div key={enq.id} className="bg-white rounded-2xl shadow-lg p-6">
             {/* Company Image */}
             <div className="flex justify-center mb-4">

@@ -14,29 +14,30 @@ const useProjectEnqStore = create(
       error: null,
 
       fetchCustomerEnquiries: async (status = null, limit = 10, page = 1) => {
+        if (get().isLoading) return; // Prevent multiple simultaneous calls
         set({ isLoading: true, error: null });
 
         try {
           const { token } = useAuthStore.getState();
-          if (!token) throw new Error("Authentication token missing!");
-          
-          // Get customerToken from localStorage and decode it
           const customerToken = localStorage.getItem('customerToken');
-          if (!customerToken) throw new Error("Customer token missing!");
           
-          // Decode the JWT token to get user information
+          if (!token || !customerToken) {
+            throw new Error("Authentication tokens missing!");
+          }
+
           const decodedToken = jwtDecode(customerToken);
-          const customerId = decodedToken.customerId;
+          const customerId = decodedToken?.customerId;
           
-          if (!customerId) throw new Error("Customer ID missing from token!");
+          if (!customerId) {
+            throw new Error("Customer ID missing from token!");
+          }
 
           const params = new URLSearchParams({
-            customerId: customerId,
+            customerId,
             limit,
             page,
+            ...(status && { status })
           });
-
-          if (status) params.append("status", status);
 
           const response = await axiosInstancev1.get(
             `/projects?${params.toString()}`,
@@ -45,39 +46,34 @@ const useProjectEnqStore = create(
             }
           );
 
-          set({ enquiries: response.data.projects || [] });
-          console.log("Fetched Customer Projects:", response.data);
-          return response.data.projects[0]?.id; // Return first project ID
+          const projects = response.data.projects || [];
+          set({ enquiries: projects });
+          return projects;
+
         } catch (error) {
-          console.error("Fetch Customer Projects Error:", error);
-          set({
-            error: error.response?.data?.message || "Failed to fetch projects",
-          });
+          const errorMessage = error.response?.data?.message || "Failed to fetch projects";
+          set({ error: errorMessage, enquiries: [] });
+          throw error;
         } finally {
           set({ isLoading: false });
         }
       },
 
       updateProjectStatus: async (projectId, key, holdComment = "") => {
+        if (get().isLoading) return; // Prevent multiple simultaneous calls
         set({ isLoading: true, error: null });
 
         try {
-          const { token } = useAuthStore.getState();
-          if (!token) throw new Error("Authentication token missing!");
-
           const customerToken = localStorage.getItem('customerToken');
-          if (!customerToken) throw new Error("Customer token missing!");
+          if (!customerToken) {
+            throw new Error("Customer token missing!");
+          }
 
-          // Map the key to the appropriate status
           const status = key === 'accept' ? 'active' : key === 'decline' ? 'rejected' : key;
 
           const response = await axiosInstancev1.put(
             `/projects/${projectId}/status-by-key`,
-            {
-              key,
-              status,
-              holdComment
-            },
+            { key, status, holdComment },
             {
               headers: { 
                 Authorization: `Bearer ${customerToken}`,
@@ -87,28 +83,25 @@ const useProjectEnqStore = create(
           );
 
           if (response.data.success) {
-            // Refresh the enquiries list after successful update
-            await get().fetchCustomerEnquiries();
-            console.log("Project status updated:", response.data);
+            // Fetch updated list with same status
+            const currentStatus = get().enquiries[0]?.status || 'pending_approval';
+            await get().fetchCustomerEnquiries(currentStatus);
             return response.data;
-          } else {
-            throw new Error(response.data.message || "Failed to update project status");
           }
+          
+          throw new Error(response.data.message || "Failed to update project status");
 
         } catch (error) {
-          console.error("Update Project Status Error:", error);
-          set({
-            error: error.response?.data?.message || "Failed to update project status",
-          });
+          const errorMessage = error.response?.data?.message || "Failed to update project status";
+          set({ error: errorMessage });
           throw error;
         } finally {
           set({ isLoading: false });
         }
       },
-
     }),
     {
-      name: "project-enquiries-storage", 
+      name: "project-enquiries-storage",
       getStorage: () => localStorage,
     }
   )

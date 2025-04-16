@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
 import { Mail, Phone, BadgeX } from "lucide-react";
 import useProjectStatus from "../../../store/builders/useProjectStatus";
-import useAuthStore from "../../../store/useAuthStore";
+// import useAuthStore from "../../../store/useAuthStore";
 
 const RejectionCard = () => {
   const { projects, fetchProjects, isLoading, error } = useProjectStatus();
-  const { user, userType } = useAuthStore();
+  // const { user, userType } = useAuthStore();
 
   useEffect(() => {
-    if (userType === "customer" && user?.customerId) {
-      fetchProjects("rejected", 10, 1);
-    }
-  }, [user, userType, fetchProjects]);
+    console.log("Fetching rejected projects...");
+    fetchProjects("rejected");
+  }, [fetchProjects]);
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;

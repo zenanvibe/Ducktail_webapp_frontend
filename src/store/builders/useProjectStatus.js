@@ -30,24 +30,24 @@ const useProjectStatus = create(
         try {
           const { token, user, userType } = useAuthStore.getState();
           if (!token) throw new Error("Authentication token missing!");
-
+          
           const params = new URLSearchParams({
             limit,
             page,
           });
 
-          // Set ID based on user type
+          // Add appropriate ID based on user type
           if (userType === "builder") {
             if (!user) throw new Error("Builder ID missing!");
             params.append("builderId", user);
-            if (status) params.append("status", status);
           } else if (userType === "customer") {
             if (!user?.customerId) throw new Error("Customer ID missing!");
             params.append("customerId", user.customerId);
-            console.log(user.customerId);
-            params.append("status", status || " ");
-            console.log(status);
+          } else {
+            throw new Error("Invalid user type!");
           }
+
+          if (status) params.append("status", status);
 
           const response = await axiosInstancev1.get(
             `/projects?${params.toString()}`,
@@ -56,10 +56,10 @@ const useProjectStatus = create(
             }
           );
 
-          // Get project details for each project with holds
+          // Only fetch additional details for 'hold' status projects if they don't already have details
           const projectsWithDetails = await Promise.all(
             response.data.projects.map(async (project) => {
-              if (project.status === 'hold') {
+              if (project.status === 'hold' && !project.holdComment) {
                 const details = await get().fetchProjectById(project.id);
                 return details.project;
               }
@@ -68,7 +68,6 @@ const useProjectStatus = create(
           );
 
           set({ projects: projectsWithDetails || [] });
-          console.log("Fetched Projects:", projectsWithDetails);
         } catch (error) {
           console.error("Fetch Projects Error:", error);
           set({

@@ -1,69 +1,24 @@
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ToggleLeftIcon } from "lucide-react";
 import "../../css/Sidebar.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import useProjectStatus from "../../store/builders/useProjectStatus";
-import useProjectEnqStore from "../../store/customer/useProjectEnqStore";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { projects, fetchProjects } = useProjectStatus();
-  const { fetchCustomerEnquiries } = useProjectEnqStore();
-  const [notifications, setNotifications] = useState({
-    live: false,
-    hold: false,
-    rejected: false,
-    completion: false,
-    completed: false,
-    invite: false
-  });
-
-  const isActive = (path) => location.pathname === `/customer${path}`;
-
-  // Fetch data periodically
-  useEffect(() => {
-    const fetchData = async () => {
-      await Promise.all([
-        fetchProjects(),
-        fetchCustomerEnquiries()
-      ]);
-    };
-
-    fetchData(); // Initial fetch
-
-    // Set up polling interval
-    const interval = setInterval(fetchData, 30000); // Poll every 30 seconds
-
-    return () => clearInterval(interval);
-  }, [fetchProjects, fetchCustomerEnquiries]);
-
-  // Update notifications based on fetched data
-  useEffect(() => {
-    if (projects && projects.length > 0) {
-      setNotifications(prev => ({
-        ...prev,
-        live: projects.some(p => p.status === 'active'),
-        hold: projects.some(p => p.status === 'hold'),
-        rejected: projects.some(p => p.status === 'rejected'),
-        completion: projects.some(p => p.status === 'pending_completion'),
-        completed: projects.some(p => p.status === 'completed')
-      }));
-    }
-  }, [projects]);
 
   const handleNavigation = (path) => {
     navigate(path);
   };
 
-  const NotificationDot = () => (
-    <span className="absolute right-4 top-1/2 -translate-y-1/2 h-2 w-2 bg-white rounded-full animate-pulse"></span>
-  );
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
 
   return (
     <div
-      className={` sidebar h-screen ${
+      className={`sidebar h-screen ${
         isOpen ? "w-64" : "w-0"
       } lg:w-64 text-white transition-all duration-300 fixed lg:relative z-50 overflow-y-auto py-10`}
       style={{ backgroundColor: "#1F1E1E", borderRadius: "35px" }}
@@ -86,110 +41,129 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       {/* Navigation links */}
       <nav className={`mt-4 ${isOpen ? "block" : "hidden"} lg:block `}>
         
-        <div className={`relative ${isActive("/projectinvite") ? "bg-[#616161]" : ""}`}>
-          <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
+        <div className="relative">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-5">
             <img
               src="/sidebaricons/project invite 1.png"
               alt="Ducktail Logo"
               className="h-7"
             />
           </span>
-          {notifications.invite && <NotificationDot />}
           <button
             onClick={() => handleNavigation("/customer/projectinvite")}
-            className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
+            className={`block px-16 py-4 w-full text-left hover:bg-[#616161] ${
+              isActive("/customer/projectinvite") ? "bg-[#616161]" : ""
+            }`}
           >
             Project Invite
           </button>
         </div>
 
-        <div className={`relative ${isActive("/livecard") ? "bg-[#616161]" : ""}`}>
-          <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
-          <img
+        <div className="relative">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-5">
+            <img
               src="/sidebaricons/Job list3.png"
               alt="Ducktail Logo"
               className="h-6"
             />
           </span>
-          {notifications.live && <NotificationDot />}
           <button
-            className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
             onClick={() => handleNavigation("/customer/livecard")}
+            className={`block px-16 py-4 w-full text-left hover:bg-[#616161] ${
+              isActive("/customer/livecard") ? "bg-[#616161]" : ""
+            }`}
           >
             Live Project
           </button>
         </div>
 
-        <div className={`relative ${isActive("/holdcard") ? "bg-[#616161]" : ""}`}>
-          <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
+        {/* Apply the same pattern to all other buttons */}
+        <div className="relative">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-5">
             <img
               src="/sidebaricons/live1.png"
               alt="Ducktail Logo"
               className="h-6"
             />
           </span>
-          {notifications.hold && <NotificationDot />}
           <button
-            className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
             onClick={() => handleNavigation("/customer/holdcard")}
+            className={`block px-16 py-4 w-full text-left hover:bg-[#616161] ${
+              isActive("/customer/holdcard") ? "bg-[#616161]" : ""
+            }`}
           >
             Hold Project
           </button>
         </div>
 
-        <div className={`relative ${isActive("/rejectcard") ? "bg-[#616161]" : ""}`}>
-          <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
+        <div className="relative">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-5">
             <img
               src="/sidebaricons/rejected1.png"
               alt="Ducktail Logo"
               className="h-6"
             />
           </span>
-          {notifications.rejected && <NotificationDot />}
-          <a href=" " onClick={() => handleNavigation("/customer/rejectcard" )} className="block px-16 py-4 hover:bg-[#616161]">
+          <button
+            onClick={() => handleNavigation("/customer/rejectcard")}
+            className={`block px-16 py-4 w-full text-left hover:bg-[#616161] ${
+              isActive("/customer/rejectcard") ? "bg-[#616161]" : ""
+            }`}
+          >
             Rejection Projects
-          </a>
+          </button>
         </div>
 
-        <div className={`relative ${isActive("/requestcard") ? "bg-[#616161]" : ""}`}>
-          <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
+        <div className="relative">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-5">
             <img
               src="/sidebaricons/faq_1761715511.png"
               alt="Ducktail Logo"
               className="h-6"
             />
           </span>
-          {notifications.completion && <NotificationDot />}
-          <a href=" " onClick={() => handleNavigation("/customer/requestcard")} className="block px-16 py-4 hover:bg-[#616161]">
+          <button
+            onClick={() => handleNavigation("/customer/requestcard")}
+            className={`block px-16 py-4 w-full text-left hover:bg-[#616161] ${
+              isActive("/customer/requestcard") ? "bg-[#616161]" : ""
+            }`}
+          >
             Completion Request
-          </a>
+          </button>
         </div>
 
-        <div className={`relative ${isActive("/completedcard") ? "bg-[#616161]" : ""}`}>
-          <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
+        <div className="relative">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-5">
             <img
               src="/sidebaricons/Profile 2.png"
               alt="Ducktail Logo"
               className="h-6"
             />
           </span>
-          {notifications.completed && <NotificationDot />}
-          <a href=" " onClick={() => handleNavigation("/customer/completedcard")} className="block px-16 py-4 hover:bg-[#616161]">
+          <button
+            onClick={() => handleNavigation("/customer/completedcard")}
+            className={`block px-16 py-4 w-full text-left hover:bg-[#616161] ${
+              isActive("/customer/completedcard") ? "bg-[#616161]" : ""
+            }`}
+          >
             Completed Projects
-          </a>
+          </button>
         </div>
 
-        <div className={`relative ${isActive("/customer") ? "bg-[#616161]" : ""}`}>
-          <span className="absolute inset-y-0 left-0 flex items-center pl-5 ">
+        <div className="relative">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-5">
             <img
               src="/sidebaricons/Profile1.png"
               alt="Ducktail Logo"
               className="h-6"
             />
           </span>
-          <a href=" " onClick={() => handleNavigation("/customer/profile")} className="block px-16 py-4 hover:bg-[#616161]">
+          <button
+            onClick={() => handleNavigation("/customer/profile")}
+            className="block px-16 py-4 w-full text-left hover:bg-[#616161]"
+          >
             Profile
-          </a>
+          </button>
         </div>
        
       </nav>

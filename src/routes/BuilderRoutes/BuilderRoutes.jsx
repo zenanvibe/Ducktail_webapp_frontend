@@ -22,33 +22,29 @@ import Support from "../../pages/Builders/Support";
 import Signuppage from "../../pages/Signuppage";
 
 const BuilderRoutes = () => {
-
-    
   return (
-    <Routes>
-     
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/liveproject" element={<ProjectLive />} />
-          <Route path="/projectservices" element={<Services />} />
-          <Route path="/projectinvite" element={<ProjectInvite />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/pendingproject" element={<ProjectPending />} />
-          <Route path="/holdproject" element={<ProjectHold />} />
-          <Route path="/rejectionproject" element={<ProjectRejection />} />
-          <Route path="/completionrequest" element={<CompletionRequest />} />
-          <Route path="/completedproject" element={<ProjectCompleted />} />
-          <Route path="/chat" element={<Chatbox />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/notification" element={<Notification />} />
-          <Route path="/projectenquiry" element={<ProjectEnquiry />} />
-          <Route path="/subscription" element={<Subscription />} />
-          <Route path="/subscriptionhistory" element={<SubscriptionHistory />} />
-          <Route path="/profilecard" element={<ProfileCard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/signup" element={ <Signuppage />} />
-
-    </Routes>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/liveproject" element={<ProjectLive />} />
+        <Route path="/projectservices" element={<Services />} />
+        <Route path="/projectinvite" element={<ProjectInvite />} />
+        <Route path="/portfolio" element={<Portfolio />} />
+        <Route path="/pendingproject" element={<ProjectPending />} />
+        <Route path="/holdproject" element={<ProjectHold />} />
+        <Route path="/rejectionproject" element={<ProjectRejection />} />
+        <Route path="/completionrequest" element={<CompletionRequest />} />
+        <Route path="/completedproject" element={<ProjectCompleted />} />
+        <Route path="/chat" element={<Chatbox />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/notification" element={<Notification />} />
+        <Route path="/projectenquiry" element={<ProjectEnquiry />} />
+        <Route path="/subscription" element={<Subscription />} />
+        <Route path="/subscriptionhistory" element={<SubscriptionHistory />} />
+        <Route path="/profilecard" element={<ProfileCard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/signup" element={<Signuppage />} />
+      </Routes>
   );
 };
 

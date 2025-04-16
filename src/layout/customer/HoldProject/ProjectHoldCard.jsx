@@ -2,18 +2,17 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2 } from 'lucide-react';
 import useProjectStatus from '../../../store/builders/useProjectStatus';
-import useAuthStore from '../../../store/useAuthStore';
+// import useAuthStore from '../../../store/useAuthStore';
 
 const ProjectHoldCard = () => {
   const navigate = useNavigate();
   const { projects, fetchProjects, isLoading, error } = useProjectStatus();
-  const { user, userType } = useAuthStore();
+  // const { user, userType } = useAuthStore();
 
   useEffect(() => {
-    if (userType === "customer" && user?.customerId ) {
-      fetchProjects("hold", 10, 1);
-    }
-  }, [user, userType, fetchProjects]);
+    console.log("Fetching hold projects...");
+    fetchProjects("hold");
+  }, [fetchProjects]);
 
   const handlenavigate = (name, path) => {
     console.log(`Navigating to ${name} at ${path}`);

@@ -5,26 +5,18 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/navigation";
 import { EffectCoverflow, Navigation } from "swiper/modules";
 import useProjectStatus from "../../../store/builders/useProjectStatus";
-import useAuthStore from "../../../store/useAuthStore";
+// import useAuthStore from "../../../store/useAuthStore";
 import { useNavigate } from 'react-router-dom';
 
 const LiveCard = () => {
   const { projects, fetchProjects, isLoading, error } = useProjectStatus();
-  const { user, userType } = useAuthStore();
+  // const { user, userType } = useAuthStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadActiveProjects = async () => {
-      try {
-        if (userType === "customer" && user?.customerId) {
-          await fetchProjects("active", 10, 1);
-        }
-      } catch (error) {
-        console.error("Error fetching active projects:", error);
-      }
-    };
-    loadActiveProjects();
-  }, [user, userType, fetchProjects]);
+    console.log("Fetching active projects...");
+    fetchProjects("active");
+  }, [fetchProjects]);
 
   const handlenavigate = (name, path) => {
     console.log(`Navigating to ${name} at ${path}`);

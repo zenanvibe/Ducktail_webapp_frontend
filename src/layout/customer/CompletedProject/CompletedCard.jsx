@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { CalendarDays, MapPin, FileText, MessageCircle, IndianRupee } from "lucide-react";
 import useProjectStatus from "../../../store/builders/useProjectStatus";
-import useAuthStore from "../../../store/useAuthStore";
+// import useAuthStore from "../../../store/useAuthStore";
 
 const CompletedCard = () => {
-  // Replace single showDocuments with an object to track each project
   const [openDocuments, setOpenDocuments] = useState({});
   const [showRejection, setShowRejection] = useState(false);
   const { projects, fetchProjects, isLoading, error } = useProjectStatus();
-  const { user, userType } = useAuthStore();
+  // const { user, userType } = useAuthStore();
 
-  // Toggle documents for specific project
   const toggleDocuments = (projectId) => {
     setOpenDocuments(prev => ({
       ...prev,
@@ -19,17 +17,9 @@ const CompletedCard = () => {
   };
 
   useEffect(() => {
-    const loadCompletedProjects = async () => {
-      try {
-        if (userType === "customer" && user?.customerId) {
-          await fetchProjects("completed", 10, 1);
-        }
-      } catch (error) {
-        console.error("Error fetching completed projects:", error);
-      }
-    };
-    loadCompletedProjects();
-  }, [user, userType, fetchProjects]);
+    console.log("Fetching completed projects...");
+    fetchProjects("completed");
+  }, [fetchProjects]);
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;

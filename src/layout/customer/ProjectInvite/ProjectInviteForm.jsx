@@ -1,35 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Phone, BadgeCheck, Loader2 } from "lucide-react";
+import useProjectStatus from "../../../store/builders/useProjectStatus";
 import useProjectEnqStore from "../../../store/customer/useProjectEnqStore";
 
 const ProjectInviteForm = () => {
   const navigate = useNavigate();
-  const { fetchCustomerEnquiries, enquiries, isLoading, updateProjectStatus } = useProjectEnqStore();
+  const { projects, isLoading: projectsLoading, fetchProjects } = useProjectStatus();
+  const { updateProjectStatus, isLoading: statusLoading } = useProjectEnqStore();
   const [pendingProjects, setPendingProjects] = useState([]);
-  
-  // Remove currentEnquiryIndex and refreshTrigger states as they're not needed
 
   useEffect(() => {
-    const loadPendingEnquiries = async () => {
-      try {
-        await fetchCustomerEnquiries("pending_approval");
-      } catch (error) {
-        console.error("Error fetching pending enquiries:", error);
-      }
-    };
-    loadPendingEnquiries();
-  }, []); // Remove all dependencies to run only once on mount
+    console.log("Fetching projects project invite...");
+    fetchProjects("pending_approval");
+  }, [fetchProjects]);
 
-  // Update pendingProjects when enquiries change
   useEffect(() => {
-    const pendingOnly = enquiries.filter(project => project.status === "pending_approval");
-    setPendingProjects(pendingOnly);
-  }, [enquiries]);
+    setPendingProjects(projects);
+  }, [projects]);
 
-  const handleAccept = async (enquiry) => {
+  const handleAccept = async (project) => {
     try {
-      const response = await updateProjectStatus(enquiry.id, 'accept');
+      const response = await updateProjectStatus(project.id, 'accept');
       if (response.success) {
         navigate("/customer/livecard");
       }
@@ -38,9 +30,9 @@ const ProjectInviteForm = () => {
     }
   };
 
-  const handleDecline = async (enquiry) => {
+  const handleDecline = async (project) => {
     try {
-      const response = await updateProjectStatus(enquiry.id, 'decline');
+      const response = await updateProjectStatus(project.id, 'decline');
       if (response.success) {
         navigate("/customer/rejectcard");
       }
@@ -48,6 +40,8 @@ const ProjectInviteForm = () => {
       console.error("Error declining project:", error);
     }
   };
+
+  const isLoading = projectsLoading || statusLoading;
 
   if (isLoading) {
     return (
@@ -64,8 +58,8 @@ const ProjectInviteForm = () => {
   return (
     <div className="container mx-auto px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {pendingProjects.map((enq, index) => (
-          <div key={enq.id} className="bg-white rounded-2xl shadow-lg p-6">
+        {pendingProjects.map((project, index) => (
+          <div key={project.id} className="bg-white rounded-2xl shadow-lg p-6">
             {/* Company Image */}
             <div className="flex justify-center mb-4">
               <div className="w-14 h-14 rounded-xl overflow-hidden">
@@ -79,12 +73,12 @@ const ProjectInviteForm = () => {
 
             {/* Title */}
             <h1 className="text-xl font-bold text-center mb-2">
-              {enq?.builder_name || "N/A"}
+              {project?.builder_name || "N/A"}
             </h1>
 
             {/* Subtitle */}
             <p className="text-sm text-gray-600 text-center mb-4">
-              Project Name : {enq?.project_name || "N/A"}
+              Project Name : {project?.project_name || "N/A"}
             </p>
 
             {/* Info Grid */}
@@ -95,7 +89,7 @@ const ProjectInviteForm = () => {
                 <div>
                   <div className="text-xs text-gray-500">Company Ducktail ID</div>
                   <div className="text-sm font-medium">
-                    {enq?.builder_ducktail_id || "N/A"}
+                    {project?.builder_ducktail_id || "N/A"}
                   </div>
                 </div>
               </div>
@@ -106,7 +100,7 @@ const ProjectInviteForm = () => {
                 <div>
                   <div className="text-xs text-gray-500">Phone Number</div>
                   <div className="text-sm font-medium">
-                    {enq?.builder_contact || "N/A"}
+                    {project?.builder_contact || "N/A"}
                   </div>
                 </div>
               </div>
@@ -115,13 +109,13 @@ const ProjectInviteForm = () => {
             {/* Buttons */}
             <div className="flex justify-center gap-12">
               <button 
-                onClick={() => handleDecline(enq, index)}
+                onClick={() => handleDecline(project)}
                 className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 transition"
               >
                 DECLINE
               </button>
               <button 
-                onClick={() => handleAccept(enq, index)}
+                onClick={() => handleAccept(project)}
                 className="px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600 transition"
               >
                 ACCEPT

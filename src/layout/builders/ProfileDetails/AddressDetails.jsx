@@ -93,6 +93,7 @@ const AddressDetails = () => {
             lng: position.coords.longitude,
           };
 
+          
           setFormData(prev => ({
             ...prev,
             latitude: currentLocation.lat.toFixed(6),
